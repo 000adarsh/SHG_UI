@@ -35,8 +35,12 @@ const setAuthHeader = () => {
 const login = (payload) => {
   return apiClient.post('/auth/login', payload)
 }
+const forgotPassword = (payload) => {
+  return apiClient.post('/auth/forgotpassword', payload)
+}
 
 export default {
   setAuthHeader,
   login,
+  forgotPassword,
 }

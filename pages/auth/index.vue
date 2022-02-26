@@ -6,24 +6,24 @@
           <v-avatar size="80">
             <v-img :src="require('@/assets/logo.png')"></v-img>
           </v-avatar>
-          <h3 class="mt-2">SHG Gaya</h3>
+          <h3 class="mt-2">Login</h3>
           <v-divider class="mt-1"></v-divider>
         </div>
       </v-list-item-content>
       <v-form ref="form" v-model="valid" class="px-4">
         <v-text-field
-          v-model="username"
+          v-model="email"
           prepend-icon="mdi-account"
           outlined
           filled
           :rules="[
-            (username) =>
-              (!!username && username.length >= 4) ||
-              'username is required and greater than 4 character',
+            (email) =>
+              (!!email && email.length >= 4) ||
+              'email is required and greater than 4 character',
           ]"
           required
           color="info"
-          label="Username"
+          label="Email"
         ></v-text-field>
 
         <v-text-field
@@ -86,16 +86,19 @@ export default {
       valid: false,
       isLoading: false,
       password: null,
-      username: null,
+      email: null,
     }
   },
   methods: {
     async setAuth() {
       this.isLoading = true
       const login = await FetchService.login({
-        email: this.username,
+        email: this.email,
         password: this.password,
       })
+      if (login) {
+        this.$root.$emit('showNotification', login)
+      }
       if (login.data.status !== 'success') {
         this.isLoading = false
         return
