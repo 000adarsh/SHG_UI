@@ -4,11 +4,20 @@
       <v-snackbar
         v-model="snackbar"
         top
+        dark
+        elevation="24"
         :color="isSuccess ? 'success' : 'error'"
         :timeout="timeout"
         >{{ n.message }}
         <template #action="{ attrs }">
-          <v-btn color="info" text v-bind="attrs" @click="closeNotification">
+          <v-btn
+            color="info"
+            text
+            dark
+            outlined
+            v-bind="attrs"
+            @click="closeNotification"
+          >
             Close
           </v-btn>
         </template></v-snackbar
