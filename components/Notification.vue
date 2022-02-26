@@ -25,12 +25,14 @@ export default {
       snackbar: false,
       isSuccess: false,
       notifications: [],
-      timeout: 20000,
+      timeout: 200000,
     }
   },
   mounted() {
     this.$root.$on('showNotification', (a) => {
       this.snackbar = true
+      this.notifications = []
+      this.isSuccess = false
       if (a.data.status === 'success') {
         this.isSuccess = true
       }

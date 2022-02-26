@@ -34,6 +34,7 @@
     </v-app-bar>
     <v-main>
       <v-container>
+        <Notification />
         <Nuxt />
       </v-container>
     </v-main>
@@ -57,8 +58,12 @@
 <script>
 import { deleteCookie, getCookie } from '~/utils/manageCookies'
 import FetchService from '~/services/FetchService'
+import Notification from '~/components/Notification.vue'
 export default {
   name: 'DefaultLayout',
+  components: {
+    Notification,
+  },
   data() {
     return {
       clipped: false,
