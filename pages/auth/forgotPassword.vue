@@ -11,18 +11,18 @@
       ></v-list-item-content>
       <v-form ref="form" v-model="valid" class="px-4">
         <v-text-field
-          v-model="username"
+          v-model="email"
           prepend-icon="mdi-account"
           outlined
           filled
           :rules="[
-            (username) =>
-              (!!username && username.length >= 4) ||
-              'username is required and greater than 4 character',
+            (email) =>
+              (!!email && email.length >= 4) ||
+              'email is required and greater than 4 character',
           ]"
           required
           color="info"
-          label="Username"
+          label="Email"
         ></v-text-field>
       </v-form>
       <v-divider></v-divider>
@@ -51,18 +51,21 @@ export default {
     return {
       valid: false,
       isLoading: false,
-      username: null,
+      email: null,
     }
   },
   methods: {
     async forgotPassword() {
       this.isLoading = true
       const forgotPassword = await FetchService.forgotPassword({
-        email: this.username,
+        email: this.email,
       })
+      // show notification in notification bar
+      if (forgotPassword) {
+        this.$root.$emit('showNotification', forgotPassword)
+      }
       if (forgotPassword.data.status !== 'success') {
         this.isLoading = false
-        // show error in snackbar
         return
       }
       this.$router.push('/auth')
