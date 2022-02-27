@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getCookie } from '~/utils/manageCookies'
 
-const baseURL = 'http://127.0.0.1:5000/api/v1'
+const baseURL = 'http://192.168.43.101:5000/api/v1'
 
 let apiClient = axios.create({
   baseURL,
@@ -38,9 +38,13 @@ const login = (payload) => {
 const forgotPassword = (payload) => {
   return apiClient.post('/auth/forgotpassword', payload)
 }
+const resetPassword = (payload) => {
+  return apiClient.patch(`/auth/resetpassword/${payload.link}`, payload)
+}
 
 export default {
   setAuthHeader,
   login,
   forgotPassword,
+  resetPassword,
 }
