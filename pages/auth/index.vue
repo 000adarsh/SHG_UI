@@ -1,5 +1,5 @@
 <template>
-  <v-container pa-0>
+  <v-container class="pa-0">
     <v-card class="mx-auto" style="max-width: 500px">
       <v-list-item-content class="justify-center">
         <div class="mx-auto text-center">
@@ -101,8 +101,8 @@ export default {
         this.isLoading = false
         return
       }
-      await setCookie('token', login.data.token)
-      await FetchService.setAuthHeader()
+      setCookie('token', login.data.token)
+      FetchService.setAuthHeader()
       this.$router.push('/')
     },
     forgotPassword() {
