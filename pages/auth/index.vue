@@ -10,16 +10,14 @@
           <v-divider class="mt-1"></v-divider>
         </div>
       </v-list-item-content>
-      <v-form ref="form" v-model="valid" class="px-4">
+      <v-form ref="form" v-model="valid" lazy-validation class="px-4">
         <v-text-field
           v-model="email"
           prepend-icon="mdi-account"
           outlined
           filled
           :rules="[
-            (email) =>
-              (!!email && email.length >= 4) ||
-              'email is required and greater than 4 character',
+            (email) => /.+@.+\..+/.test(email) || 'Enter a valid email ',
           ]"
           required
           color="info"
