@@ -9,7 +9,7 @@
           <h3 class="mt-2">ForgotPassword</h3>
           <v-divider class="mt-1"></v-divider></div
       ></v-list-item-content>
-      <v-form ref="form" v-model="valid" lazy-validation class="px-4">
+      <v-form ref="form" v-model="valid" class="px-4">
         <v-text-field
           v-model="email"
           prepend-icon="mdi-account"

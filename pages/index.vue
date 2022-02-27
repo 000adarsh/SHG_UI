@@ -13,7 +13,10 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
+
 export default {
   name: 'IndexPage',
+  middleware: authRouter,
 }
 </script>
