@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      clipped: false,
+      clipped: true,
       drawer: false,
       fixed: false,
       isLogin: false,
@@ -82,11 +82,17 @@ export default {
           title: 'Login',
           to: '/auth',
         },
+        {
+          icon: 'mdi-login-variant',
+          title: 'Signup',
+          to: '/auth/signup',
+        },
       ],
     }
   },
   created() {
     FetchService.setAuthHeader()
+    this.updateLoginStatus()
   },
   updated() {
     this.updateLoginStatus()
@@ -97,6 +103,7 @@ export default {
     },
     logOut() {
       deleteCookie('token')
+      this.updateLoginStatus()
       this.$router.push('/auth')
     },
     updateLoginStatus() {

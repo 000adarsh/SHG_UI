@@ -41,10 +41,14 @@ const forgotPassword = (payload) => {
 const resetPassword = (payload) => {
   return apiClient.patch(`/auth/resetpassword/${payload.link}`, payload)
 }
+const signup = (payload) => {
+  return apiClient.post('/auth/signup/', payload)
+}
 
 export default {
   setAuthHeader,
   login,
   forgotPassword,
   resetPassword,
+  signup,
 }
