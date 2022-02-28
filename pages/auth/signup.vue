@@ -10,7 +10,7 @@
           <v-divider class="mt-1"></v-divider>
         </div>
       </v-list-item-content>
-      <v-form ref="form" v-model="valid" class="px-4">
+      <v-form ref="signupForm" v-model="valid" class="px-4">
         <v-text-field
           v-model="email"
           prepend-icon="mdi-email"
@@ -28,7 +28,10 @@
           prepend-icon="mdi-account"
           outlined
           filled
-          :rules="[(name) => name.length > 4 || 'Name greater than 4 word ']"
+          :rules="[
+            (name) =>
+              (!!name && name.length > 4) || 'Name greater than 4 word ',
+          ]"
           required
           color="info"
           label="Name*"
@@ -40,7 +43,8 @@
           filled
           :rules="[
             (fatherName) =>
-              fatherName.length > 4 || 'Father Name is greater than 4 word',
+              (!!fatherName && fatherName.length > 4) ||
+              'Father Name is greater than 4 word',
           ]"
           required
           color="info"
@@ -53,7 +57,8 @@
           filled
           :rules="[
             (address) =>
-              address.length > 2 || 'Address is greater than 5 word ',
+              (!!address && address.length > 2) ||
+              'Address is greater than 5 word ',
           ]"
           required
           color="info"
@@ -67,7 +72,8 @@
           counter
           type="number"
           :rules="[
-            (phone) => phone.length === 10 || 'Enter a valid mobile no ',
+            (phone) =>
+              (!!phone && phone.length === 10) || 'Enter a valid mobile no ',
           ]"
           required
           color="info"
@@ -82,7 +88,7 @@
           type="number"
           :rules="[
             (alternativePhone) =>
-              alternativePhone.length === 10 ||
+              (!!alternativePhone && alternativePhone.length === 10) ||
               'Enter a valid alternative mobile no ',
           ]"
           color="info"
@@ -92,7 +98,7 @@
       <v-card-subtitle class="pt-0">* fields are compulsory</v-card-subtitle>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn text outlined color="error" @click="$refs.form.reset()">
+        <v-btn text outlined color="error" @click="$refs.signupForm.reset()">
           Clear
         </v-btn>
         <v-spacer></v-spacer>
@@ -121,12 +127,12 @@ export default {
     return {
       valid: false,
       isLoading: false,
-      email: '',
-      name: '',
-      fatherName: '',
-      address: '',
-      phone: '',
-      alternativePhone: '',
+      email: null,
+      name: null,
+      fatherName: null,
+      address: null,
+      phone: null,
+      alternativePhone: null,
     }
   },
   methods: {
@@ -147,7 +153,8 @@ export default {
         this.isLoading = false
         return
       }
-      this.$refs.form.reset()
+      this.$refs.signupForm.reset()
+      this.isLoading = false
     },
   },
 }
