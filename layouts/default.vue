@@ -39,18 +39,20 @@
       </v-container>
     </v-main>
     <v-footer :absolute="!fixed" app>
-      <p class="text-sm text-center">
-        &copy; {{ new Date().getFullYear() }} This site is made by ❤
+      <div class="mx-auto">
+        <p class="text-center">
+          &copy; {{ new Date().getFullYear() }} This site is made by ❤
 
-        <a
-          href="https://inflection.org.in"
-          target="_blank"
-          class="text-md hover:underline font-semibold text-primary"
-        >
-          Inflection ORG</a
-        >
-        | All rights reserved
-      </p>
+          <a
+            href="https://inflection.org.in"
+            target="_blank"
+            class="text-md hover:underline font-semibold text-primary"
+          >
+            Inflection ORG</a
+          >
+          | All rights reserved
+        </p>
+      </div>
     </v-footer>
   </v-app>
 </template>
