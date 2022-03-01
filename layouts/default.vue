@@ -89,6 +89,11 @@ export default {
           title: 'Signup',
           to: '/auth/signup',
         },
+        {
+          icon: 'mdi-account',
+          title: 'Employees',
+          to: '/employees',
+        },
       ],
     }
   },

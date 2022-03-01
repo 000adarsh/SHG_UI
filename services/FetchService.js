@@ -44,6 +44,12 @@ const resetPassword = (payload) => {
 const signup = (payload) => {
   return apiClient.post('/auth/signup/', payload)
 }
+const getAllEmployees = () => {
+  return apiClient.get('/employees/')
+}
+const getEmployee = (payload) => {
+  return apiClient.post('/employees/employee', payload)
+}
 
 export default {
   setAuthHeader,
@@ -51,4 +57,6 @@ export default {
   forgotPassword,
   resetPassword,
   signup,
+  getAllEmployees,
+  getEmployee,
 }
