@@ -45,10 +45,10 @@ const signup = (payload) => {
   return apiClient.post('/auth/signup/', payload)
 }
 const getAllEmployees = () => {
-  return apiClient.get('/employees/')
+  return apiClient.get('/employees')
 }
 const getEmployee = (payload) => {
-  return apiClient.post('/employees/employee', payload)
+  return apiClient.post('/employees', payload)
 }
 
 export default {

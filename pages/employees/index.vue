@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="activeEmployees.length">
+    <div v-if="activeEmployees.length" class="py-3">
       <h2 class="text-center">Active Employees</h2>
       <v-divider></v-divider>
     </div>
-    <v-row class="pt-3">
+    <v-row>
       <v-col
         v-for="(employee, i) in activeEmployees"
         :key="i"
@@ -15,7 +15,7 @@
         <InfoCard :data="employee" />
       </v-col>
     </v-row>
-    <div v-if="inactiveEmployees.length">
+    <div v-if="inactiveEmployees.length" class="py-3">
       <h2 class="text-center">Inactive Employees</h2>
       <v-divider></v-divider>
     </div>
