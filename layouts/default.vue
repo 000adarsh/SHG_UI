@@ -40,7 +40,7 @@
     </v-main>
     <v-footer :absolute="!fixed" app>
       <div class="mx-auto">
-        <p class="text-center">
+        <p class="text-center my-0">
           &copy; {{ new Date().getFullYear() }} This site is made by ❤
 
           <a
