@@ -101,7 +101,7 @@ export default {
         this.isLoading = false
         return
       }
-      setCookie('token', login.data.token)
+      setCookie('token', login.data.token, 1)
       FetchService.setAuthHeader()
       this.$router.push('/')
     },
