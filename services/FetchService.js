@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getCookie } from '~/utils/manageCookies'
 
-const baseURL = 'http://192.168.43.101:5000/api/v1'
+const baseURL = 'http://192.168.43.169:5000/api/v1'
 
 let apiClient = axios.create({
   baseURL,
@@ -50,6 +50,9 @@ const getAllEmployees = () => {
 const getEmployee = (payload) => {
   return apiClient.post('/employees', payload)
 }
+const updateEmployee = (payload) => {
+  return apiClient.patch('/employees', payload)
+}
 
 export default {
   setAuthHeader,
@@ -59,4 +62,5 @@ export default {
   signup,
   getAllEmployees,
   getEmployee,
+  updateEmployee,
 }
