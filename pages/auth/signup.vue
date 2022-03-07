@@ -10,7 +10,7 @@
           <v-divider class="mt-1"></v-divider>
         </div>
       </v-list-item-content>
-      <v-form ref="signupForm" v-model="valid" class="px-4">
+      <v-form ref="signupForm" v-model="valid" lazy-validation class="px-4">
         <v-text-field
           v-model="email"
           prepend-icon="mdi-email"
@@ -49,6 +49,16 @@
           required
           color="info"
           label="Father Name*"
+        ></v-text-field>
+        <v-text-field
+          v-model="role"
+          prepend-icon="mdi-account"
+          outlined
+          filled
+          :rules="[(role) => !!role || 'Role is required']"
+          required
+          color="info"
+          label="Designation*"
         ></v-text-field>
         <v-text-field
           v-model="address"
@@ -130,6 +140,7 @@ export default {
       email: null,
       name: null,
       fatherName: null,
+      role: null,
       address: null,
       phone: null,
       alternativePhone: null,
@@ -142,6 +153,7 @@ export default {
         email: this.email,
         name: this.name,
         fatherName: this.fatherName,
+        role: this.role,
         address: this.address,
         phone: this.phone,
         alternativePhone: this.alternativePhone,
