@@ -94,6 +94,11 @@ export default {
           title: 'Employees',
           to: '/employees',
         },
+        {
+          icon: 'mdi-account',
+          title: 'Groups',
+          to: '/group',
+        },
       ],
     }
   },

@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { getCookie } from '~/utils/manageCookies'
 
-const baseURL = 'http://192.168.43.169:5000/api/v1'
-
+const baseURL = 'http://192.168.43.144:5000/api/v1'
 let apiClient = axios.create({
   baseURL,
   withCredentials: false,
@@ -53,6 +52,12 @@ const getEmployee = (payload) => {
 const updateEmployee = (payload) => {
   return apiClient.patch('/employees', payload)
 }
+const getAllEmployeeGroups = () => {
+  return apiClient.get('/groups/employee')
+}
+const createGroup = (payload) => {
+  return apiClient.post('/groups', payload)
+}
 
 export default {
   setAuthHeader,
@@ -63,4 +68,6 @@ export default {
   getAllEmployees,
   getEmployee,
   updateEmployee,
+  getAllEmployeeGroups,
+  createGroup,
 }
