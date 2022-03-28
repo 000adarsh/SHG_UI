@@ -1,5 +1,8 @@
 <template>
-  <div><h1>loans</h1></div>
+  <div>
+    <h3 class="text-center">Group Loans</h3>
+    <v-divider></v-divider>
+  </div>
 </template>
 
 <script>

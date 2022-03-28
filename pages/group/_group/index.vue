@@ -4,8 +4,6 @@
       <v-btn color="primary" outlined @click="editEmployeeDetails = true">
         edit details
       </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn color="primary" outlined> edit permissions </v-btn>
     </v-card-actions>
     <div class="py-3"></div>
     <div class="py-3">
@@ -55,6 +53,50 @@
           }}</v-icon>
         </v-btn>
       </v-card-actions>
+    </div>
+    <div class="py-3">
+      <h3 class="text-center">Group Details</h3>
+      <v-divider></v-divider>
+      <v-row class="pt-2">
+        <v-col cols="12" sm="6" lg="4">
+          <v-card
+            outlined
+            :hover="true"
+            class="text-center"
+            @click.prevent="
+              $router.push(`/group/${$route.params.group}/fundings`)
+            "
+            ><h1>Group Fundings</h1></v-card
+          ></v-col
+        >
+        <v-col cols="12" sm="6" lg="4">
+          <v-card
+            outlined
+            :hover="true"
+            class="text-center"
+            @click="$router.push(`/group/${$route.params.group}/loans`)"
+            ><h1>Group Loans</h1></v-card
+          ></v-col
+        >
+        <v-col cols="12" sm="6" lg="4">
+          <v-card
+            outlined
+            :hover="true"
+            class="text-center"
+            @click="$router.push(`/group/${$route.params.group}/savings`)"
+            ><h1>Group Savings</h1></v-card
+          ></v-col
+        >
+        <v-col cols="12" sm="6" lg="4">
+          <v-card
+            outlined
+            :hover="true"
+            class="text-center"
+            @click="$router.push(`/group/${$route.params.group}/users`)"
+            ><h1>Group Users</h1></v-card
+          ></v-col
+        >
+      </v-row>
     </div>
   </div>
 </template>

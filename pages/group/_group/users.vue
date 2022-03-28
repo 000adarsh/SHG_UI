@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>Users</h1>
+    <h3 class="text-center">Group Users</h3>
+    <v-divider></v-divider>
   </div>
 </template>
 
