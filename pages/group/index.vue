@@ -32,12 +32,12 @@
 <script>
 import GroupInfoCard from '~/components/gorupInfoCard.vue'
 import CreateGroupForm from '~/components/CreateGroupForm.vue'
-// import authRouter from '~/middleware/authRouter'
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'GroupPage',
   components: { GroupInfoCard, CreateGroupForm },
-  // middleware: authRouter,
+  middleware: authRouter,
   data() {
     return {
       groups: [],
