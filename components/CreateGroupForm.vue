@@ -85,7 +85,7 @@
           :loading="loading"
           @click="createGroup"
         >
-          create
+          submit
         </v-btn>
       </v-card-actions>
     </v-card>

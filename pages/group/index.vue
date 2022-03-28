@@ -7,7 +7,7 @@
       </v-btn>
     </v-card-actions>
     <v-dialog :value="createGroup" persistent max-width="900px">
-      <GroupForm
+      <CreateGroupForm
         :loading="loading"
         @closeDialog="
           () => {
@@ -31,12 +31,12 @@
 
 <script>
 import GroupInfoCard from '~/components/gorupInfoCard.vue'
-import GroupForm from '~/components/GroupForm.vue'
+import CreateGroupForm from '~/components/CreateGroupForm.vue'
 // import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'GroupPage',
-  components: { GroupInfoCard, GroupForm },
+  components: { GroupInfoCard, CreateGroupForm },
   // middleware: authRouter,
   data() {
     return {
