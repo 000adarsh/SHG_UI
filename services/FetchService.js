@@ -58,6 +58,9 @@ const getAllEmployeeGroups = () => {
 const createGroup = (payload) => {
   return apiClient.post('/groups', payload)
 }
+const getGroup = (payload) => {
+  return apiClient.post('/groups/group', payload)
+}
 
 export default {
   setAuthHeader,
@@ -70,4 +73,5 @@ export default {
   updateEmployee,
   getAllEmployeeGroups,
   createGroup,
+  getGroup,
 }
