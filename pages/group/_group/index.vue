@@ -113,6 +113,15 @@
             ><h1>Group Users</h1></v-card
           ></v-col
         >
+        <v-col cols="12" sm="6" lg="4">
+          <v-card
+            outlined
+            :hover="true"
+            class="text-center"
+            @click="$router.push(`/group/${$route.params.group}/dairy`)"
+            ><h1>Group Dairy</h1></v-card
+          ></v-col
+        >
       </v-row>
     </div>
   </div>
