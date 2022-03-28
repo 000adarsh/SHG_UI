@@ -60,11 +60,12 @@
             clearable
           ></v-text-field>
           <v-select
-            v-model="interestType"
+            v-model="loanInterestType"
             label="Loan Type"
             required
             :rules="[
-              (interestType) => !!interestType || 'Interest Type is required ',
+              (loanInterestType) =>
+                !!loanInterestType || 'Interest Type is required ',
             ]"
             :items="['monthly', 'weekly']"
           ></v-select>
@@ -107,7 +108,7 @@ export default {
       savingAmount: null,
       savingType: null,
       loanInterestPercentage: null,
-      interestType: null,
+      loanInterestType: null,
     }
   },
   methods: {
@@ -118,7 +119,7 @@ export default {
         savingAmount: this.savingAmount * 1,
         savingType: this.savingType,
         loanInterestPercentage: this.loanInterestPercentage * 1,
-        interestType: this.interestType,
+        loanInterestType: this.loanInterestType,
       })
     },
   },
