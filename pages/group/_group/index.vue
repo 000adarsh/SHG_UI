@@ -5,6 +5,23 @@
         edit details
       </v-btn>
     </v-card-actions>
+    <v-dialog
+      v-if="editEmployeeDetails"
+      :value="editEmployeeDetails"
+      persistent
+      max-width="900px"
+    >
+      <UpdateGroupForm
+        :loading="loading"
+        :group="group"
+        @closeDialog="
+          () => {
+            editEmployeeDetails = false
+          }
+        "
+        @submit="updateGroup"
+      />
+    </v-dialog>
     <div class="py-3"></div>
     <div class="py-3">
       <h3 class="text-center">Group Details</h3>
@@ -103,15 +120,18 @@
 
 <script>
 import authRouter from '~/middleware/authRouter'
+import UpdateGroupForm from '~/components/UpdateGroupForm.vue'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'GroupPage',
+  components: { UpdateGroupForm },
   middleware: authRouter,
   data() {
     return {
       group: null,
       editEmployeeDetails: false,
       showDetails: false,
+      loading: false,
     }
   },
   async created() {
@@ -125,6 +145,21 @@ export default {
       }
       if (group.data.status === 'success') {
         this.group = group.data.group
+      }
+    },
+    async updateGroup(payload) {
+      this.loading = true
+      const group = await FetchService.updateGroup({
+        ...payload,
+        groupId: this.$route.params.group,
+      })
+      if (group) {
+        this.$root.$emit('showNotification', group)
+      }
+      if (group.data.status === 'success') {
+        this.group = group.data.group
+        this.loading = false
+        this.editEmployeeDetails = false
       }
     },
   },
