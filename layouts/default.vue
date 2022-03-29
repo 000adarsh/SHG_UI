@@ -90,14 +90,19 @@ export default {
           to: '/auth/signup',
         },
         {
-          icon: 'mdi-account',
+          icon: 'mdi-account-hard-hat',
           title: 'Employees',
           to: '/employees',
         },
         {
-          icon: 'mdi-account',
+          icon: 'mdi-account-supervisor-circle',
           title: 'Groups',
           to: '/group',
+        },
+        {
+          icon: 'mdi-account-supervisor',
+          title: 'Users',
+          to: '/users',
         },
       ],
     }
