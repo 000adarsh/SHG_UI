@@ -50,6 +50,9 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
+  // router: {
+  //   middleware: 'authRouter',
+  // },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -79,4 +82,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  server: {
+    host: '0.0.0.0',
+  },
 }
