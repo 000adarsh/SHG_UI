@@ -23,7 +23,7 @@
     </div>
     <v-row>
       <v-col v-for="(group, i) in groups" :key="i" cols="12" sm="6" lg="4">
-        <GroupInfoCard :data="group" />
+        <GroupInfoCard :data="group" @ok="showGroupInfo" />
       </v-col>
     </v-row>
   </div>
@@ -49,6 +49,9 @@ export default {
     await this.getEmployeeGroups()
   },
   methods: {
+    showGroupInfo(payload) {
+      this.$router.push(`/group/${payload.groupId.id}`)
+    },
     async getEmployeeGroups() {
       const groups = await FetchService.getAllEmployeeGroups()
       if (groups) {

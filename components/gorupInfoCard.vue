@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     showGroupInfo(data) {
-      this.$router.push(`/group/${data.groupId.id}`)
+      this.$emit('ok', data)
     },
   },
 }

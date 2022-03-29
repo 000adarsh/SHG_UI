@@ -22,7 +22,6 @@
         @submit="updateGroup"
       />
     </v-dialog>
-    <div class="py-3"></div>
     <div class="py-3">
       <h3 class="text-center">Group Details</h3>
       <v-divider></v-divider>
