@@ -68,9 +68,11 @@ export default {
         this.$root.$emit('showNotification', group)
       }
       if (group.data.status === 'success') {
+        this.loading = false
         this.createGroup = false
         await this.getEmployeeGroups()
       }
+      this.loading = false
     },
   },
 }
