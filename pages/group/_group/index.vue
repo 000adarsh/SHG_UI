@@ -169,6 +169,7 @@ export default {
         this.loading = false
         this.editEmployeeDetails = false
       }
+      this.loading = false
     },
   },
 }
