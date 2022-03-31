@@ -64,6 +64,15 @@ const getGroup = (payload) => {
 const updateGroup = (payload) => {
   return apiClient.patch('/groups', payload)
 }
+const getAllGroupUsers = (payload) => {
+  return apiClient.post('/users/group/users', payload)
+}
+const createUser = (payload) => {
+  return apiClient.post('/users', payload)
+}
+// const getUser = (payload) => {
+//   return apiClient.post('/users/user', payload)
+// }
 
 export default {
   setAuthHeader,
@@ -78,4 +87,7 @@ export default {
   createGroup,
   getGroup,
   updateGroup,
+  getAllGroupUsers,
+  createUser,
+  // getUser,
 }
