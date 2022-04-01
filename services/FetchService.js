@@ -73,6 +73,9 @@ const createUser = (payload) => {
 const getUser = (payload) => {
   return apiClient.post('/users/user', payload)
 }
+const updateUser = (payload) => {
+  return apiClient.patch('/users', payload)
+}
 
 export default {
   setAuthHeader,
@@ -90,4 +93,5 @@ export default {
   getAllGroupUsers,
   createUser,
   getUser,
+  updateUser,
 }

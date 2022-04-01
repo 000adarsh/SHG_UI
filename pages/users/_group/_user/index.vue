@@ -186,14 +186,14 @@ export default {
     }
   },
   async created() {
-    await this.getUserDetails({
-      userId: this.$route.params.user,
-      groupId: this.$route.params.group,
-    })
+    await this.getUserDetails()
   },
   methods: {
-    async getUserDetails(payload) {
-      const user = await FetchService.getUser(payload)
+    async getUserDetails() {
+      const user = await FetchService.getUser({
+        userId: this.$route.params.user,
+        groupId: this.$route.params.group,
+      })
       if (user) {
         this.$root.$emit('showNotification', user)
       }
@@ -213,7 +213,7 @@ export default {
       if (user.data.status === 'success') {
         this.updateLoading = false
         this.updateUserForm = false
-        this.user = user.data.user
+        await this.getUserDetails()
       }
       this.updateLoading = false
     },
