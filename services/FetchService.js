@@ -70,9 +70,9 @@ const getAllGroupUsers = (payload) => {
 const createUser = (payload) => {
   return apiClient.post('/users', payload)
 }
-// const getUser = (payload) => {
-//   return apiClient.post('/users/user', payload)
-// }
+const getUser = (payload) => {
+  return apiClient.post('/users/user', payload)
+}
 
 export default {
   setAuthHeader,
@@ -89,5 +89,5 @@ export default {
   updateGroup,
   getAllGroupUsers,
   createUser,
-  // getUser,
+  getUser,
 }
