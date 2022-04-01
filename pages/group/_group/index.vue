@@ -57,6 +57,22 @@
               <td>Loan Type</td>
               <td>{{ group.loanInterestType }}</td>
             </tr>
+            <tr>
+              <td>Creater</td>
+              <td>{{ group.createdBy.name }}</td>
+            </tr>
+            <tr>
+              <td>Create Date</td>
+              <td>{{ group.createdAt }}</td>
+            </tr>
+            <tr>
+              <td>Updater</td>
+              <td>{{ group.updatedBy.name }}</td>
+            </tr>
+            <tr>
+              <td>Update Date</td>
+              <td>{{ group.updatedAt }}</td>
+            </tr>
           </template>
         </tbody>
       </v-simple-table>
@@ -85,7 +101,9 @@
             :hover="true"
             class="text-center"
             @click.prevent="
-              $router.push(`/group/${$route.params.group}/fundings`)
+              $router.push(
+                `/group/${$route.params.group}/fundings?name=${$route.query.name}`
+              )
             "
             ><h1>Group Fundings</h1></v-card
           ></v-col
@@ -95,7 +113,11 @@
             outlined
             :hover="true"
             class="text-center"
-            @click="$router.push(`/group/${$route.params.group}/loans`)"
+            @click="
+              $router.push(
+                `/group/${$route.params.group}/loans?name=${$route.query.name}`
+              )
+            "
             ><h1>Group Loans</h1></v-card
           ></v-col
         >
@@ -104,7 +126,11 @@
             outlined
             :hover="true"
             class="text-center"
-            @click="$router.push(`/group/${$route.params.group}/savings`)"
+            @click="
+              $router.push(
+                `/group/${$route.params.group}/savings?name=${$route.query.name}`
+              )
+            "
             ><h1>Group Savings</h1></v-card
           ></v-col
         >
@@ -113,7 +139,11 @@
             outlined
             :hover="true"
             class="text-center"
-            @click="$router.push(`/group/${$route.params.group}/users`)"
+            @click="
+              $router.push(
+                `/group/${$route.params.group}/users?name=${$route.query.name}`
+              )
+            "
             ><h1>Group Users</h1></v-card
           ></v-col
         >
@@ -122,7 +152,11 @@
             outlined
             :hover="true"
             class="text-center"
-            @click="$router.push(`/group/${$route.params.group}/dairy`)"
+            @click="
+              $router.push(
+                `/group/${$route.params.group}/dairy?name=${$route.query.name}`
+              )
+            "
             ><h1>Group Dairy</h1></v-card
           ></v-col
         >
