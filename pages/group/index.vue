@@ -50,7 +50,9 @@ export default {
   },
   methods: {
     showGroupInfo(payload) {
-      this.$router.push(`/group/${payload.groupId.id}`)
+      this.$router.push(
+        `/group/${payload.groupId.id}?name=${payload.groupId.name}`
+      )
     },
     async getEmployeeGroups() {
       const groups = await FetchService.getAllEmployeeGroups()

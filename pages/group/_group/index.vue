@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <h1 class="text-center">
+        {{ $route.query.name.toUpperCase() }}
+      </h1>
+    </div>
     <v-card-actions>
       <v-btn color="primary" outlined @click="editEmployeeDetails = true">
         edit details
