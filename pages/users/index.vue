@@ -30,7 +30,9 @@ export default {
   },
   methods: {
     usergroup(payload) {
-      this.$router.push(`/users/${payload.groupId.id}`)
+      this.$router.push(
+        `/users/${payload.groupId.id}?name=${payload.groupId.name}`
+      )
     },
     async getEmployeeGroups() {
       const groups = await FetchService.getAllEmployeeGroups()

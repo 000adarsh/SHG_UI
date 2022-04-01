@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <h1 class="text-center text-uppercase">
+        {{ $route.query.name }}
+      </h1>
+    </div>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="primary" outlined @click="createUser = true">
