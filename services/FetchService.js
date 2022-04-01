@@ -76,6 +76,9 @@ const getUser = (payload) => {
 const updateUser = (payload) => {
   return apiClient.patch('/users', payload)
 }
+const deleteUser = (payload) => {
+  return apiClient.put('/users', payload)
+}
 
 export default {
   setAuthHeader,
@@ -94,4 +97,5 @@ export default {
   createUser,
   getUser,
   updateUser,
+  deleteUser,
 }

@@ -1,7 +1,12 @@
 <template>
   <div>
     <v-card-actions>
-      <v-btn color="primary" outlined @click="updateUserForm = true">
+      <v-btn
+        v-if="user"
+        color="primary"
+        outlined
+        @click="updateUserForm = true"
+      >
         edit details
       </v-btn>
       <v-spacer></v-spacer>
@@ -229,7 +234,7 @@ export default {
       if (user.data.status === 'success') {
         this.deleteLoading = false
         this.deleteUserForm = false
-        this.user = user.data.user
+        await this.getUserDetails()
       }
       this.deleteLoading = false
     },
