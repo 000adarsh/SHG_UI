@@ -6,8 +6,10 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 export default {
   name: 'GroupSavings',
+  middleware: authRouter,
 }
 </script>
 
