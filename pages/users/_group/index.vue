@@ -37,7 +37,7 @@
           ><v-card-title>Name : {{ user.name }}</v-card-title>
           <v-card-subtitle v-if="!user.husbandName"
             >Father Name : {{ user.fatherName }}</v-card-subtitle
-          ><v-card-subtitle
+          ><v-card-subtitle v-if="user.husbandName"
             >Husband Name : {{ user.husbandName }}</v-card-subtitle
           ></v-card
         >
@@ -89,7 +89,9 @@ export default {
       this.loading = false
     },
     userDetails(user) {
-      this.$router.push(`/users/${this.$route.params.group}/${user.id}`)
+      this.$router.push(
+        `/users/${this.$route.params.group}/${user.id}?name=${user.name}`
+      )
     },
   },
 }

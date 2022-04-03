@@ -137,7 +137,7 @@
             class="text-center"
             @click="
               $router.push(
-                `/users/${$route.params.group}/${$route.params.user}/loan`
+                `/users/${$route.params.group}/${$route.params.user}/loan?name=${$route.query.name}`
               )
             "
             ><h1>User Loans</h1></v-card
@@ -150,7 +150,7 @@
             class="text-center"
             @click="
               $router.push(
-                `/users/${$route.params.group}/${$route.params.user}/saving`
+                `/users/${$route.params.group}/${$route.params.user}/saving?name=${$route.query.name}`
               )
             "
             ><h1>User Savings</h1></v-card
@@ -163,7 +163,7 @@
             class="text-center"
             @click="
               $router.push(
-                `/users/${$route.params.group}/${$route.params.user}/loaninstallment`
+                `/users/${$route.params.group}/${$route.params.user}/loaninstallment?name=${$route.query.name}`
               )
             "
             ><h1>User Loan Installments</h1></v-card
