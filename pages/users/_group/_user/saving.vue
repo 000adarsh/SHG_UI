@@ -58,8 +58,8 @@
       <v-simple-table v-if="dueSaving"
         ><thead>
           <tr>
-            <th>month</th>
-            <th>amount</th>
+            <th>Month</th>
+            <th>Amount</th>
           </tr>
         </thead>
         <tbody>
@@ -83,8 +83,10 @@
         </thead>
         <tbody>
           <tr v-for="(saving, i) in savings" :key="i">
-            <td>{{ saving.createdBy.name }}</td>
-            <td>{{ saving.createdAt }}</td>
+            <td class="text-capitalize">{{ saving.createdBy.name }}</td>
+            <td>
+              {{ $moment(saving.createdAt).format('Do MMM YYYY, h:mm:ss a') }}
+            </td>
             <td>{{ saving.amount }}</td>
           </tr>
         </tbody>
@@ -104,15 +106,55 @@ export default {
       loading: false,
       amount: null,
       savings: [],
-      date: null,
-      modal: false,
       dueSaving: null,
+      groupStartDate: null,
+      groupSavingAmount: null,
     }
   },
-  async created() {
-    await this.getAllUserSavings()
+  watch: {
+    groupStartDate(oldDate, newDate) {
+      if (
+        this.groupStartDate &&
+        this.savings.length &&
+        this.groupSavingAmount
+      ) {
+        this.getDueSaving()
+      }
+    },
+    savings(oldSaving, newSaving) {
+      if (
+        this.groupStartDate &&
+        this.savings.length &&
+        this.groupSavingAmount
+      ) {
+        this.getDueSaving()
+      }
+    },
+    groupSavingAmount(oldAmount, newAmount) {
+      if (
+        this.groupStartDate &&
+        this.savings.length &&
+        this.groupSavingAmount
+      ) {
+        this.getDueSaving()
+      }
+    },
   },
+  created() {
+    this.getAllUserSavings()
+    this.getUsergroup()
+  },
+
   methods: {
+    async getUsergroup() {
+      const group = await FetchService.getGroup({
+        groupId: this.$route.params.group,
+      })
+      if (group.data.status === 'success') {
+        this.groupStartDate = group.data.group.startDate
+        this.groupSavingAmount = group.data.group.savingAmount
+      }
+    },
     async getAllUserSavings() {
       const savings = await FetchService.getAllUserSavings({
         userId: this.$route.params.user,
@@ -143,7 +185,34 @@ export default {
       }
       this.loading = false
     },
-    // getDueSaving({ startDate, currentDate, savigs, groupSavingAmount }) {},
+    async getDueSaving() {
+      const months = await this.getMonths({
+        groupStartDate: this.groupStartDate,
+        currentDate: Date.now(),
+      })
+      const totalUserSaving = this.calculateSavings({
+        userSavings: this.savings,
+      })
+      const totalGroupSaving = months * this.groupSavingAmount
+      const dueAmount = totalGroupSaving - totalUserSaving
+      const dmonth = Math.abs(dueAmount / this.groupSavingAmount)
+      this.dueSaving = { months: dmonth, amount: dueAmount }
+    },
+    getMonths(payload) {
+      const groupStartDate = this.$moment(payload.groupStartDate)
+      const currentDate = this.$moment(payload.currentDate)
+      const monthDiff = this.$moment.duration(
+        currentDate.diff(groupStartDate, 'months')
+      )
+      return monthDiff._milliseconds + 1
+    },
+    calculateSavings(payload) {
+      let allSavings = 0
+      payload.userSavings.forEach((e) => {
+        allSavings = allSavings + e.amount
+      })
+      return allSavings
+    },
   },
 }
 </script>
