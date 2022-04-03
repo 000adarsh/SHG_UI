@@ -79,6 +79,12 @@ const updateUser = (payload) => {
 const deleteUser = (payload) => {
   return apiClient.put('/users', payload)
 }
+const getAllUserSavings = (payload) => {
+  return apiClient.post('/savings/user', payload)
+}
+const createUserSaving = (payload) => {
+  return apiClient.post('/savings', payload)
+}
 
 export default {
   setAuthHeader,
@@ -98,4 +104,6 @@ export default {
   getUser,
   updateUser,
   deleteUser,
+  getAllUserSavings,
+  createUserSaving,
 }
