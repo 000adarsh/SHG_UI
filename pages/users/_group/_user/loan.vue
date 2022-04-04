@@ -5,7 +5,32 @@
         {{ $route.query.name }}
       </h1>
     </div>
-    <h1>user loan page</h1>
+    <h3>
+      Due -
+      {{
+        generatedLoanInstallmentData[generatedLoanInstallmentData.length - 1].d
+      }}
+    </h3>
+    <v-simple-table>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Principal</th>
+          <th>Interest</th>
+          <th>Installment</th>
+          <th>Due</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(d, i) in generatedLoanInstallmentData" :key="i">
+          <td>{{ months[i] }}</td>
+          <td>{{ d.p }}</td>
+          <td>{{ d.i }}</td>
+          <td>{{ d.s }}</td>
+          <td>{{ d.d }}</td>
+        </tr>
+      </tbody>
+    </v-simple-table>
   </div>
 </template>
 
@@ -40,7 +65,7 @@ export default {
           amount: 10000,
         },
       ],
-      fileredLoanInstallments: [
+      filteredLoanInstallments: [
         // { amount: 1000 },
         // { amount: 200 },
         // { amount: 0 },
@@ -52,22 +77,16 @@ export default {
   },
   created() {
     this.getMonths({
-      loanStartDate: this.loanStartDate,
+      loanStartDate: this.loan.createdAt,
       currentDate: Date.now(),
     })
-
-    // this.generateLoanData({
-    //   loanInterestRate: this.loan.loanInterestRate,
-    //   loanPrincipal: this.loan.amount,
-    //   fileredLoanInstallments: this.fileredLoanInstallments,
-    // })
-    console.log(this.fileredLoanInstallments)
+    console.log(this.generatedLoanInstallmentData)
   },
   methods: {
     generateLoanData({
       loanInterestRate,
       loanPrincipal,
-      fileredLoanInstallments,
+      filteredLoanInstallments,
     }) {
       let p = loanPrincipal
       let genI = 0
@@ -75,20 +94,20 @@ export default {
       let i = 0
       let s = 0
       let d = loanPrincipal + i
-      for (let c = 0; fileredLoanInstallments.length > c; c++) {
+      for (let c = 0; filteredLoanInstallments.length > c; c++) {
         let newP
         genI = p * loanInterestRate * 0.01
         i = ri + genI
-        if (genI > fileredLoanInstallments[c].amount) {
+        if (genI > filteredLoanInstallments[c].amount) {
           newP = p
         } else {
-          newP = p - (fileredLoanInstallments[c].amount - i)
+          newP = p - (filteredLoanInstallments[c].amount - i)
         }
-        s = fileredLoanInstallments[c].amount
+        s = filteredLoanInstallments[c].amount
         d = p + i - s
-        this.generatedLoanInstallmentData.push({ p, i, s, d })
-        if (i > fileredLoanInstallments[c].amount) {
-          ri = i - fileredLoanInstallments[c].amount
+        this.generatedLoanInstallmentData.push({ p, i, s, d, genI, ri })
+        if (i > filteredLoanInstallments[c].amount) {
+          ri = i - filteredLoanInstallments[c].amount
         } else {
           ri = 0
         }
@@ -105,16 +124,35 @@ export default {
       this.dateMaker()
     },
     dateMaker() {
-      this.months.forEach(async (e) => {
-        const startDate = await this.$moment(e)
-          .startOf('month')
-          .utc('00:00')
-          .unix()
-        const endDate = await this.$moment(e).endOf('month').utc('00:00').unix()
+      this.months.forEach((e) => {
+        const startDate = this.$moment(e).startOf('month').utc('00:00').unix()
+        const endDate = this.$moment(e).endOf('month').utc('00:00').unix()
         this.dates.push({ startDate, endDate })
       })
+      this.filterInstallments()
     },
-    filterInstallments() {},
+    filterInstallments() {
+      this.dates.forEach((e) => {
+        let countInstallemts = 0
+        this.loanInstallments.forEach((l) => {
+          const time = parseInt(Date.parse(l.createdAt) * 0.001)
+          if (time > e.startDate && time <= e.endDate) {
+            countInstallemts += l.amount
+          }
+        })
+        if (countInstallemts > 0) {
+          this.filteredLoanInstallments.push({ amount: countInstallemts })
+        } else {
+          this.filteredLoanInstallments.push({ amount: 0 })
+        }
+      })
+      this.filteredLoanInstallments.push({ amount: 0 })
+      this.generateLoanData({
+        loanInterestRate: this.loan.loanInterestRate,
+        loanPrincipal: this.loan.amount,
+        filteredLoanInstallments: this.filteredLoanInstallments,
+      })
+    },
   },
 }
 </script>
