@@ -11,10 +11,11 @@
         generatedLoanInstallmentData[generatedLoanInstallmentData.length - 1].d
       }}
     </h3>
-    <v-simple-table>
+    <v-simple-table v-if="generatedLoanInstallmentData.length">
       <thead>
         <tr>
-          <th>Month</th>
+          <th>Start Month</th>
+          <th>End Month</th>
           <th>Principal</th>
           <th>Interest</th>
           <th>Installment</th>
@@ -23,7 +24,20 @@
       </thead>
       <tbody>
         <tr v-for="(d, i) in generatedLoanInstallmentData" :key="i">
-          <td>{{ months[i] }}</td>
+          <td>
+            {{
+              $moment
+                .unix(dates[i] ? dates[i].startDate : '')
+                .format('YYYY-MM-DD')
+            }}
+          </td>
+          <td>
+            {{
+              $moment
+                .unix(dates[i] ? dates[i].endDate : '')
+                .format('YYYY-MM-DD')
+            }}
+          </td>
           <td>{{ d.p }}</td>
           <td>{{ d.i }}</td>
           <td>{{ d.s }}</td>
@@ -64,6 +78,14 @@ export default {
           createdAt: '2022-03-15T12:15:19.851+00:00',
           amount: 10000,
         },
+        {
+          createdAt: '2022-04-04T04:20:29.751+00:00',
+          amount: 1000,
+        },
+        {
+          createdAt: '2022-05-07T06:20:29.751+00:00',
+          amount: 100,
+        },
       ],
       filteredLoanInstallments: [
         // { amount: 1000 },
@@ -76,11 +98,11 @@ export default {
     }
   },
   created() {
-    this.getMonths({
+    this.dateMaker({
       loanStartDate: this.loan.createdAt,
       currentDate: Date.now(),
     })
-    console.log(this.generatedLoanInstallmentData)
+    // console.log(this.generatedLoanInstallmentData)
   },
   methods: {
     generateLoanData({
@@ -114,21 +136,22 @@ export default {
         p = newP
       }
     },
-    getMonths(payload) {
-      let loanStartDate = this.$moment(payload.loanStartDate)
-      const currentDate = this.$moment(payload.currentDate)
-      while (loanStartDate.isBefore(currentDate)) {
-        this.months.push(loanStartDate.format('YYYY-MM'))
-        loanStartDate = loanStartDate.add(1, 'month')
-      }
-      this.dateMaker()
-    },
-    dateMaker() {
-      this.months.forEach((e) => {
-        const startDate = this.$moment(e).startOf('month').utc('00:00').unix()
-        const endDate = this.$moment(e).endOf('month').utc('00:00').unix()
+
+    dateMaker({ loanStartDate, currentDate }) {
+      let startDate = this.$moment(loanStartDate).unix()
+      const j = this.$moment(currentDate).unix()
+      let newStartDate = loanStartDate
+
+      while (startDate < j) {
+        const endDate = this.$moment(newStartDate).add(1, 'M').unix()
         this.dates.push({ startDate, endDate })
-      })
+        startDate +=
+          this.$moment(newStartDate).add(1, 'M').unix() -
+          this.$moment(newStartDate).unix()
+        newStartDate = this.$moment.unix(endDate).format()
+      }
+      this.dates[this.dates.length - 1].endDate = j
+
       this.filterInstallments()
     },
     filterInstallments() {
@@ -146,7 +169,7 @@ export default {
           this.filteredLoanInstallments.push({ amount: 0 })
         }
       })
-      this.filteredLoanInstallments.push({ amount: 0 })
+      // this.filteredLoanInstallments.push({ amount: 0 })
       this.generateLoanData({
         loanInterestRate: this.loan.loanInterestRate,
         loanPrincipal: this.loan.amount,
