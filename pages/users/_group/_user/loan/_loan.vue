@@ -50,7 +50,7 @@
 
 <script>
 export default {
-  name: 'UserLoanPage',
+  name: 'UserLoanDetailsPage',
   data() {
     return {
       generatedLoanInstallmentData: [], // dont modify
@@ -64,28 +64,28 @@ export default {
       loanInstallments: [
         {
           createdAt: '2021-11-10T12:15:19.851+00:00',
-          amount: 1000,
+          amount: 30000,
         },
         {
           createdAt: '2021-12-05T12:15:19.851+00:00',
-          amount: 200,
+          amount: 303,
         },
-        {
-          createdAt: '2022-02-12T12:15:19.851+00:00',
-          amount: 679,
-        },
-        {
-          createdAt: '2022-03-15T12:15:19.851+00:00',
-          amount: 10000,
-        },
-        {
-          createdAt: '2022-04-04T04:20:29.751+00:00',
-          amount: 1000,
-        },
-        {
-          createdAt: '2022-05-07T06:20:29.751+00:00',
-          amount: 100,
-        },
+        // {
+        //   createdAt: '2022-02-12T12:15:19.851+00:00',
+        //   amount: 679,
+        // },
+        // {
+        //   createdAt: '2022-03-15T12:15:19.851+00:00',
+        //   amount: 10000,
+        // },
+        // {
+        //   createdAt: '2022-04-04T04:20:29.751+00:00',
+        //   amount: 1000,
+        // },
+        // {
+        //   createdAt: '2022-04-05T10:28:38.558+00:00',
+        //   amount: 100,
+        // },
       ],
       filteredLoanInstallments: [
         // { amount: 1000 },
