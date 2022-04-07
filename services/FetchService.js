@@ -91,6 +91,9 @@ const getAllGroupSavings = (payload) => {
 const getAllUserLoans = (payload) => {
   return apiClient.post('/loans/user', payload)
 }
+const getAllUserLoanInstallments = (payload) => {
+  return apiClient.post('/loanInstallments/loan', payload)
+}
 
 export default {
   setAuthHeader,
@@ -114,4 +117,5 @@ export default {
   createUserSaving,
   getAllGroupSavings,
   getAllUserLoans,
+  getAllUserLoanInstallments,
 }
