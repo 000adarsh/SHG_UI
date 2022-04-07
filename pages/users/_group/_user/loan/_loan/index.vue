@@ -5,6 +5,18 @@
         {{ $route.query.name }}
       </h1>
     </div>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-card
+        outlined
+        @click="
+          $router.push(
+            `/users/${$route.params.group}/${$route.params.user}/loan/${$route.params.loan}/loanInstallment`
+          )
+        "
+        ><h3 class="pa-2">Loan Installment</h3></v-card
+      >
+    </v-card-actions>
     <h3>
       Due -
       {{
