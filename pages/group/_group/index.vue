@@ -46,16 +46,18 @@
               <td>{{ group.savingAmount }}</td>
             </tr>
             <tr>
-              <td>Saving Type</td>
-              <td>{{ group.savingType }}</td>
-            </tr>
-            <tr>
               <td>Group Loan Interest</td>
               <td>{{ group.loanInterestPercentage }}</td>
             </tr>
             <tr>
-              <td>Loan Type</td>
-              <td>{{ group.loanInterestType }}</td>
+              <td>Group Work StartDate</td>
+              <td>
+                {{
+                  $moment(group ? group.startDate : '').format(
+                    'DD MMM YYYY hh:mm:ss a'
+                  )
+                }}
+              </td>
             </tr>
             <tr>
               <td>Creater</td>
