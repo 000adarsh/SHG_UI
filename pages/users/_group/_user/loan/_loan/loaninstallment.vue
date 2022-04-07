@@ -5,7 +5,7 @@
         {{ $route.query.name }}
       </h1>
     </div>
-    <div class="py-3 text-center">
+    <div class="pt-3 text-center">
       <h3>User Loan Saving Installment</h3>
       <v-divider></v-divider>
     </div>
@@ -22,11 +22,18 @@
           <td class="text-capitalize">
             {{ installment ? installment.createdBy.name : '' }}
           </td>
-          <td>{{ installment ? installment.createdAt : '' }}</td>
+          <td>
+            {{
+              $moment(installment ? installment.createdAt : '').format(
+                'DD MMM YYYY hh:mm:ss a'
+              )
+            }}
+          </td>
           <td>{{ installment ? installment.amount : '' }}</td>
         </tr>
       </tbody></v-simple-table
     >
+    <v-divider></v-divider>
   </div>
 </template>
 
