@@ -1,12 +1,11 @@
 <template>
   <v-card outlined :hover="true" @click="showInfo(data)">
-    <v-card-title>{{ data.name }}</v-card-title>
-    <v-card-subtitle class="py-0">
+    <v-card-title class="text-capitalize">{{ data.name }}</v-card-title>
+    <v-card-subtitle class="py-0 text-capitalize">
       Father name - {{ data.fatherName }}
     </v-card-subtitle>
-    <v-card-subtitle class="py-0"> Role - {{ data.role }} </v-card-subtitle>
-    <v-card-subtitle class="pt-0">
-      Address - {{ data.address }}
+    <v-card-subtitle class="pt-0 text-capitalize">
+      Role - {{ data.role }}
     </v-card-subtitle>
   </v-card>
 </template>
