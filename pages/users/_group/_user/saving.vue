@@ -84,7 +84,7 @@
         <tbody>
           <tr v-for="(saving, i) in savings" :key="i">
             <td class="text-capitalize">{{ saving.createdBy.name }}</td>
-            <td>
+            <td class="px-1">
               {{ $moment(saving.createdAt).format('Do MMM YYYY, h:mm:ss a') }}
             </td>
             <td>{{ saving.amount }}</td>

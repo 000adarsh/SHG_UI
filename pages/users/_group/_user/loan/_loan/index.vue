@@ -81,14 +81,14 @@
       </thead>
       <tbody>
         <tr v-for="(d, i) in generatedLoanInstallmentData" :key="i">
-          <td>
+          <td class="px-1">
             {{
               $moment
                 .unix(dates[i] ? dates[i].startDate : '')
                 .format('YYYY-MM-DD')
             }}
           </td>
-          <td>
+          <td class="px-1">
             {{
               $moment
                 .unix(dates[i] ? dates[i].endDate : '')
