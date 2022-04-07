@@ -5,6 +5,7 @@
         {{ $route.query.name }}
       </h1>
     </div>
+
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-card
@@ -21,6 +22,7 @@
       <h3>User Loan Details</h3>
       <v-divider></v-divider>
     </div>
+
     <v-simple-table v-if="loan"
       ><tbody>
         <tr>
@@ -51,7 +53,8 @@
         </tr>
       </tbody></v-simple-table
     >
-    <h3>
+    <v-divider></v-divider>
+    <!-- <h3>
       Due -
       {{
         generatedLoanInstallmentData.length
@@ -60,7 +63,11 @@
             ].d
           : ''
       }}
-    </h3>
+    </h3> -->
+    <div class="pt-3 text-center">
+      <h3>User Loan Chart</h3>
+      <v-divider></v-divider>
+    </div>
     <v-simple-table v-if="generatedLoanInstallmentData.length">
       <thead>
         <tr>
@@ -95,6 +102,7 @@
         </tr>
       </tbody>
     </v-simple-table>
+    <v-divider></v-divider>
   </div>
 </template>
 
@@ -108,46 +116,18 @@ export default {
       loan: null,
       months: [],
       dates: [],
-      loanInstallments: [
-        // {
-        //   createdAt: '2021-11-10T12:15:19.851+00:00',
-        //   amount: 30000,
-        // },
-        // {
-        //   createdAt: '2021-12-05T12:15:19.851+00:00',
-        //   amount: 303,
-        // },
-        // {
-        //   createdAt: '2022-02-12T12:15:19.851+00:00',
-        //   amount: 679,
-        // },
-        // {
-        //   createdAt: '2022-03-15T12:15:19.851+00:00',
-        //   amount: 10000,
-        // },
-        // {
-        //   createdAt: '2022-04-04T04:20:29.751+00:00',
-        //   amount: 1000,
-        // },
-        // {
-        //   createdAt: '2022-04-05T10:28:38.558+00:00',
-        //   amount: 100,
-        // },
-      ],
-      filteredLoanInstallments: [
-        // { amount: 1000 },
-        // { amount: 200 },
-        // { amount: 0 },
-        // { amount: 679 },
-        // { amount: 10000 },
-        // { amount: 0 },
-      ],
+      userLoanInstallments: [],
+      filteredLoanInstallments: [],
     }
+  },
+  watch: {
+    userLoanInstallments(oldDate, newdate) {
+      this.filterInstallments()
+    },
   },
   async created() {
     await this.getUserLoanDetails()
-
-    // console.log(this.generatedLoanInstallmentData)
+    await this.getAllUserLoanInstallments()
   },
   methods: {
     async getUserLoanDetails() {
@@ -165,6 +145,21 @@ export default {
           loanStartDate: this.loan.createdAt,
           currentDate: Date.now(),
         })
+      }
+    },
+    async getAllUserLoanInstallments() {
+      const userLoanInstallments =
+        await FetchService.getAllUserLoanInstallments({
+          groupId: this.$route.params.group,
+          userId: this.$route.params.user,
+          loanId: this.$route.params.loan,
+        })
+      if (userLoanInstallments) {
+        this.$root.$emit('showNotification', userLoanInstallments)
+      }
+      if (userLoanInstallments.data.status === 'success') {
+        this.userLoanInstallments =
+          userLoanInstallments.data.userLoanInstallments
       }
     },
     generateLoanData({
@@ -213,13 +208,11 @@ export default {
         newStartDate = this.$moment.unix(endDate).format()
       }
       this.dates[this.dates.length - 1].endDate = j
-
-      this.filterInstallments()
     },
     filterInstallments() {
       this.dates.forEach((e) => {
         let countInstallemts = 0
-        this.loanInstallments.forEach((l) => {
+        this.userLoanInstallments.forEach((l) => {
           const time = parseInt(Date.parse(l.createdAt) * 0.001)
           if (time > e.startDate && time <= e.endDate) {
             countInstallemts += l.amount
