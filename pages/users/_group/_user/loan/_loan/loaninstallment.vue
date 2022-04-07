@@ -30,6 +30,7 @@
               <v-text-field
                 v-model="amount"
                 required
+                type="number"
                 :rules="[
                   (amount) =>
                     (!!amount && amount > 0) || 'amount greater than 0',
