@@ -12,7 +12,7 @@
         sm="6"
         lg="4"
       >
-        <InfoCard :data="employee" />
+        <EmployeeInfoCard :data="employee" />
       </v-col>
     </v-row>
     <div v-if="inactiveEmployees.length" class="py-3">
@@ -27,20 +27,20 @@
         sm="6"
         lg="4"
       >
-        <InfoCard :data="employee" />
+        <EmployeeInfoCard :data="employee" />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import InfoCard from '~/components/InfoCard.vue'
+import EmployeeInfoCard from '~/components/EmployeeInfoCard.vue'
 import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'EmployeesPage',
   components: {
-    InfoCard,
+    EmployeeInfoCard,
   },
   middleware: authRouter,
   data() {
