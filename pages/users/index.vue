@@ -5,7 +5,14 @@
       <v-divider></v-divider>
     </div>
     <v-row>
-      <v-col v-for="(group, i) in groups" :key="i" cols="12" sm="6" lg="4">
+      <v-col
+        v-for="(group, i) in groups"
+        :key="i"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+      >
         <GroupInfoCard :data="group" @ok="usergroup" />
       </v-col>
     </v-row>
@@ -13,7 +20,7 @@
 </template>
 
 <script>
-import GroupInfoCard from '~/components/gorupInfoCard.vue'
+import GroupInfoCard from '~/components/GroupInfoCard.vue'
 import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import GroupInfoCard from '~/components/gorupInfoCard.vue'
+import GroupInfoCard from '~/components/GroupInfoCard.vue'
 import CreateGroupForm from '~/components/CreateGroupForm.vue'
 import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
