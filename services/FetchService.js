@@ -100,6 +100,9 @@ const getUserLoanDetails = (payload) => {
 const getAllUserLoanInstallments = (payload) => {
   return apiClient.post('/loanInstallments/loan', payload)
 }
+const createUserLoanInstallment = (payload) => {
+  return apiClient.post('/loanInstallments', payload)
+}
 
 export default {
   setAuthHeader,
@@ -126,4 +129,5 @@ export default {
   createUserLoan,
   getAllUserLoanInstallments,
   getUserLoanDetails,
+  createUserLoanInstallment,
 }
