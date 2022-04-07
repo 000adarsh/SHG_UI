@@ -64,6 +64,39 @@ const getGroup = (payload) => {
 const updateGroup = (payload) => {
   return apiClient.patch('/groups', payload)
 }
+const getAllGroupUsers = (payload) => {
+  return apiClient.post('/users/group/users', payload)
+}
+const createUser = (payload) => {
+  return apiClient.post('/users', payload)
+}
+const getUser = (payload) => {
+  return apiClient.post('/users/user', payload)
+}
+const updateUser = (payload) => {
+  return apiClient.patch('/users', payload)
+}
+const deleteUser = (payload) => {
+  return apiClient.put('/users', payload)
+}
+const getAllUserSavings = (payload) => {
+  return apiClient.post('/savings/user', payload)
+}
+const createUserSaving = (payload) => {
+  return apiClient.post('/savings', payload)
+}
+const getAllGroupSavings = (payload) => {
+  return apiClient.post('/savings/group', payload)
+}
+const getAllUserLoans = (payload) => {
+  return apiClient.post('/loans/user', payload)
+}
+const getUserLoanDetails = (payload) => {
+  return apiClient.post('/loans/loan', payload)
+}
+const getAllUserLoanInstallments = (payload) => {
+  return apiClient.post('/loanInstallments/loan', payload)
+}
 
 export default {
   setAuthHeader,
@@ -78,4 +111,15 @@ export default {
   createGroup,
   getGroup,
   updateGroup,
+  getAllGroupUsers,
+  createUser,
+  getUser,
+  updateUser,
+  deleteUser,
+  getAllUserSavings,
+  createUserSaving,
+  getAllGroupSavings,
+  getAllUserLoans,
+  getAllUserLoanInstallments,
+  getUserLoanDetails,
 }

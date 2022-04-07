@@ -69,7 +69,7 @@
           <tr>
             <td>Join Date</td>
             <td>
-              {{ employee.createdAt }}
+              {{ $moment(employee.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
             </td>
           </tr>
           <tr>
@@ -78,7 +78,9 @@
           </tr>
           <tr>
             <td>Update Date</td>
-            <td>{{ employee.updatedAt }}</td>
+            <td>
+              {{ $moment(employee.updatedAt).format('DD MMM YYYY hh:mm:ss a') }}
+            </td>
           </tr>
         </template>
       </tbody>

@@ -23,14 +23,14 @@
     </div>
     <v-row>
       <v-col v-for="(group, i) in groups" :key="i" cols="12" sm="6" lg="4">
-        <GroupInfoCard :data="group" />
+        <GroupInfoCard :data="group" @ok="showGroupInfo" />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import GroupInfoCard from '~/components/gorupInfoCard.vue'
+import GroupInfoCard from '~/components/GroupInfoCard.vue'
 import CreateGroupForm from '~/components/CreateGroupForm.vue'
 import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
@@ -49,6 +49,11 @@ export default {
     await this.getEmployeeGroups()
   },
   methods: {
+    showGroupInfo(payload) {
+      this.$router.push(
+        `/group/${payload.groupId.id}?name=${payload.groupId.name}`
+      )
+    },
     async getEmployeeGroups() {
       const groups = await FetchService.getAllEmployeeGroups()
       if (groups) {
@@ -65,9 +70,11 @@ export default {
         this.$root.$emit('showNotification', group)
       }
       if (group.data.status === 'success') {
+        this.loading = false
         this.createGroup = false
         await this.getEmployeeGroups()
       }
+      this.loading = false
     },
   },
 }
