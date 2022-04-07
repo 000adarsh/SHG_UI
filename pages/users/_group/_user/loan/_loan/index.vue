@@ -207,7 +207,6 @@ export default {
           this.$moment(newStartDate).unix()
         newStartDate = this.$moment.unix(endDate).format()
       }
-      this.dates[this.dates.length - 1].endDate = j
     },
     filterInstallments() {
       this.dates.forEach((e) => {
