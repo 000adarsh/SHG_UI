@@ -16,7 +16,7 @@
           :hover="true"
           @click="
             $router.push(
-              `/users/${$route.params.group}/${$route.params.user}/loan/${loan.id}`
+              `/users/${$route.params.group}/${$route.params.user}/loan/${loan.id}?name=${$route.query.name}`
             )
           "
           ><v-card-title>Loan Amount - {{ loan.amount }}</v-card-title
