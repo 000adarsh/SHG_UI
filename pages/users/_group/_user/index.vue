@@ -156,19 +156,6 @@
             ><h1>User Savings</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
-          <v-card
-            outlined
-            :hover="true"
-            class="text-center"
-            @click="
-              $router.push(
-                `/users/${$route.params.group}/${$route.params.user}/loaninstallment?name=${$route.query.name}`
-              )
-            "
-            ><h1>User Loan Installments</h1></v-card
-          ></v-col
-        >
       </v-row>
     </div>
   </div>
