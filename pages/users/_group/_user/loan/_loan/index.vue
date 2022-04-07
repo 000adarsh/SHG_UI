@@ -11,16 +11,54 @@
         outlined
         @click="
           $router.push(
-            `/users/${$route.params.group}/${$route.params.user}/loan/${$route.params.loan}/loanInstallment`
+            `/users/${$route.params.group}/${$route.params.user}/loan/${$route.params.loan}/loanInstallment?name=${$route.query.name}`
           )
         "
         ><h3 class="pa-2">Loan Installment</h3></v-card
       >
     </v-card-actions>
+    <div class="pt-3 text-center">
+      <h3>User Loan Details</h3>
+      <v-divider></v-divider>
+    </div>
+    <v-simple-table v-if="loan"
+      ><tbody>
+        <tr>
+          <td>Amount</td>
+          <td>₹ {{ loan.amount }}</td>
+        </tr>
+        <tr>
+          <td>Loan Interest Percentage</td>
+          <td>{{ loan.loanInterestPercentage }} %</td>
+        </tr>
+        <tr>
+          <td>Loan Created Date</td>
+          <td>
+            {{ $moment(loan.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
+          </td>
+        </tr>
+        <tr>
+          <td>Loan Creater</td>
+          <td class="text-capitalize">{{ loan.createdBy.name }}</td>
+        </tr>
+        <tr>
+          <td>Loan Owner</td>
+          <td class="text-capitalize">{{ loan.userId.name }}</td>
+        </tr>
+        <tr>
+          <td>Loan Reason</td>
+          <td>{{ loan.note }}</td>
+        </tr>
+      </tbody></v-simple-table
+    >
     <h3>
       Due -
       {{
-        generatedLoanInstallmentData[generatedLoanInstallmentData.length - 1].d
+        generatedLoanInstallmentData.length
+          ? generatedLoanInstallmentData[
+              generatedLoanInstallmentData.length - 1
+            ].d
+          : ''
       }}
     </h3>
     <v-simple-table v-if="generatedLoanInstallmentData.length">
@@ -61,27 +99,24 @@
 </template>
 
 <script>
+import FetchService from '~/services/FetchService'
 export default {
   name: 'UserLoanDetailsPage',
   data() {
     return {
       generatedLoanInstallmentData: [], // dont modify
-      loan: {
-        createdAt: '2021-11-04T12:15:19.851+00:00', // fetch loan createdAt
-        amount: 30000,
-        loanInterestRate: 1,
-      },
+      loan: null,
       months: [],
       dates: [],
       loanInstallments: [
-        {
-          createdAt: '2021-11-10T12:15:19.851+00:00',
-          amount: 30000,
-        },
-        {
-          createdAt: '2021-12-05T12:15:19.851+00:00',
-          amount: 303,
-        },
+        // {
+        //   createdAt: '2021-11-10T12:15:19.851+00:00',
+        //   amount: 30000,
+        // },
+        // {
+        //   createdAt: '2021-12-05T12:15:19.851+00:00',
+        //   amount: 303,
+        // },
         // {
         //   createdAt: '2022-02-12T12:15:19.851+00:00',
         //   amount: 679,
@@ -109,16 +144,31 @@ export default {
       ],
     }
   },
-  created() {
-    this.dateMaker({
-      loanStartDate: this.loan.createdAt,
-      currentDate: Date.now(),
-    })
+  async created() {
+    await this.getUserLoanDetails()
+
     // console.log(this.generatedLoanInstallmentData)
   },
   methods: {
+    async getUserLoanDetails() {
+      const loan = await FetchService.getUserLoanDetails({
+        groupId: this.$route.params.group,
+        userId: this.$route.params.user,
+        loanId: this.$route.params.loan,
+      })
+      if (loan) {
+        this.$root.$emit('showNotification', loan)
+      }
+      if (loan.data.status === 'success') {
+        this.loan = loan.data.loan
+        this.dateMaker({
+          loanStartDate: this.loan.createdAt,
+          currentDate: Date.now(),
+        })
+      }
+    },
     generateLoanData({
-      loanInterestRate,
+      loanInterestPercentage,
       loanPrincipal,
       filteredLoanInstallments,
     }) {
@@ -130,7 +180,7 @@ export default {
       let d = loanPrincipal + i
       for (let c = 0; filteredLoanInstallments.length > c; c++) {
         let newP
-        genI = p * loanInterestRate * 0.01
+        genI = p * loanInterestPercentage * 0.01
         i = ri + genI
         if (genI > filteredLoanInstallments[c].amount) {
           newP = p
@@ -181,9 +231,8 @@ export default {
           this.filteredLoanInstallments.push({ amount: 0 })
         }
       })
-      // this.filteredLoanInstallments.push({ amount: 0 })
       this.generateLoanData({
-        loanInterestRate: this.loan.loanInterestRate,
+        loanInterestPercentage: this.loan.loanInterestPercentage,
         loanPrincipal: this.loan.amount,
         filteredLoanInstallments: this.filteredLoanInstallments,
       })
