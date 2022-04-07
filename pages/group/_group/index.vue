@@ -63,7 +63,9 @@
             </tr>
             <tr>
               <td>Create Date</td>
-              <td>{{ group.createdAt }}</td>
+              <td>
+                {{ $moment(group.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
+              </td>
             </tr>
             <tr>
               <td>Updater</td>
@@ -71,7 +73,9 @@
             </tr>
             <tr>
               <td>Update Date</td>
-              <td>{{ group.updatedAt }}</td>
+              <td>
+                {{ $moment(group.updatedAt).format('DD MMM YYYY hh:mm:ss a') }}
+              </td>
             </tr>
           </template>
         </tbody>
