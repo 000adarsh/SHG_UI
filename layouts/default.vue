@@ -38,22 +38,6 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <div class="mx-auto">
-        <p class="text-center my-0">
-          &copy; {{ new Date().getFullYear() }} This site is made by ❤
-
-          <a
-            href="https://inflection.org.in"
-            target="_blank"
-            class="text-md hover:underline font-semibold text-primary"
-          >
-            Inflection ORG</a
-          >
-          | All rights reserved
-        </p>
-      </div>
-    </v-footer>
   </v-app>
 </template>
 
