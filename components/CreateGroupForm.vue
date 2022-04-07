@@ -38,15 +38,6 @@
             ]"
             clearable
           ></v-text-field>
-          <v-select
-            v-model="savingType"
-            label="Saving Type"
-            required
-            :rules="[
-              (savingType) => !!savingType || 'Saving Type is required ',
-            ]"
-            :items="['monthly', 'weekly']"
-          ></v-select>
           <v-text-field
             v-model="loanInterestPercentage"
             type="number"
@@ -59,16 +50,6 @@
             required
             clearable
           ></v-text-field>
-          <v-select
-            v-model="loanInterestType"
-            label="Loan Type"
-            required
-            :rules="[
-              (loanInterestType) =>
-                !!loanInterestType || 'Interest Type is required ',
-            ]"
-            :items="['monthly', 'weekly']"
-          ></v-select>
         </v-card-text>
       </v-form>
       <v-card-actions>
@@ -106,9 +87,7 @@ export default {
       name: null,
       address: null,
       savingAmount: null,
-      savingType: null,
       loanInterestPercentage: null,
-      loanInterestType: null,
     }
   },
   methods: {
@@ -117,9 +96,7 @@ export default {
         name: this.name,
         address: this.address,
         savingAmount: this.savingAmount * 1,
-        savingType: this.savingType,
         loanInterestPercentage: this.loanInterestPercentage * 1,
-        loanInterestType: this.loanInterestType,
       })
     },
   },

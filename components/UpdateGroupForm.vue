@@ -40,16 +40,6 @@
             required
             clearable
           ></v-text-field>
-          <v-select
-            v-model="loanInterestType"
-            label="Loan Type"
-            required
-            :rules="[
-              (loanInterestType) =>
-                !!loanInterestType || 'Interest Type is required ',
-            ]"
-            :items="['monthly', 'weekly']"
-          ></v-select>
         </v-card-text>
       </v-form>
       <v-card-actions>
@@ -93,14 +83,12 @@ export default {
       name: null,
       address: null,
       loanInterestPercentage: null,
-      loanInterestType: null,
     }
   },
   mounted() {
     this.name = this.group?.name
     this.address = this.group?.address
     this.loanInterestPercentage = this.group?.loanInterestPercentage
-    this.loanInterestType = this.group?.loanInterestType
   },
   methods: {
     upadateGroup() {
@@ -108,7 +96,6 @@ export default {
         name: this.name,
         address: this.address,
         loanInterestPercentage: this.loanInterestPercentage * 1,
-        loanInterestType: this.loanInterestType,
       })
     },
   },
