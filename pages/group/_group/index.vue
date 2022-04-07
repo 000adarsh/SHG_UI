@@ -98,72 +98,98 @@
       </v-card-actions>
     </div>
     <div class="py-3">
-      <h3 class="text-center">Group Details</h3>
+      <h3 class="pa-2 text-center">Group Details</h3>
       <v-divider></v-divider>
       <v-row class="pt-2">
         <v-col cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="text-center"
+            class="pa-2 text-center"
             @click.prevent="
               $router.push(
                 `/group/${$route.params.group}/fundings?name=${$route.query.name}`
               )
             "
-            ><h1>Group Fundings</h1></v-card
+            ><h1>Fundings</h1></v-card
           ></v-col
         >
         <v-col cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="text-center"
+            class="pa-2 text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/loans?name=${$route.query.name}`
               )
             "
-            ><h1>Group Loans</h1></v-card
+            ><h1>Loans</h1></v-card
           ></v-col
         >
         <v-col cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="text-center"
+            class="pa-2 text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/savings?name=${$route.query.name}`
               )
             "
-            ><h1>Group Savings</h1></v-card
+            ><h1>Savings</h1></v-card
           ></v-col
         >
         <v-col cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="text-center"
+            class="pa-2 text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/users?name=${$route.query.name}`
               )
             "
-            ><h1>Group Users</h1></v-card
+            ><h1>Users</h1></v-card
           ></v-col
         >
         <v-col cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="text-center"
+            class="pa-2 text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/dairy?name=${$route.query.name}`
               )
             "
-            ><h1>Group Dairy</h1></v-card
+            ><h1>Dairy</h1></v-card
+          ></v-col
+        >
+        <v-col cols="12" sm="6" lg="4">
+          <v-card
+            outlined
+            :hover="true"
+            class="pa-2 text-center"
+            @click="
+              $router.push(
+                `/group/${$route.params.group}/loanInstallments?name=${$route.query.name}`
+              )
+            "
+            ><h1>Loans Installments</h1></v-card
+          ></v-col
+        >
+        <v-col cols="12" sm="6" lg="4">
+          <v-card
+            outlined
+            :hover="true"
+            class="pa-2 text-center"
+            @click="
+              $router.push(
+                `/group/${$route.params.group}/bankTransections?name=${$route.query.name}`
+              )
+            "
+            ><h1>Bank Transections</h1></v-card
           ></v-col
         >
       </v-row>
