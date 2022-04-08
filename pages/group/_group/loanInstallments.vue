@@ -66,6 +66,7 @@
           </tr>
         </tbody></v-simple-table
       >
+      <v-divider></v-divider>
     </div>
     <div class="py-3">
       <h3 class="text-center">Group Loans Installments</h3>
@@ -94,6 +95,7 @@
           </tr>
         </tbody></v-simple-table
       >
+      <v-divider></v-divider>
     </div>
   </div>
 </template>

@@ -55,10 +55,10 @@
       ></v-dialog
     >
     <div class="py-3">
-      <h3 class="text-center">Group Details</h3>
+      <h3 class="text-center">User Details</h3>
       <v-divider></v-divider>
       <v-simple-table v-if="user">
-        <tbody>
+        <tbody class="text-capitalize">
           <tr>
             <td>User Name</td>
             <td>{{ user.name }}</td>

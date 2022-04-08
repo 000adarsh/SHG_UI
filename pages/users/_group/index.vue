@@ -33,7 +33,11 @@
     </div>
     <v-row class="pt-2">
       <v-col v-for="(user, i) in users" :key="i" cols="12" sm="6" lg="4">
-        <v-card outlined :hover="true" @click="userDetails(user)"
+        <v-card
+          outlined
+          :hover="true"
+          class="text-capitalize"
+          @click="userDetails(user)"
           ><v-card-title>Name : {{ user.name }}</v-card-title>
           <v-card-subtitle v-if="!user.husbandName"
             >Father Name : {{ user.fatherName }}</v-card-subtitle

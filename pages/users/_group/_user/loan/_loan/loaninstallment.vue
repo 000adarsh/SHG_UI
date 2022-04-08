@@ -60,7 +60,7 @@
       </div></v-dialog
     >
     <div class="pt-3 text-center">
-      <h3>User Loan Saving Installment</h3>
+      <h3>User Loan Installments</h3>
       <v-divider></v-divider>
     </div>
     <v-simple-table v-if="userLoanInstallments.length"

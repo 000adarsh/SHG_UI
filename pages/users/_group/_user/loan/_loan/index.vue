@@ -24,7 +24,7 @@
     </div>
 
     <v-simple-table v-if="loan"
-      ><tbody>
+      ><tbody class="text-capitalize">
         <tr>
           <td>Amount</td>
           <td>₹ {{ loan.amount }}</td>
@@ -41,11 +41,11 @@
         </tr>
         <tr>
           <td>Loan Creater</td>
-          <td class="text-capitalize">{{ loan.createdBy.name }}</td>
+          <td>{{ loan.createdBy.name }}</td>
         </tr>
         <tr>
           <td>Loan Owner</td>
-          <td class="text-capitalize">{{ loan.userId.name }}</td>
+          <td>{{ loan.userId.name }}</td>
         </tr>
         <tr>
           <td>Loan Reason</td>
