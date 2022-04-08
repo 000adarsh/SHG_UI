@@ -53,7 +53,9 @@
         </v-card-text>
       </v-form>
       <v-card-actions>
-        <v-btn text outlined @click="$refs.form.reset()">reset</v-btn>
+        <v-btn text outlined color="primary" @click="$refs.form.reset()"
+          >reset</v-btn
+        >
         <v-spacer></v-spacer>
         <v-btn color="error" text outlined @click="$emit('closeDialog')">
           Close

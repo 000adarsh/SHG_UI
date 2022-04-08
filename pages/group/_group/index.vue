@@ -6,7 +6,7 @@
       </h1>
     </div>
     <v-card-actions>
-      <v-btn color="primary" outlined @click="editEmployeeDetails = true">
+      <v-btn color="primary" text outlined @click="editEmployeeDetails = true">
         edit details
       </v-btn>
     </v-card-actions>

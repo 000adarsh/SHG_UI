@@ -2,7 +2,7 @@
   <div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined @click="createGroup = true">
+      <v-btn color="primary" text outlined @click="createGroup = true">
         create new group
       </v-btn>
     </v-card-actions>

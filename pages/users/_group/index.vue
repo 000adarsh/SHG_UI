@@ -7,7 +7,7 @@
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined @click="createUser = true">
+      <v-btn color="primary" text outlined @click="createUser = true">
         create new user
       </v-btn>
     </v-card-actions>

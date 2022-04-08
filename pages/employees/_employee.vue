@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-card-actions>
-      <v-btn color="primary" outlined @click="editEmployeeDetails = true">
+      <v-btn color="primary" text outlined @click="editEmployeeDetails = true">
         edit details
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined> edit permissions </v-btn>
+      <v-btn color="primary" text outlined> edit permissions </v-btn>
     </v-card-actions>
     <div class="py-3">
       <h3 class="text-center">Employee Details</h3>

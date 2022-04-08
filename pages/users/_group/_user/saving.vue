@@ -7,7 +7,7 @@
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined @click="addUserSaving = true">
+      <v-btn color="primary" text outlined @click="addUserSaving = true">
         add saving
       </v-btn>
     </v-card-actions>

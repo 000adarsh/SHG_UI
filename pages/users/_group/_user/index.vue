@@ -4,13 +4,14 @@
       <v-btn
         v-if="user"
         color="primary"
+        text
         outlined
         @click="updateUserForm = true"
       >
         edit details
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined @click="deleteUserForm = true">
+      <v-btn color="primary" text outlined @click="deleteUserForm = true">
         delete user
       </v-btn>
     </v-card-actions>
@@ -42,10 +43,11 @@
         </div>
         <v-card-actions
           ><v-spacer></v-spacer
-          ><v-btn color="success" outlined @click="deleteUserForm = false"
+          ><v-btn color="success" text outlined @click="deleteUserForm = false"
             >no</v-btn
           ><v-btn
             color="error"
+            text
             outlined
             :loading="deleteLoading"
             @click="deleteUser"

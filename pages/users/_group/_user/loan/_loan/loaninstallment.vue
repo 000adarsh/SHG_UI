@@ -69,7 +69,7 @@
           <th>Creater</th>
           <th>Created Date</th>
           <th>Amount</th>
-          <!-- <th></th> -->
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -85,11 +85,11 @@
             }}
           </td>
           <td>{{ installment ? installment.amount : '' }}</td>
-          <!-- <td>
-            <v-btn text outlined small color="primary"
-              ><v-icon>mdi-pencil</v-icon></v-btn
+          <td>
+            <v-btn icon outlined small color="error"
+              ><v-icon>mdi-delete-forever</v-icon></v-btn
             >
-          </td> -->
+          </td>
         </tr>
       </tbody></v-simple-table
     >

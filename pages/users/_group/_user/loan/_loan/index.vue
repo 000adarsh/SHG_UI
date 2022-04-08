@@ -15,7 +15,7 @@
             `/users/${$route.params.group}/${$route.params.user}/loan/${$route.params.loan}/loanInstallment?name=${$route.query.name}`
           )
         "
-        ><h3 class="pa-2">Loan Installment</h3></v-card
+        ><h3 class="pa-2 primary--text">Loan Installment</h3></v-card
       >
     </v-card-actions>
     <div class="pt-3 text-center">
