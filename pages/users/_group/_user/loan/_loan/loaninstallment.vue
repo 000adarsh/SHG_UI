@@ -98,9 +98,11 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserLoanInstallmentPage',
+  middleware: authRouter,
   data() {
     return {
       startDate: '2021-11-04T01:00:00.000+00:00',

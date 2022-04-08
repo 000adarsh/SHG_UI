@@ -87,9 +87,11 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserLoanPage',
+  middleware: authRouter,
   data() {
     return {
       loans: [],

@@ -168,11 +168,13 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import UpdateUserForm from '~/components/UpdateUserForm.vue'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserPage',
   components: { UpdateUserForm },
+  middleware: authRouter,
   data() {
     return {
       user: null,

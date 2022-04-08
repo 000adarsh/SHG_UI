@@ -3,8 +3,10 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 export default {
   name: 'GroupBankTransections',
+  middleware: authRouter,
 }
 </script>
 

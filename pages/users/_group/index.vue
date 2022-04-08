@@ -51,11 +51,13 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import CreateUserForm from '~/components/CreateUserForm.vue'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserPage',
   components: { CreateUserForm },
+  middleware: authRouter,
   data() {
     return {
       users: [],

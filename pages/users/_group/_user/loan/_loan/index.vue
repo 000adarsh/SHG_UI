@@ -107,9 +107,11 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserLoanDetailsPage',
+  middleware: authRouter,
   data() {
     return {
       generatedLoanInstallmentData: [], // dont modify

@@ -96,9 +96,11 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserSavingPage',
+  middleware: authRouter,
   data() {
     return {
       valid: false,
