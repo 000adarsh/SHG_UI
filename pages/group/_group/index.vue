@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-if="group">
     <div>
-      <h1 class="text-center">
-        {{ $route.query.name.toUpperCase() }}
+      <h1 class="text-center text-uppercase">
+        {{ group.name }}
       </h1>
     </div>
     <v-card-actions>
@@ -108,7 +108,7 @@
             class="pa-2 text-center"
             @click.prevent="
               $router.push(
-                `/group/${$route.params.group}/fundings?name=${$route.query.name}`
+                `/group/${$route.params.group}/fundings?name=${group.name}`
               )
             "
             ><h1>Fundings</h1></v-card
@@ -121,7 +121,7 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/loans?name=${$route.query.name}`
+                `/group/${$route.params.group}/loans?name=${group.name}`
               )
             "
             ><h1>Loans</h1></v-card
@@ -134,7 +134,7 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/savings?name=${$route.query.name}`
+                `/group/${$route.params.group}/savings?name=${group.name}`
               )
             "
             ><h1>Savings</h1></v-card
@@ -147,7 +147,7 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/users?name=${$route.query.name}`
+                `/group/${$route.params.group}/users?name=${group.name}`
               )
             "
             ><h1>Users</h1></v-card
@@ -160,7 +160,7 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/dairy?name=${$route.query.name}`
+                `/group/${$route.params.group}/dairy?name=${group.name}`
               )
             "
             ><h1>Dairy</h1></v-card
@@ -173,7 +173,7 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/loanInstallments?name=${$route.query.name}`
+                `/group/${$route.params.group}/loanInstallments?name=${group.name}`
               )
             "
             ><h1>Loans Installments</h1></v-card
@@ -186,7 +186,7 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/bankTransections?name=${$route.query.name}`
+                `/group/${$route.params.group}/bankTransections?name=${group.name}`
               )
             "
             ><h1>Bank Transections</h1></v-card
