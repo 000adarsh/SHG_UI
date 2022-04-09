@@ -58,6 +58,9 @@ const getAllEmployeeGroups = () => {
 const getEmployeeGroupPermissions = (payload) => {
   return apiClient.post('/employees/permission', payload)
 }
+const employeeGroups = (payload) => {
+  return apiClient.post('/employees/group', payload)
+}
 const createGroup = (payload) => {
   return apiClient.post('/groups', payload)
 }
@@ -124,6 +127,7 @@ export default {
   updateEmployee,
   getAllEmployeeGroups,
   getEmployeeGroupPermissions,
+  employeeGroups,
   createGroup,
   getGroup,
   updateGroup,

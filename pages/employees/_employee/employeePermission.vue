@@ -40,9 +40,9 @@ export default {
         employeeId: this.$route.params.employee,
       })
       if (permission) {
+        permission.data.message = 'Permission sucessfull find'
         this.$root.$emit('showNotification', permission)
       }
-      console.log(permission)
       if (permission.data.status === 'success') {
         this.permissions = permission.data.employee.permissions
       }

@@ -39,7 +39,9 @@ export default {
       )
     },
     async getAllEmployeesGroups() {
-      const group = await FetchService.getAllEmployeeGroups()
+      const group = await FetchService.employeeGroups({
+        employeeId: this.$route.params.employee,
+      })
       if (group) {
         this.$root.$emit('showNotification', group)
       }
