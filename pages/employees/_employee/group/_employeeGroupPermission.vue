@@ -42,6 +42,7 @@ export default {
     async getEmployeeGroupPermissions() {
       const groupPermission = await FetchService.getEmployeeGroupPermissions({
         groupId: this.$route.params.employeeGroupPermission,
+        employeeId: this.$route.params.employee,
       })
       if (groupPermission) {
         this.$root.$emit('showNotification', groupPermission)
