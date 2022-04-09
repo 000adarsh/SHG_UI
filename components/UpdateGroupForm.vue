@@ -13,7 +13,7 @@
             required
             :rules="[
               (name) =>
-                (!!name && name.length > 2) || 'Name greater than 4 word ',
+                (!!name && name.length > 3) || 'Name greater than 4 word ',
             ]"
             clearable
           ></v-text-field>
