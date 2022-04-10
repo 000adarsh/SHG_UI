@@ -100,7 +100,7 @@ const getAllUserSavings = (payload) => {
 const createUserSaving = (payload) => {
   return apiClient.post('/savings', payload)
 }
-const getAllGroupSavings = (payload) => {
+const getAllUsersGroupSavings = (payload) => {
   return apiClient.post('/savings/group', payload)
 }
 const getAllUserLoans = (payload) => {
@@ -150,7 +150,7 @@ export default {
   deleteUser,
   getAllUserSavings,
   createUserSaving,
-  getAllGroupSavings,
+  getAllUsersGroupSavings,
   getAllUserLoans,
   createUserLoan,
   getAllUsersGroupLoans,
