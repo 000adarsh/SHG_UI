@@ -15,7 +15,7 @@
             `/users/${$route.params.group}/${$route.params.user}/loan/${$route.params.loan}/loanInstallment?name=${$route.query.name}`
           )
         "
-        ><h3 class="pa-2">Loan Installment</h3></v-card
+        ><h3 class="pa-2 primary--text">Loan Installment</h3></v-card
       >
     </v-card-actions>
     <div class="pt-3 text-center">
@@ -24,7 +24,7 @@
     </div>
 
     <v-simple-table v-if="loan"
-      ><tbody>
+      ><tbody class="text-capitalize">
         <tr>
           <td>Amount</td>
           <td>₹ {{ loan.amount }}</td>
@@ -41,11 +41,11 @@
         </tr>
         <tr>
           <td>Loan Creater</td>
-          <td class="text-capitalize">{{ loan.createdBy.name }}</td>
+          <td>{{ loan.createdBy.name }}</td>
         </tr>
         <tr>
           <td>Loan Owner</td>
-          <td class="text-capitalize">{{ loan.userId.name }}</td>
+          <td>{{ loan.userId.name }}</td>
         </tr>
         <tr>
           <td>Loan Reason</td>
@@ -81,14 +81,14 @@
       </thead>
       <tbody>
         <tr v-for="(d, i) in generatedLoanInstallmentData" :key="i">
-          <td>
+          <td class="px-1">
             {{
               $moment
                 .unix(dates[i] ? dates[i].startDate : '')
                 .format('YYYY-MM-DD')
             }}
           </td>
-          <td>
+          <td class="px-1">
             {{
               $moment
                 .unix(dates[i] ? dates[i].endDate : '')
@@ -107,9 +107,11 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserLoanDetailsPage',
+  middleware: authRouter,
   data() {
     return {
       generatedLoanInstallmentData: [], // dont modify
@@ -207,7 +209,6 @@ export default {
           this.$moment(newStartDate).unix()
         newStartDate = this.$moment.unix(endDate).format()
       }
-      this.dates[this.dates.length - 1].endDate = j
     },
     filterInstallments() {
       this.dates.forEach((e) => {

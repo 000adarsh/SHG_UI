@@ -13,7 +13,7 @@
             required
             :rules="[
               (name) =>
-                (!!name && name.length > 2) || 'Name greater than 4 word ',
+                (!!name && name.length > 3) || 'Name greater than 4 word ',
             ]"
             clearable
           ></v-text-field>
@@ -40,20 +40,12 @@
             required
             clearable
           ></v-text-field>
-          <v-select
-            v-model="loanInterestType"
-            label="Loan Type"
-            required
-            :rules="[
-              (loanInterestType) =>
-                !!loanInterestType || 'Interest Type is required ',
-            ]"
-            :items="['monthly', 'weekly']"
-          ></v-select>
         </v-card-text>
       </v-form>
       <v-card-actions>
-        <v-btn text outlined @click="$refs.form.reset()">reset</v-btn>
+        <v-btn color="primary" text outlined @click="$refs.form.reset()"
+          >reset</v-btn
+        >
         <v-spacer></v-spacer>
         <v-btn color="error" text outlined @click="$emit('closeDialog')">
           Close
@@ -93,14 +85,12 @@ export default {
       name: null,
       address: null,
       loanInterestPercentage: null,
-      loanInterestType: null,
     }
   },
   mounted() {
     this.name = this.group?.name
     this.address = this.group?.address
     this.loanInterestPercentage = this.group?.loanInterestPercentage
-    this.loanInterestType = this.group?.loanInterestType
   },
   methods: {
     upadateGroup() {
@@ -108,7 +98,6 @@ export default {
         name: this.name,
         address: this.address,
         loanInterestPercentage: this.loanInterestPercentage * 1,
-        loanInterestType: this.loanInterestType,
       })
     },
   },

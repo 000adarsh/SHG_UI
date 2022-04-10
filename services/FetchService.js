@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getCookie } from '~/utils/manageCookies'
 
-const baseURL = 'http://192.168.43.144:5000/api/v1'
+const baseURL = 'https://shggaya.herokuapp.com/api/v1'
 let apiClient = axios.create({
   baseURL,
   withCredentials: false,
@@ -55,11 +55,23 @@ const updateEmployee = (payload) => {
 const getAllEmployeeGroups = () => {
   return apiClient.get('/groups/employee')
 }
+const getEmployeeGroupPermissions = (payload) => {
+  return apiClient.post('/employees/permission', payload)
+}
+const employeeGroups = (payload) => {
+  return apiClient.post('/employees/group', payload)
+}
 const createGroup = (payload) => {
   return apiClient.post('/groups', payload)
 }
 const getGroup = (payload) => {
   return apiClient.post('/groups/group', payload)
+}
+const getAllGroups = () => {
+  return apiClient.get('/groups')
+}
+const addEmployeeToGroup = (payload) => {
+  return apiClient.post('/groups/employee', payload)
 }
 const updateGroup = (payload) => {
   return apiClient.patch('/groups', payload)
@@ -91,11 +103,23 @@ const getAllGroupSavings = (payload) => {
 const getAllUserLoans = (payload) => {
   return apiClient.post('/loans/user', payload)
 }
+const createUserLoan = (payload) => {
+  return apiClient.post('/loans', payload)
+}
 const getUserLoanDetails = (payload) => {
   return apiClient.post('/loans/loan', payload)
 }
+const getAllUsersGroupLoans = (payload) => {
+  return apiClient.post('/loans/group', payload)
+}
 const getAllUserLoanInstallments = (payload) => {
   return apiClient.post('/loanInstallments/loan', payload)
+}
+const createUserLoanInstallment = (payload) => {
+  return apiClient.post('/loanInstallments', payload)
+}
+const getAllUsersGroupLoanInstallments = (payload) => {
+  return apiClient.post('/loanInstallments/group', payload)
 }
 
 export default {
@@ -108,8 +132,12 @@ export default {
   getEmployee,
   updateEmployee,
   getAllEmployeeGroups,
+  getEmployeeGroupPermissions,
+  employeeGroups,
   createGroup,
   getGroup,
+  getAllGroups,
+  addEmployeeToGroup,
   updateGroup,
   getAllGroupUsers,
   createUser,
@@ -120,6 +148,10 @@ export default {
   createUserSaving,
   getAllGroupSavings,
   getAllUserLoans,
+  createUserLoan,
+  getAllUsersGroupLoans,
   getAllUserLoanInstallments,
   getUserLoanDetails,
+  createUserLoanInstallment,
+  getAllUsersGroupLoanInstallments,
 }

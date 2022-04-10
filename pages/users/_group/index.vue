@@ -7,7 +7,7 @@
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined @click="createUser = true">
+      <v-btn color="primary" text outlined @click="createUser = true">
         create new user
       </v-btn>
     </v-card-actions>
@@ -33,7 +33,11 @@
     </div>
     <v-row class="pt-2">
       <v-col v-for="(user, i) in users" :key="i" cols="12" sm="6" lg="4">
-        <v-card outlined :hover="true" @click="userDetails(user)"
+        <v-card
+          outlined
+          :hover="true"
+          class="text-capitalize"
+          @click="userDetails(user)"
           ><v-card-title>Name : {{ user.name }}</v-card-title>
           <v-card-subtitle v-if="!user.husbandName"
             >Father Name : {{ user.fatherName }}</v-card-subtitle
@@ -47,11 +51,13 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import CreateUserForm from '~/components/CreateUserForm.vue'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserPage',
   components: { CreateUserForm },
+  middleware: authRouter,
   data() {
     return {
       users: [],

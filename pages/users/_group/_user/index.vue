@@ -4,13 +4,14 @@
       <v-btn
         v-if="user"
         color="primary"
+        text
         outlined
         @click="updateUserForm = true"
       >
         edit details
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined @click="deleteUserForm = true">
+      <v-btn color="primary" text outlined @click="deleteUserForm = true">
         delete user
       </v-btn>
     </v-card-actions>
@@ -42,10 +43,11 @@
         </div>
         <v-card-actions
           ><v-spacer></v-spacer
-          ><v-btn color="success" outlined @click="deleteUserForm = false"
+          ><v-btn color="success" text outlined @click="deleteUserForm = false"
             >no</v-btn
           ><v-btn
             color="error"
+            text
             outlined
             :loading="deleteLoading"
             @click="deleteUser"
@@ -55,10 +57,10 @@
       ></v-dialog
     >
     <div class="py-3">
-      <h3 class="text-center">Group Details</h3>
+      <h3 class="text-center">User Details</h3>
       <v-divider></v-divider>
       <v-simple-table v-if="user">
-        <tbody>
+        <tbody class="text-capitalize">
           <tr>
             <td>User Name</td>
             <td>{{ user.name }}</td>
@@ -166,11 +168,13 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import UpdateUserForm from '~/components/UpdateUserForm.vue'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserPage',
   components: { UpdateUserForm },
+  middleware: authRouter,
   data() {
     return {
       user: null,

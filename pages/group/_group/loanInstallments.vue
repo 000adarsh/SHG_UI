@@ -5,7 +5,7 @@
         {{ $route.query.name.toUpperCase() }}
       </h1>
     </div>
-    <div v-if="groupLoans.length">
+    <div v-if="loanInstallments.length">
       <v-row class="pt-3">
         <v-spacer></v-spacer
         ><v-col cols="12" sm="4" lg="4">
@@ -56,13 +56,13 @@
         <v-simple-table
           ><thead>
             <tr>
-              <th>Total loans No</th>
-              <th>Total Amount</th>
+              <th>Total Loan Installment</th>
+              <th>Total Loan Installment Amount</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{{ groupLoans.length }}</td>
+              <td>{{ loanInstallments.length }}</td>
               <td>{{ groupTotalAmount }}</td>
             </tr>
           </tbody></v-simple-table
@@ -70,7 +70,7 @@
         <v-divider></v-divider>
       </div>
       <div class="py-3">
-        <h3 class="text-center">Group Loans</h3>
+        <h3 class="text-center">Group Loans Installments</h3>
         <v-divider></v-divider>
         <v-simple-table
           ><thead>
@@ -82,13 +82,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(loan, i) in groupLoans" :key="i">
-              <td>{{ loan.createdBy.name }}</td>
-              <td>{{ loan.userId.name }}</td>
+            <tr v-for="(loanInstallment, i) in loanInstallments" :key="i">
+              <td>{{ loanInstallment.createdBy.name }}</td>
+              <td>{{ loanInstallment.userId.name }}</td>
               <td class="px-1">
-                {{ $moment(loan.createdAt).format('Do MMM YYYY, h:mm:ss a') }}
+                {{
+                  $moment(loanInstallment.createdAt).format(
+                    'Do MMM YYYY, h:mm:ss a'
+                  )
+                }}
               </td>
-              <td>{{ loan.amount }}</td>
+              <td>{{ loanInstallment.amount }}</td>
             </tr>
           </tbody></v-simple-table
         >
@@ -101,12 +105,13 @@
 <script>
 import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
+
 export default {
-  name: 'GroupLoans',
+  name: 'GroupLoanInstallments',
   middleware: authRouter,
   data() {
     return {
-      groupLoans: [],
+      loanInstallments: [],
       groupTotalAmount: null,
       picker: false,
       date: this.$moment(Date.now()).format('YYYY-MM'),
@@ -129,25 +134,26 @@ export default {
         .toDate()
       this.startDate = startDate
       this.endDate = endDate
-      this.getAllUsersGroupLoans()
+      this.getAllUsersGroupLoanInstallments()
     },
-    async getAllUsersGroupLoans() {
-      const loans = await FetchService.getAllUsersGroupLoans({
-        groupId: this.$route.params.group,
-        startDate: this.startDate,
-        endDate: this.endDate,
-      })
-      if (loans) {
-        this.$root.$emit('showNotification', loans)
+    async getAllUsersGroupLoanInstallments() {
+      const loanInstallments =
+        await FetchService.getAllUsersGroupLoanInstallments({
+          groupId: this.$route.params.group,
+          startDate: this.startDate,
+          endDate: this.endDate,
+        })
+      if (loanInstallments) {
+        this.$root.$emit('showNotification', loanInstallments)
       }
-      if (loans.data.status === 'success') {
-        this.groupLoans = loans.data.loans
+      if (loanInstallments.data.status === 'success') {
+        this.loanInstallments = loanInstallments.data.loanInstallments
         this.calculateAmount()
       }
     },
     calculateAmount() {
       let amount = 0
-      this.groupLoans.forEach((e) => {
+      this.loanInstallments.forEach((e) => {
         amount += e.amount
       })
       this.groupTotalAmount = amount

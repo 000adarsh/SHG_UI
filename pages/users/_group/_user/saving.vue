@@ -7,7 +7,7 @@
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" outlined @click="addUserSaving = true">
+      <v-btn color="primary" text outlined @click="addUserSaving = true">
         add saving
       </v-btn>
     </v-card-actions>
@@ -84,7 +84,7 @@
         <tbody>
           <tr v-for="(saving, i) in savings" :key="i">
             <td class="text-capitalize">{{ saving.createdBy.name }}</td>
-            <td>
+            <td class="px-1">
               {{ $moment(saving.createdAt).format('Do MMM YYYY, h:mm:ss a') }}
             </td>
             <td>{{ saving.amount }}</td>
@@ -96,9 +96,11 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 export default {
   name: 'UserSavingPage',
+  middleware: authRouter,
   data() {
     return {
       valid: false,
@@ -198,13 +200,20 @@ export default {
       const dmonth = Math.abs(dueAmount / this.groupSavingAmount)
       this.dueSaving = { months: dmonth, amount: dueAmount }
     },
-    getMonths(payload) {
-      const groupStartDate = this.$moment(payload.groupStartDate)
-      const currentDate = this.$moment(payload.currentDate)
-      const monthDiff = this.$moment.duration(
-        currentDate.diff(groupStartDate, 'months')
-      )
-      return monthDiff._milliseconds + 1
+    getMonths({ groupStartDate, currentDate }) {
+      let startDate = this.$moment(groupStartDate).unix()
+      const lastDate = this.$moment(currentDate).unix()
+      let newStartDate = groupStartDate
+      let month = 0
+      while (startDate < lastDate) {
+        const endDate = this.$moment(newStartDate).add(1, 'M').unix()
+        month = month + 1
+        startDate +=
+          this.$moment(newStartDate).add(1, 'M').unix() -
+          this.$moment(newStartDate).unix()
+        newStartDate = this.$moment.unix(endDate).format()
+      }
+      return month
     },
     calculateSavings(payload) {
       let allSavings = 0
