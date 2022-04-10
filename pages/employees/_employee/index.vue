@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="employee">
     <v-card-actions>
       <v-btn color="primary" text outlined @click="editEmployeeDetails = true">
         edit details
