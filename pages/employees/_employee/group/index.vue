@@ -134,7 +134,7 @@ export default {
       }
     },
     async getAllEmployeesGroups() {
-      const group = await FetchService.employeeGroups({
+      const group = await FetchService.getEmployeeGroups({
         employeeId: this.$route.params.employee,
       })
       if (group) {

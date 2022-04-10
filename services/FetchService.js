@@ -52,13 +52,13 @@ const getEmployee = (payload) => {
 const updateEmployee = (payload) => {
   return apiClient.patch('/employees', payload)
 }
-const getAllEmployeeGroups = () => {
+const getMyGroups = () => {
   return apiClient.get('/groups/employee')
 }
 const getEmployeeGroupPermissions = (payload) => {
   return apiClient.post('/employees/permission', payload)
 }
-const employeeGroups = (payload) => {
+const getEmployeeGroups = (payload) => {
   return apiClient.post('/employees/group', payload)
 }
 const createGroup = (payload) => {
@@ -80,7 +80,7 @@ const updateGroup = (payload) => {
   return apiClient.patch('/groups', payload)
 }
 const getAllGroupUsers = (payload) => {
-  return apiClient.post('/users/group/users', payload)
+  return apiClient.post('/users/group', payload)
 }
 const createUser = (payload) => {
   return apiClient.post('/users', payload)
@@ -134,9 +134,9 @@ export default {
   getAllEmployees,
   getEmployee,
   updateEmployee,
-  getAllEmployeeGroups,
+  getMyGroups,
   getEmployeeGroupPermissions,
-  employeeGroups,
+  getEmployeeGroups,
   createGroup,
   getGroup,
   getAllGroups,

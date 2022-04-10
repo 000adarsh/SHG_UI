@@ -46,7 +46,7 @@ export default {
     }
   },
   async created() {
-    await this.getEmployeeGroups()
+    await this.getMyGroups()
   },
   methods: {
     showGroupInfo(payload) {
@@ -54,8 +54,8 @@ export default {
         `/group/${payload.groupId.id}?name=${payload.groupId.name}`
       )
     },
-    async getEmployeeGroups() {
-      const groups = await FetchService.getAllEmployeeGroups()
+    async getMyGroups() {
+      const groups = await FetchService.getMyGroups()
       if (groups) {
         this.$root.$emit('showNotification', groups)
       }
@@ -72,7 +72,7 @@ export default {
       if (group.data.status === 'success') {
         this.loading = false
         this.createGroup = false
-        await this.getEmployeeGroups()
+        await this.getMyGroups()
       }
       this.loading = false
     },

@@ -33,7 +33,7 @@ export default {
     }
   },
   async created() {
-    await this.getEmployeeGroups()
+    await this.getMyGroups()
   },
   methods: {
     usergroup(payload) {
@@ -41,8 +41,8 @@ export default {
         `/users/${payload.groupId.id}?name=${payload.groupId.name}`
       )
     },
-    async getEmployeeGroups() {
-      const groups = await FetchService.getAllEmployeeGroups()
+    async getMyGroups() {
+      const groups = await FetchService.getMyGroups()
       if (groups) {
         this.$root.$emit('showNotification', groups)
       }
