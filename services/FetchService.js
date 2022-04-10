@@ -73,6 +73,9 @@ const getAllGroups = () => {
 const addEmployeeToGroup = (payload) => {
   return apiClient.post('/groups/employee', payload)
 }
+const removeEmployeeFromGroup = (payload) => {
+  return apiClient.put('/groups/employee', payload)
+}
 const updateGroup = (payload) => {
   return apiClient.patch('/groups', payload)
 }
@@ -138,6 +141,7 @@ export default {
   getGroup,
   getAllGroups,
   addEmployeeToGroup,
+  removeEmployeeFromGroup,
   updateGroup,
   getAllGroupUsers,
   createUser,
