@@ -2,7 +2,7 @@
   <div>
     <v-card-actions
       ><v-btn
-        v-if="employeeGroups.length"
+        v-if="employeeGroups.length && allGroups.length"
         text
         outlined
         color="error"
@@ -84,7 +84,7 @@ export default {
     }
   },
   created() {
-    this.getAllEmployeesGroups()
+    this.getEmployeeGroups()
     this.getAllGroups()
   },
   methods: {
@@ -100,11 +100,9 @@ export default {
       if (removeFromGroup.data.status === 'success') {
         this.removeLoading = false
         this.removeEmployeeFromGroupForm = false
-        await this.getAllEmployeesGroups()
+        await this.getEmployeeGroups()
       }
       this.removeLoading = false
-      this.removeEmployeeFromGroupForm = false
-      this.getAllEmployeesGroups()
     },
     async addEmployeeToGroup(payload) {
       this.addLoading = true
@@ -118,7 +116,7 @@ export default {
       if (addToGroup.data.status === 'success') {
         this.addLoading = false
         this.addEmployeeToGroupForm = false
-        await this.getAllEmployeesGroups()
+        await this.getEmployeeGroups()
       }
       this.addLoading = false
     },
@@ -133,7 +131,7 @@ export default {
         this.allGroups = groups.data.groups
       }
     },
-    async getAllEmployeesGroups() {
+    async getEmployeeGroups() {
       const group = await FetchService.getEmployeeGroups({
         employeeId: this.$route.params.employee,
       })
