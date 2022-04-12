@@ -39,7 +39,11 @@
 <script>
 export default {
   props: {
-    data: {
+    employeeGroup: {
+      type: Array,
+      required: true,
+    },
+    allGroup: {
       type: Array,
       required: true,
     },
@@ -56,9 +60,15 @@ export default {
     }
   },
   mounted() {
-    this.data.forEach((e) => {
-      this.items.push(e.groupId.name)
-      this.groups[e.groupId.name] = e.groupId.id
+    const group = []
+    this.employeeGroup.forEach((e) => {
+      group.push(e.groupId.name)
+    })
+    this.allGroup.forEach((e) => {
+      if (group.includes(e.name)) {
+        this.items.push(e.name)
+      }
+      this.groups[e.name] = e.id
     })
   },
   methods: {

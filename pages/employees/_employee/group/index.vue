@@ -10,7 +10,7 @@
         >Remove employee</v-btn
       ><v-spacer></v-spacer
       ><v-btn
-        v-if="allGroups.length"
+        v-if="employeeGroups.length && allGroups.length"
         text
         outlined
         color="primary"
@@ -24,7 +24,8 @@
       persistent
       max-width="900px"
       ><RemoveEmployeeFromGroup
-        :data="employeeGroups"
+        :employee-group="employeeGroups"
+        :all-group="allGroups"
         :loading="removeLoading"
         @closeDialog="
           () => {
@@ -39,7 +40,8 @@
       persistent
       max-width="900px"
       ><AddEmployeeToGroupForm
-        :data="allGroups"
+        :employee-group="employeeGroups"
+        :all-group="allGroups"
         :loading="addLoading"
         @closeDialog="
           () => {
