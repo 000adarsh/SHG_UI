@@ -85,6 +85,15 @@ const addEmployeeToGroup = (payload) => {
 const removeEmployeeFromGroup = (payload) => {
   return apiClient.put('/groups/employee', payload)
 }
+const getMyGroupPermissions = (payload) => {
+  return apiClient.post('/groups/permission', payload)
+}
+const addEmployeeGroupPermissions = (payload) => {
+  return apiClient.patch('/groups/permission', payload)
+}
+const removeEmployeeGroupPermissions = (payload) => {
+  return apiClient.put('/groups/permission', payload)
+}
 const updateGroup = (payload) => {
   return apiClient.patch('/groups', payload)
 }
@@ -154,6 +163,9 @@ export default {
   getAllGroups,
   addEmployeeToGroup,
   removeEmployeeFromGroup,
+  getMyGroupPermissions,
+  addEmployeeGroupPermissions,
+  removeEmployeeGroupPermissions,
   updateGroup,
   getAllGroupUsers,
   createUser,
