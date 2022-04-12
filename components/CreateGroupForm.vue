@@ -140,9 +140,13 @@ export default {
         name: this.name,
         address: this.address,
         savingAmount: this.savingAmount * 1,
-        startDate: this.$moment(this.date).startOf('day').toDate(),
+        startDate: this.$moment(this.date)
+          .startOf('day')
+          .utc('+05:30')
+          .toDate(),
         loanInterestPercentage: this.loanInterestPercentage * 1,
       })
+      this.$refs.form.reset()
     },
   },
 }
