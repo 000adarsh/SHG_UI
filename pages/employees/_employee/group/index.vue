@@ -1,15 +1,38 @@
 <template>
   <div>
     <v-card-actions
+      ><v-btn
+        v-if="employeeGroups.length && allGroups.length"
+        text
+        outlined
+        color="error"
+        @click="removeEmployeeFromGroupForm = true"
+        >Remove employee</v-btn
       ><v-spacer></v-spacer
       ><v-btn
+        v-if="allGroups.length"
         text
         outlined
         color="primary"
         @click="addEmployeeToGroupForm = true"
-        >Add employee to group</v-btn
+        >Add employee</v-btn
       ></v-card-actions
     >
+    <v-dialog
+      v-if="removeEmployeeFromGroupForm"
+      :value="removeEmployeeFromGroupForm"
+      persistent
+      max-width="900px"
+      ><RemoveEmployeeFromGroup
+        :data="employeeGroups"
+        :loading="removeLoading"
+        @closeDialog="
+          () => {
+            removeEmployeeFromGroupForm = false
+          }
+        "
+        @submit="removeEmployeeFromGroup"
+    /></v-dialog>
     <v-dialog
       v-if="addEmployeeToGroupForm"
       :value="addEmployeeToGroupForm"
@@ -17,7 +40,7 @@
       max-width="900px"
       ><AddEmployeeToGroupForm
         :data="allGroups"
-        :loading="loading"
+        :loading="addLoading"
         @closeDialog="
           () => {
             addEmployeeToGroupForm = false
@@ -52,19 +75,37 @@ export default {
   middleware: authRouter,
   data() {
     return {
-      loading: false,
+      addLoading: false,
       employeeGroups: [],
       allGroups: [],
       addEmployeeToGroupForm: false,
+      removeEmployeeFromGroupForm: false,
+      removeLoading: false,
     }
   },
   created() {
-    this.getAllEmployeesGroups()
+    this.getEmployeeGroups()
     this.getAllGroups()
   },
   methods: {
+    async removeEmployeeFromGroup(payload) {
+      this.removeLoading = true
+      const removeFromGroup = await FetchService.removeEmployeeFromGroup({
+        employeeId: this.$route.params.employee,
+        groupId: payload.groupId,
+      })
+      if (removeFromGroup) {
+        this.$root.$emit('showNotification', removeFromGroup)
+      }
+      if (removeFromGroup.data.status === 'success') {
+        this.removeLoading = false
+        this.removeEmployeeFromGroupForm = false
+        await this.getEmployeeGroups()
+      }
+      this.removeLoading = false
+    },
     async addEmployeeToGroup(payload) {
-      this.loading = true
+      this.addLoading = true
       const addToGroup = await FetchService.addEmployeeToGroup({
         employeeId: this.$route.params.employee,
         groupId: payload.groupId,
@@ -73,11 +114,11 @@ export default {
         this.$root.$emit('showNotification', addToGroup)
       }
       if (addToGroup.data.status === 'success') {
-        this.loading = false
+        this.addLoading = false
         this.addEmployeeToGroupForm = false
-        await this.getAllEmployeesGroups()
+        await this.getEmployeeGroups()
       }
-      this.loading = false
+      this.addLoading = false
     },
     showGroupInfo(payload) {
       this.$router.push(
@@ -90,8 +131,8 @@ export default {
         this.allGroups = groups.data.groups
       }
     },
-    async getAllEmployeesGroups() {
-      const group = await FetchService.employeeGroups({
+    async getEmployeeGroups() {
+      const group = await FetchService.getEmployeeGroups({
         employeeId: this.$route.params.employee,
       })
       if (group) {

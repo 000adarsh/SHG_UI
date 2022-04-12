@@ -129,10 +129,10 @@ export default {
         .toDate()
       this.startDate = startDate
       this.endDate = endDate
-      this.getAllGroupSavings()
+      this.getAllUsersGroupSavings()
     },
-    async getAllGroupSavings() {
-      const savings = await FetchService.getAllGroupSavings({
+    async getAllUsersGroupSavings() {
+      const savings = await FetchService.getAllUsersGroupSavings({
         groupId: this.$route.params.group,
         startDate: this.startDate,
         endDate: this.endDate,

@@ -52,13 +52,22 @@ const getEmployee = (payload) => {
 const updateEmployee = (payload) => {
   return apiClient.patch('/employees', payload)
 }
-const getAllEmployeeGroups = () => {
+const getMyGroups = () => {
   return apiClient.get('/groups/employee')
 }
 const getEmployeeGroupPermissions = (payload) => {
   return apiClient.post('/employees/permission', payload)
 }
-const employeeGroups = (payload) => {
+const getMyPermissions = (payload) => {
+  return apiClient.get('/employees/permission', payload)
+}
+const addEmployeePermissions = (payload) => {
+  return apiClient.patch('/employees/permission', payload)
+}
+const removeEmployeePermissions = (payload) => {
+  return apiClient.put('/employees/permission', payload)
+}
+const getEmployeeGroups = (payload) => {
   return apiClient.post('/employees/group', payload)
 }
 const createGroup = (payload) => {
@@ -73,11 +82,23 @@ const getAllGroups = () => {
 const addEmployeeToGroup = (payload) => {
   return apiClient.post('/groups/employee', payload)
 }
+const removeEmployeeFromGroup = (payload) => {
+  return apiClient.put('/groups/employee', payload)
+}
+const getMyGroupPermissions = (payload) => {
+  return apiClient.post('/groups/permission', payload)
+}
+const addEmployeeGroupPermissions = (payload) => {
+  return apiClient.patch('/groups/permission', payload)
+}
+const removeEmployeeGroupPermissions = (payload) => {
+  return apiClient.put('/groups/permission', payload)
+}
 const updateGroup = (payload) => {
   return apiClient.patch('/groups', payload)
 }
 const getAllGroupUsers = (payload) => {
-  return apiClient.post('/users/group/users', payload)
+  return apiClient.post('/users/group', payload)
 }
 const createUser = (payload) => {
   return apiClient.post('/users', payload)
@@ -97,7 +118,7 @@ const getAllUserSavings = (payload) => {
 const createUserSaving = (payload) => {
   return apiClient.post('/savings', payload)
 }
-const getAllGroupSavings = (payload) => {
+const getAllUsersGroupSavings = (payload) => {
   return apiClient.post('/savings/group', payload)
 }
 const getAllUserLoans = (payload) => {
@@ -131,13 +152,20 @@ export default {
   getAllEmployees,
   getEmployee,
   updateEmployee,
-  getAllEmployeeGroups,
+  getMyGroups,
   getEmployeeGroupPermissions,
-  employeeGroups,
+  getMyPermissions,
+  addEmployeePermissions,
+  removeEmployeePermissions,
+  getEmployeeGroups,
   createGroup,
   getGroup,
   getAllGroups,
   addEmployeeToGroup,
+  removeEmployeeFromGroup,
+  getMyGroupPermissions,
+  addEmployeeGroupPermissions,
+  removeEmployeeGroupPermissions,
   updateGroup,
   getAllGroupUsers,
   createUser,
@@ -146,7 +174,7 @@ export default {
   deleteUser,
   getAllUserSavings,
   createUserSaving,
-  getAllGroupSavings,
+  getAllUsersGroupSavings,
   getAllUserLoans,
   createUserLoan,
   getAllUsersGroupLoans,
