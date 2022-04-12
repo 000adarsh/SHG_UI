@@ -11,6 +11,7 @@
         text
         outlined
         color="error"
+        @click="removeEmployeeGroupPermissionForm = true"
         >remove permission</v-btn
       ><v-spacer></v-spacer
       ><v-btn
@@ -23,6 +24,22 @@
       ></v-card-actions
     >
     <v-dialog
+      v-if="removeEmployeeGroupPermissionForm"
+      :value="removeEmployeeGroupPermissionForm"
+      persistent
+      max-width="900px"
+      ><RemoveEmployeePermissionForm
+        :my-permissions="myPermissions"
+        :permissions="groupPermissions"
+        :loading="removeGroupPermissionLoading"
+        @closeDialog="
+          () => {
+            removeEmployeeGroupPermissionForm = false
+          }
+        "
+        @submit="removeEmployeeGroupPermissions"
+    /></v-dialog>
+    <v-dialog
       v-if="addEmployeeGroupPermissionForm"
       :value="addEmployeeGroupPermissionForm"
       persistent
@@ -30,7 +47,7 @@
       ><AddEmployeePermissionForm
         :my-permissions="myPermissions"
         :permissions="groupPermissions"
-        :loading="addGroupPermissionLoading"
+        :loading="removeGroupPermissionLoading"
         @closeDialog="
           () => {
             addEmployeeGroupPermissionForm = false
@@ -72,6 +89,23 @@ export default {
     await this.getMyGroupPermissions()
   },
   methods: {
+    async removeEmployeeGroupPermissions(payload) {
+      this.removeGroupPermissionLoading = true
+      const permission = await FetchService.removeEmployeeGroupPermissions({
+        employeeId: this.$route.params.employee,
+        groupId: this.$route.params.employeeGroupPermission,
+        permissions: payload.permissions,
+      })
+      if (permission) {
+        this.$root.$emit('showNotification', permission)
+      }
+      if (permission.data.status === 'success') {
+        this.removeGroupPermissionLoading = false
+        this.removeEmployeeGroupPermissionForm = false
+        await this.getEmployeeGroupPermissions()
+      }
+      this.removeGroupPermissionLoading = false
+    },
     async addEmployeeGroupPermissions(payload) {
       this.addGroupPermissionLoading = true
       const permission = await FetchService.addEmployeeGroupPermissions({

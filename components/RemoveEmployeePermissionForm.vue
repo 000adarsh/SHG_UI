@@ -4,7 +4,7 @@
       ><v-card>
         <v-card-text>
           <div class="text-center py-2">
-            <h3>Remove Employee Permissions</h3>
+            <h3>Remove Permissions</h3>
             <v-divider></v-divider>
           </div>
           <div>
