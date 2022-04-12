@@ -1,18 +1,20 @@
 <template>
   <div>
-    <v-card-actions
+    <v-card-actions class="px-0"
       ><v-btn
+        v-if="permissions && myPermissions"
         text
         outlined
         color="error"
-        class="mr-1"
         @click="removeEmployeePermissionForm = true"
         >remove permission</v-btn
       ><v-spacer></v-spacer
       ><v-btn
+        v-if="permissions && myPermissions"
         text
         outlined
         color="error"
+        :disabled="!employee.isActive"
         @click="addEmployeePermissionForm = true"
         >add permission</v-btn
       ></v-card-actions
@@ -79,6 +81,7 @@ export default {
       addPermissionLoading: false,
       removeEmployeePermissionForm: false,
       removePermissionLoading: false,
+      employee: null,
     }
   },
   async created() {
@@ -134,6 +137,7 @@ export default {
       }
       if (permission.data.status === 'success') {
         this.permissions = permission.data.employee.permissions
+        this.employee = permission.data.employee
       }
     },
   },
