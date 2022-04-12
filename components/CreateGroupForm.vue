@@ -50,6 +50,43 @@
             required
             clearable
           ></v-text-field>
+          <v-dialog
+            ref="dialog"
+            v-model="startDateDialog"
+            :return-value.sync="date"
+            persistent
+            width="290px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                v-model="date"
+                label="Picker in dialog"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" scrollable>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                outlined
+                color="primary"
+                @click="startDateDialog = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                text
+                outlined
+                color="primary"
+                @click="$refs.dialog.save(date)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
         </v-card-text>
       </v-form>
       <v-card-actions>
@@ -85,6 +122,11 @@ export default {
   },
   data() {
     return {
+      menu: false,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      startDateDialog: false,
       valid: false,
       name: null,
       address: null,
@@ -98,6 +140,7 @@ export default {
         name: this.name,
         address: this.address,
         savingAmount: this.savingAmount * 1,
+        startDate: this.$moment(this.date).startOf('day').toDate(),
         loanInterestPercentage: this.loanInterestPercentage * 1,
       })
     },
