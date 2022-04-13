@@ -113,37 +113,7 @@ export default {
       groupSavingAmount: null,
     }
   },
-  watch: {
-    groupStartDate(oldDate, newDate) {
-      if (
-        this.groupStartDate &&
-        this.savings.length &&
-        this.groupSavingAmount
-      ) {
-        this.getDueSaving()
-      }
-    },
-    savings(oldSaving, newSaving) {
-      if (
-        this.groupStartDate &&
-        this.savings.length &&
-        this.groupSavingAmount
-      ) {
-        this.getDueSaving()
-      }
-    },
-    groupSavingAmount(oldAmount, newAmount) {
-      if (
-        this.groupStartDate &&
-        this.savings.length &&
-        this.groupSavingAmount
-      ) {
-        this.getDueSaving()
-      }
-    },
-  },
   created() {
-    this.getAllUserSavings()
     this.getUsergroup()
   },
 
@@ -155,6 +125,7 @@ export default {
       if (group.data.status === 'success') {
         this.groupStartDate = group.data.group.startDate
         this.groupSavingAmount = group.data.group.savingAmount
+        await this.getAllUserSavings()
       }
     },
     async getAllUserSavings() {
@@ -167,6 +138,7 @@ export default {
       }
       if (savings.data.status === 'success') {
         this.savings = savings.data.savings
+        this.getDueSaving()
       }
     },
     async createUserSaving() {
