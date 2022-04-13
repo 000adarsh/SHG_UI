@@ -20,7 +20,7 @@
       <template #append>
         <div class="pa-2 d-flex justify-space-between">
           <v-btn color="primary" text outlined @click="changeTheme">
-            {{ $vuetify.theme.isDark ? 'Light' : 'Dark' }}
+            {{ $vuetify.theme.isDark ? 'Dark' : 'Light' }}
           </v-btn>
           <v-btn v-if="isLogin" color="error" text outlined @click="logOut">
             Logout
@@ -92,6 +92,7 @@ export default {
     }
   },
   created() {
+    this.findTheme()
     FetchService.setAuthHeader()
     this.updateLoginStatus()
   },
@@ -99,8 +100,22 @@ export default {
     this.updateLoginStatus()
   },
   methods: {
+    findTheme() {
+      if (localStorage.theme === 'dark') {
+        this.$vuetify.theme.dark = true
+      }
+      if (localStorage.theme === 'light') {
+        this.$vuetify.theme.dark = false
+      }
+    },
     changeTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.isDark
+      if (localStorage.theme === 'dark') {
+        localStorage.theme = 'light'
+        this.$vuetify.theme.dark = false
+      } else {
+        localStorage.theme = 'dark'
+        this.$vuetify.theme.dark = true
+      }
     },
     logOut() {
       deleteCookie('token')
