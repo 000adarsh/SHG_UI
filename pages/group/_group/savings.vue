@@ -5,53 +5,53 @@
         {{ $route.query.name.toUpperCase() }}
       </h1>
     </div>
-    <div v-if="groupSavings.length">
-      <v-row class="pt-3">
-        <v-spacer></v-spacer
-        ><v-col cols="12" sm="4" lg="4">
-          <v-dialog
-            ref="dialog"
-            v-model="picker"
-            :return-value.sync="date"
-            persistent
-            width="290px"
-          >
-            <template #activator="{ on, attrs }">
-              <v-text-field
-                v-model="date"
-                label="Select Month"
-                prepend-icon="mdi-calendar"
-                readonly
-                dense
-                outlined
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
+    <v-row class="pt-3">
+      <v-spacer></v-spacer
+      ><v-col cols="12" sm="4" lg="4">
+        <v-dialog
+          ref="dialog"
+          v-model="picker"
+          :return-value.sync="date"
+          persistent
+          width="290px"
+        >
+          <template #activator="{ on, attrs }">
+            <v-text-field
               v-model="date"
-              type="month"
-              color="success"
-              header-color="error"
-              scrollable
-              @change="change"
+              label="Select Month"
+              prepend-icon="mdi-calendar"
+              readonly
+              dense
+              outlined
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="date"
+            type="month"
+            color="success"
+            header-color="error"
+            scrollable
+            @change="change"
+          >
+            <v-spacer></v-spacer>
+            <v-btn text outlined color="primary" @click="picker = false">
+              Cancel
+            </v-btn>
+            <v-btn
+              text
+              outlined
+              color="primary"
+              @click="$refs.dialog.save(date)"
             >
-              <v-spacer></v-spacer>
-              <v-btn text outlined color="primary" @click="picker = false">
-                Cancel
-              </v-btn>
-              <v-btn
-                text
-                outlined
-                color="primary"
-                @click="$refs.dialog.save(date)"
-              >
-                OK
-              </v-btn>
-            </v-date-picker>
-          </v-dialog>
-        </v-col></v-row
-      >
+              OK
+            </v-btn>
+          </v-date-picker>
+        </v-dialog>
+      </v-col></v-row
+    >
+    <div v-if="groupSavings.length">
       <div class="py-3">
         <v-simple-table
           ><thead>
