@@ -97,7 +97,7 @@
             <tr>
               <td>Create Date</td>
               <td>
-                {{ $moment(user.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
+                {{ $moment(user.joinDate).format('DD MMM YYYY hh:mm:ss a') }}
               </td>
             </tr>
             <tr>
@@ -229,7 +229,7 @@ export default {
       if (user.data.status === 'success') {
         this.deleteLoading = false
         this.deleteUserForm = false
-        await this.getUserDetails()
+        // TODO: send back
       }
       this.deleteLoading = false
     },

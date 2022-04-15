@@ -60,7 +60,7 @@
             <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Picker in dialog"
+                label="Select Date"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -122,7 +122,6 @@ export default {
   },
   data() {
     return {
-      menu: false,
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
