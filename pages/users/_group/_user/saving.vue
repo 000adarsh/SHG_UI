@@ -30,7 +30,46 @@
                     (!!amount && amount > 0) || 'Amount greater than 0 ',
                 ]"
                 clearable
-              ></v-text-field>
+              ></v-text-field
+              ><v-dialog
+                ref="dialog"
+                v-model="dateDialog"
+                :return-value.sync="date"
+                persistent
+                width="290px"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    :value="date"
+                    label="Select Join Date*"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    required
+                    :rules="[(date) => !!date || 'join date is required']"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="dateDialog = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="$refs.dialog.save(date)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
             </v-card-text>
           </v-form>
           <v-card-actions>
@@ -85,7 +124,7 @@
           <tr v-for="(saving, i) in savings" :key="i">
             <td class="text-capitalize">{{ saving.createdBy.name }}</td>
             <td class="px-1">
-              {{ $moment(saving.createdAt).format('Do MMM YYYY, h:mm:ss a') }}
+              {{ $moment(saving.createDate).format('Do MMM YYYY, h:mm:ss a') }}
             </td>
             <td>{{ saving.amount }}</td>
           </tr>
@@ -111,6 +150,10 @@ export default {
       dueSaving: null,
       groupStartDate: null,
       groupSavingAmount: null,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      dateDialog: false,
     }
   },
   created() {
@@ -147,14 +190,18 @@ export default {
         userId: this.$route.params.user,
         groupId: this.$route.params.group,
         amount: this.amount,
+        createDate: this.$moment(this.date)
+          .startOf('day')
+          .add(10, 'hours')
+          .toDate(),
       })
       if (saving) {
         this.$root.$emit('showNotification', saving)
       }
       if (saving.data.status === 'success') {
         this.loading = false
-        this.amount = null
         this.addUserSaving = false
+        this.$refs.form.reset()
         await this.getAllUserSavings()
       }
       this.loading = false

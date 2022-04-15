@@ -26,7 +26,7 @@
                   (amount) =>
                     (!!amount && amount > 0) || 'amount greater than 0',
                 ]"
-                label="Loan Amount"
+                label="Loan Amount*"
                 clearable
               ></v-text-field
               ><v-text-field
@@ -37,9 +37,49 @@
                     (!!note && note.length > 5) ||
                     'note greater than 5 character',
                 ]"
-                label="Loan Reason Note"
+                label="Loan Reason Note*"
                 clearable
-              ></v-text-field></v-card-text></v-form
+              ></v-text-field>
+              <v-dialog
+                ref="dialog"
+                v-model="dateDialog"
+                :return-value.sync="date"
+                persistent
+                width="290px"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    :value="date"
+                    label="Select Create Date*"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    required
+                    :rules="[(date) => !!date || 'create date is required']"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="dateDialog = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="$refs.dialog.save(date)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
+            </v-card-text></v-form
           ><v-card-actions
             ><v-spacer></v-spacer
             ><v-btn text outlined color="success" @click="createLoan = false"
@@ -75,7 +115,7 @@
           ><v-card-subtitle class="py-0"
             >Created Date -
             {{
-              $moment(loan.createdAt).format('DD MMM YYYY hh:mm:ss a')
+              $moment(loan.createDate).format('DD MMM YYYY hh:mm:ss a')
             }}</v-card-subtitle
           ><v-card-subtitle class="py-0"
             >Creater - {{ loan.createdBy.name }}</v-card-subtitle
@@ -100,6 +140,10 @@ export default {
       note: null,
       valid: false,
       loading: false,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      dateDialog: false,
     }
   },
   async created() {
@@ -124,6 +168,10 @@ export default {
         userId: this.$route.params.user,
         groupId: this.$route.params.group,
         amount: this.amount,
+        createDate: this.$moment(this.date)
+          .startOf('day')
+          .add(10, 'hours')
+          .toDate(),
         note: this.note,
       })
       if (loan) {
@@ -132,10 +180,10 @@ export default {
       if (loan.data.status === 'success') {
         this.loading = false
         this.createLoan = false
+        this.$refs.form.reset()
         this.getAllUserLoans()
       }
       this.loading = false
-      this.createLoan = false
     },
   },
 }

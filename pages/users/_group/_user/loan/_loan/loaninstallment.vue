@@ -37,7 +37,47 @@
                 ]"
                 label="Loan Installment Amount"
                 clearable
-              ></v-text-field></v-card-text></v-form
+              ></v-text-field>
+              <v-dialog
+                ref="dialog"
+                v-model="dateDialog"
+                :return-value.sync="date"
+                persistent
+                width="290px"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    :value="date"
+                    label="Select Create Date*"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    required
+                    :rules="[(date) => !!date || 'create date is required']"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="dateDialog = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="$refs.dialog.save(date)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
+            </v-card-text></v-form
           ><v-card-actions
             ><v-spacer></v-spacer
             ><v-btn
@@ -79,7 +119,7 @@
           </td>
           <td class="px-1">
             {{
-              $moment(installment ? installment.createdAt : '').format(
+              $moment(installment ? installment.createDate : '').format(
                 'DD MMM YYYY hh:mm:ss a'
               )
             }}
@@ -105,12 +145,15 @@ export default {
   middleware: authRouter,
   data() {
     return {
-      startDate: '2021-11-04T01:00:00.000+00:00',
       userLoanInstallments: [],
       createLoanInstallment: false,
       amount: null,
       valid: false,
       loading: false,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      dateDialog: false,
     }
   },
   created() {
@@ -138,6 +181,10 @@ export default {
         groupId: this.$route.params.group,
         userId: this.$route.params.user,
         loanId: this.$route.params.loan,
+        createDate: this.$moment(this.date)
+          .startOf('day')
+          .add(10, 'hours')
+          .toDate(),
         amount: this.amount,
       })
       if (loanInstallment) {
@@ -146,6 +193,7 @@ export default {
       if (loanInstallment.data.status === 'success') {
         this.loading = false
         this.createLoanInstallment = false
+        this.$refs.form.reset()
         await this.getAllUserLoanInstallments()
       }
       this.loading = false

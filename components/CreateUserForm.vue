@@ -58,6 +58,40 @@
             counter
             clearable
           ></v-text-field>
+          <v-dialog
+            ref="dialog"
+            v-model="dateDialog"
+            :return-value.sync="date"
+            persistent
+            width="290px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                :value="date"
+                label="Select Join Date*"
+                prepend-icon="mdi-calendar"
+                readonly
+                required
+                :rules="[(date) => !!date || 'join date is required']"
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text outlined color="primary" @click="dateDialog = false">
+                Cancel
+              </v-btn>
+              <v-btn
+                text
+                outlined
+                color="primary"
+                @click="$refs.dialog.save(date)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
         </v-card-text>
       </v-form>
       <v-card-actions>
@@ -100,6 +134,10 @@ export default {
       address: null,
       phone: null,
       alternativePhone: null,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      dateDialog: false,
     }
   },
   methods: {
@@ -111,7 +149,12 @@ export default {
         address: this.address,
         phone: this.phone * 1,
         alternativePhone: this.alternativePhone * 1,
+        joinDate: this.$moment(this.date)
+          .startOf('day')
+          .add(10, 'hours')
+          .toDate(),
       })
+      this.$refs.form.reset()
     },
   },
 }
