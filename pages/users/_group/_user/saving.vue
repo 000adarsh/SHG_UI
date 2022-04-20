@@ -192,7 +192,7 @@ export default {
         amount: this.amount,
         createDate: this.$moment(this.date)
           .startOf('day')
-          .add(10, 'hours')
+          .add(6, 'hours')
           .toDate(),
       })
       if (saving) {

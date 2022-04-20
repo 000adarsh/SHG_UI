@@ -149,9 +149,9 @@ export default {
         address: this.address,
         phone: this.phone * 1,
         alternativePhone: this.alternativePhone * 1,
-        joinDate: this.$moment(this.date)
+        createDate: this.$moment(this.date)
           .startOf('day')
-          .add(10, 'hours')
+          .add(6, 'hours')
           .toDate(),
       })
       this.$refs.form.reset()
