@@ -142,6 +142,9 @@ const createUserLoanInstallment = (payload) => {
 const getAllUsersGroupLoanInstallments = (payload) => {
   return apiClient.post('/loanInstallments/group', payload)
 }
+const deleteUserLoanInstallment = (payload) => {
+  return apiClient.put('/loanInstallments', payload)
+}
 
 export default {
   setAuthHeader,
@@ -182,4 +185,5 @@ export default {
   getUserLoanDetails,
   createUserLoanInstallment,
   getAllUsersGroupLoanInstallments,
+  deleteUserLoanInstallment,
 }

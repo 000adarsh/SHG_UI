@@ -126,7 +126,12 @@
           </td>
           <td>{{ installment ? installment.amount : '' }}</td>
           <td>
-            <v-btn icon outlined small color="error"
+            <v-btn
+              icon
+              outlined
+              small
+              color="error"
+              @click="deleteUserLoanInstallment(installment.id)"
               ><v-icon>mdi-delete-forever</v-icon></v-btn
             >
           </td>
@@ -160,6 +165,21 @@ export default {
     this.getAllUserLoanInstallments()
   },
   methods: {
+    async deleteUserLoanInstallment(id) {
+      const loanInstallment = await FetchService.deleteUserLoanInstallment({
+        loanInstallmentId: id,
+        groupId: this.$route.params.group,
+        userId: this.$route.params.user,
+        loanId: this.$route.params.loan,
+      })
+      if (loanInstallment) {
+        this.$root.$emit('showNotification', loanInstallment)
+      }
+      if (loanInstallment.data.status === 'success') {
+        await this.getAllUserLoanInstallments()
+      }
+    },
+
     async getAllUserLoanInstallments() {
       const userLoanInstallments =
         await FetchService.getAllUserLoanInstallments({
@@ -183,7 +203,7 @@ export default {
         loanId: this.$route.params.loan,
         createDate: this.$moment(this.date)
           .startOf('day')
-          .add(10, 'hours')
+          .add(6, 'hours')
           .toDate(),
         amount: this.amount,
       })
