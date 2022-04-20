@@ -7,7 +7,9 @@
     </div>
 
     <v-card-actions class="px-0">
-      <v-btn text outlined color="error">delete loan</v-btn>
+      <v-btn text outlined color="error" @click="deleteUserLoan"
+        >delete loan</v-btn
+      >
       <v-spacer></v-spacer>
       <v-card
         outlined
@@ -133,6 +135,21 @@ export default {
     await this.getAllUserLoanInstallments()
   },
   methods: {
+    async deleteUserLoan() {
+      const loan = await FetchService.deleteUserLoan({
+        groupId: this.$route.params.group,
+        userId: this.$route.params.user,
+        loanId: this.$route.params.loan,
+      })
+      if (loan) {
+        this.$root.$emit('showNotification', loan)
+      }
+      if (loan.data.status === 'success') {
+        this.$router.replace(
+          `/users/${this.$route.params.group}/${this.$route.params.user}/loan?name=${this.$route.query.name}`
+        )
+      }
+    },
     async getUserLoanDetails() {
       const loan = await FetchService.getUserLoanDetails({
         groupId: this.$route.params.group,
