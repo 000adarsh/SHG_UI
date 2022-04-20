@@ -97,7 +97,7 @@
             <tr>
               <td>Create Date</td>
               <td>
-                {{ $moment(user.joinDate).format('DD MMM YYYY hh:mm:ss a') }}
+                {{ $moment(user.createDate).format('DD MMM YYYY hh:mm:ss a') }}
               </td>
             </tr>
             <tr>
