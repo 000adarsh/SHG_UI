@@ -118,6 +118,9 @@ const getAllUserSavings = (payload) => {
 const createUserSaving = (payload) => {
   return apiClient.post('/savings', payload)
 }
+const deleteUserSaving = (payload) => {
+  return apiClient.put('/savings', payload)
+}
 const getAllUsersGroupSavings = (payload) => {
   return apiClient.post('/savings/group', payload)
 }
@@ -180,6 +183,7 @@ export default {
   deleteUser,
   getAllUserSavings,
   createUserSaving,
+  deleteUserSaving,
   getAllUsersGroupSavings,
   getAllUserLoans,
   createUserLoan,
