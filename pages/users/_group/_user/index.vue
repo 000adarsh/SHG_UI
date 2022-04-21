@@ -229,7 +229,7 @@ export default {
       if (user.data.status === 'success') {
         this.deleteLoading = false
         this.deleteUserForm = false
-        // TODO: send back
+        this.$router.replace(`/users/${this.$route.params.group}`)
       }
       this.deleteLoading = false
     },
