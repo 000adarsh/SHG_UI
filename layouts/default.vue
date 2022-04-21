@@ -20,7 +20,7 @@
       <template #append>
         <div class="pa-2 d-flex justify-space-between">
           <v-btn color="primary" text outlined @click="changeTheme">
-            {{ $vuetify.theme.isDark ? 'Dark' : 'Light' }}
+            {{ $vuetify.theme.isDark ? 'Light' : 'Dark' }}
           </v-btn>
           <v-btn v-if="isLogin" color="error" text outlined @click="logOut">
             Logout
