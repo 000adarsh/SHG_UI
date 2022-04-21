@@ -6,7 +6,10 @@
       </h1>
     </div>
 
-    <v-card-actions>
+    <v-card-actions class="px-0">
+      <v-btn text outlined color="error" @click="deleteUserLoan"
+        >delete loan</v-btn
+      >
       <v-spacer></v-spacer>
       <v-card
         outlined
@@ -36,7 +39,7 @@
         <tr>
           <td>Loan Created Date</td>
           <td>
-            {{ $moment(loan.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
+            {{ $moment(loan.createDate).format('DD MMM YYYY hh:mm:ss a') }}
           </td>
         </tr>
         <tr>
@@ -132,6 +135,21 @@ export default {
     await this.getAllUserLoanInstallments()
   },
   methods: {
+    async deleteUserLoan() {
+      const loan = await FetchService.deleteUserLoan({
+        groupId: this.$route.params.group,
+        userId: this.$route.params.user,
+        loanId: this.$route.params.loan,
+      })
+      if (loan) {
+        this.$root.$emit('showNotification', loan)
+      }
+      if (loan.data.status === 'success') {
+        this.$router.replace(
+          `/users/${this.$route.params.group}/${this.$route.params.user}/loan?name=${this.$route.query.name}`
+        )
+      }
+    },
     async getUserLoanDetails() {
       const loan = await FetchService.getUserLoanDetails({
         groupId: this.$route.params.group,
@@ -144,7 +162,7 @@ export default {
       if (loan.data.status === 'success') {
         this.loan = loan.data.loan
         this.dateMaker({
-          loanStartDate: this.loan.createdAt,
+          loanStartDate: this.loan.createDate,
           currentDate: Date.now(),
         })
       }
@@ -214,7 +232,7 @@ export default {
       this.dates.forEach((e) => {
         let countInstallemts = 0
         this.userLoanInstallments.forEach((l) => {
-          const time = parseInt(Date.parse(l.createdAt) * 0.001)
+          const time = parseInt(Date.parse(l.createDate) * 0.001)
           if (time > e.startDate && time <= e.endDate) {
             countInstallemts += l.amount
           }

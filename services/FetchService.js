@@ -118,6 +118,9 @@ const getAllUserSavings = (payload) => {
 const createUserSaving = (payload) => {
   return apiClient.post('/savings', payload)
 }
+const deleteUserSaving = (payload) => {
+  return apiClient.put('/savings', payload)
+}
 const getAllUsersGroupSavings = (payload) => {
   return apiClient.post('/savings/group', payload)
 }
@@ -126,6 +129,9 @@ const getAllUserLoans = (payload) => {
 }
 const createUserLoan = (payload) => {
   return apiClient.post('/loans', payload)
+}
+const deleteUserLoan = (payload) => {
+  return apiClient.put('/loans', payload)
 }
 const getUserLoanDetails = (payload) => {
   return apiClient.post('/loans/loan', payload)
@@ -141,6 +147,9 @@ const createUserLoanInstallment = (payload) => {
 }
 const getAllUsersGroupLoanInstallments = (payload) => {
   return apiClient.post('/loanInstallments/group', payload)
+}
+const deleteUserLoanInstallment = (payload) => {
+  return apiClient.put('/loanInstallments', payload)
 }
 
 export default {
@@ -174,12 +183,15 @@ export default {
   deleteUser,
   getAllUserSavings,
   createUserSaving,
+  deleteUserSaving,
   getAllUsersGroupSavings,
   getAllUserLoans,
   createUserLoan,
+  deleteUserLoan,
   getAllUsersGroupLoans,
   getAllUserLoanInstallments,
   getUserLoanDetails,
   createUserLoanInstallment,
   getAllUsersGroupLoanInstallments,
+  deleteUserLoanInstallment,
 }

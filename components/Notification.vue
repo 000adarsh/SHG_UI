@@ -34,7 +34,7 @@ export default {
       snackbar: false,
       isSuccess: false,
       notifications: [],
-      timeout: 200000,
+      timeout: 2000,
     }
   },
   mounted() {

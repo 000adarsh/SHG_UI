@@ -18,7 +18,7 @@
       max-width="900px"
       ><v-container>
         <v-card>
-          <v-form v-model="valid" class="px-4">
+          <v-form ref="form" v-model="valid" class="px-4">
             <v-card-text class="py-0">
               <v-text-field
                 v-model="amount"
@@ -30,7 +30,46 @@
                     (!!amount && amount > 0) || 'Amount greater than 0 ',
                 ]"
                 clearable
-              ></v-text-field>
+              ></v-text-field
+              ><v-dialog
+                ref="dialog"
+                v-model="dateDialog"
+                :return-value.sync="date"
+                persistent
+                width="290px"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    :value="date"
+                    label="Select Join Date*"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    required
+                    :rules="[(date) => !!date || 'join date is required']"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" color="primary" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="dateDialog = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    outlined
+                    color="primary"
+                    @click="$refs.dialog.save(date)"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
             </v-card-text>
           </v-form>
           <v-card-actions>
@@ -79,15 +118,26 @@
             <th>Creater</th>
             <th>Create Date</th>
             <th>Amount</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(saving, i) in savings" :key="i">
             <td class="text-capitalize">{{ saving.createdBy.name }}</td>
             <td class="px-1">
-              {{ $moment(saving.createdAt).format('Do MMM YYYY, h:mm:ss a') }}
+              {{ $moment(saving.createDate).format('Do MMM YYYY, h:mm:ss a') }}
             </td>
             <td>{{ saving.amount }}</td>
+            <td>
+              <v-btn
+                text
+                outlined
+                icon
+                color="error"
+                @click="deleteUserSaving(saving.id)"
+                ><v-icon>mdi-delete-forever</v-icon></v-btn
+              >
+            </td>
           </tr>
         </tbody>
       </v-simple-table>
@@ -111,43 +161,30 @@ export default {
       dueSaving: null,
       groupStartDate: null,
       groupSavingAmount: null,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      dateDialog: false,
     }
   },
-  watch: {
-    groupStartDate(oldDate, newDate) {
-      if (
-        this.groupStartDate &&
-        this.savings.length &&
-        this.groupSavingAmount
-      ) {
-        this.getDueSaving()
-      }
-    },
-    savings(oldSaving, newSaving) {
-      if (
-        this.groupStartDate &&
-        this.savings.length &&
-        this.groupSavingAmount
-      ) {
-        this.getDueSaving()
-      }
-    },
-    groupSavingAmount(oldAmount, newAmount) {
-      if (
-        this.groupStartDate &&
-        this.savings.length &&
-        this.groupSavingAmount
-      ) {
-        this.getDueSaving()
-      }
-    },
-  },
   created() {
-    this.getAllUserSavings()
     this.getUsergroup()
   },
 
   methods: {
+    async deleteUserSaving(id) {
+      const saving = await FetchService.deleteUserSaving({
+        savingId: id,
+        userId: this.$route.params.user,
+        groupId: this.$route.params.group,
+      })
+      if (saving) {
+        this.$root.$emit('showNotification', saving)
+      }
+      if (saving.data.status === 'success') {
+        await this.getAllUserSavings()
+      }
+    },
     async getUsergroup() {
       const group = await FetchService.getGroup({
         groupId: this.$route.params.group,
@@ -155,6 +192,7 @@ export default {
       if (group.data.status === 'success') {
         this.groupStartDate = group.data.group.startDate
         this.groupSavingAmount = group.data.group.savingAmount
+        await this.getAllUserSavings()
       }
     },
     async getAllUserSavings() {
@@ -167,6 +205,7 @@ export default {
       }
       if (savings.data.status === 'success') {
         this.savings = savings.data.savings
+        this.getDueSaving()
       }
     },
     async createUserSaving() {
@@ -175,14 +214,18 @@ export default {
         userId: this.$route.params.user,
         groupId: this.$route.params.group,
         amount: this.amount,
+        createDate: this.$moment(this.date)
+          .startOf('day')
+          .add(6, 'hours')
+          .toDate(),
       })
       if (saving) {
         this.$root.$emit('showNotification', saving)
       }
       if (saving.data.status === 'success') {
         this.loading = false
-        this.amount = null
         this.addUserSaving = false
+        this.$refs.form.reset()
         await this.getAllUserSavings()
       }
       this.loading = false

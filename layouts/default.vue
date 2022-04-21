@@ -92,6 +92,7 @@ export default {
     }
   },
   created() {
+    this.findTheme()
     FetchService.setAuthHeader()
     this.updateLoginStatus()
   },
@@ -99,8 +100,22 @@ export default {
     this.updateLoginStatus()
   },
   methods: {
+    findTheme() {
+      if (localStorage.theme === 'dark') {
+        this.$vuetify.theme.dark = true
+      }
+      if (localStorage.theme === 'light') {
+        this.$vuetify.theme.dark = false
+      }
+    },
     changeTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.isDark
+      if (localStorage.theme === 'dark') {
+        localStorage.theme = 'light'
+        this.$vuetify.theme.dark = false
+      } else {
+        localStorage.theme = 'dark'
+        this.$vuetify.theme.dark = true
+      }
     },
     logOut() {
       deleteCookie('token')

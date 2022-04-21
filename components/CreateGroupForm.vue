@@ -60,14 +60,14 @@
             <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Picker in dialog"
+                label="Select Date"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" scrollable>
+            <v-date-picker v-model="date" color="primary" scrollable>
               <v-spacer></v-spacer>
               <v-btn
                 text
@@ -122,7 +122,6 @@ export default {
   },
   data() {
     return {
-      menu: false,
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
@@ -140,9 +139,13 @@ export default {
         name: this.name,
         address: this.address,
         savingAmount: this.savingAmount * 1,
-        startDate: this.$moment(this.date).startOf('day').toDate(),
+        startDate: this.$moment(this.date)
+          .startOf('day')
+          .utc('+05:30')
+          .toDate(),
         loanInterestPercentage: this.loanInterestPercentage * 1,
       })
+      this.$refs.form.reset()
     },
   },
 }

@@ -2,7 +2,7 @@
   <div>
     <v-card-actions
       ><v-btn
-        v-if="employeeGroups.length && allGroups.length"
+        v-if="allGroupfind && myGroupfind"
         text
         outlined
         color="error"
@@ -10,7 +10,7 @@
         >Remove employee</v-btn
       ><v-spacer></v-spacer
       ><v-btn
-        v-if="allGroups.length"
+        v-if="allGroupfind && myGroupfind"
         text
         outlined
         color="primary"
@@ -24,7 +24,8 @@
       persistent
       max-width="900px"
       ><RemoveEmployeeFromGroup
-        :data="employeeGroups"
+        :employee-group="employeeGroups"
+        :all-group="allGroups"
         :loading="removeLoading"
         @closeDialog="
           () => {
@@ -39,7 +40,8 @@
       persistent
       max-width="900px"
       ><AddEmployeeToGroupForm
-        :data="allGroups"
+        :employee-group="employeeGroups"
+        :all-group="allGroups"
         :loading="addLoading"
         @closeDialog="
           () => {
@@ -81,6 +83,8 @@ export default {
       addEmployeeToGroupForm: false,
       removeEmployeeFromGroupForm: false,
       removeLoading: false,
+      allGroupfind: false,
+      myGroupfind: false,
     }
   },
   created() {
@@ -129,6 +133,7 @@ export default {
       const groups = await FetchService.getAllGroups()
       if (groups.data.status === 'success') {
         this.allGroups = groups.data.groups
+        this.allGroupfind = true
       }
     },
     async getEmployeeGroups() {
@@ -140,6 +145,7 @@ export default {
       }
       if (group.data.status === 'success') {
         this.employeeGroups = group.data.groups
+        this.myGroupfind = true
       }
     },
   },
