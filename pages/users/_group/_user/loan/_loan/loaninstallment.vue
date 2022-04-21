@@ -57,7 +57,7 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" scrollable>
+                <v-date-picker v-model="date" color="primary" scrollable>
                   <v-spacer></v-spacer>
                   <v-btn
                     text
