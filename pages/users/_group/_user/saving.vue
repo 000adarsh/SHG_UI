@@ -18,7 +18,7 @@
       max-width="900px"
       ><v-container>
         <v-card>
-          <v-form v-model="valid" class="px-4">
+          <v-form ref="form" v-model="valid" class="px-4">
             <v-card-text class="py-0">
               <v-text-field
                 v-model="amount"
@@ -50,7 +50,7 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" scrollable>
+                <v-date-picker v-model="date" color="primary" scrollable>
                   <v-spacer></v-spacer>
                   <v-btn
                     text
@@ -118,6 +118,7 @@
             <th>Creater</th>
             <th>Create Date</th>
             <th>Amount</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -127,6 +128,16 @@
               {{ $moment(saving.createDate).format('Do MMM YYYY, h:mm:ss a') }}
             </td>
             <td>{{ saving.amount }}</td>
+            <td>
+              <v-btn
+                text
+                outlined
+                icon
+                color="error"
+                @click="deleteUserSaving(saving.id)"
+                ><v-icon>mdi-delete-forever</v-icon></v-btn
+              >
+            </td>
           </tr>
         </tbody>
       </v-simple-table>
@@ -161,6 +172,19 @@ export default {
   },
 
   methods: {
+    async deleteUserSaving(id) {
+      const saving = await FetchService.deleteUserSaving({
+        savingId: id,
+        userId: this.$route.params.user,
+        groupId: this.$route.params.group,
+      })
+      if (saving) {
+        this.$root.$emit('showNotification', saving)
+      }
+      if (saving.data.status === 'success') {
+        await this.getAllUserSavings()
+      }
+    },
     async getUsergroup() {
       const group = await FetchService.getGroup({
         groupId: this.$route.params.group,
