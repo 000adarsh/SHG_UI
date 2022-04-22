@@ -26,7 +26,7 @@
             <td class="text-capitalize">{{ user ? user.fatherName : '' }}</td>
             <td class="text-capitalize">{{ user ? user.husbandName : '' }}</td>
             <td class="px-1">
-              {{ $moment(user.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
+              {{ $moment(user.createDate).format('DD MMM YYYY hh:mm:ss a') }}
             </td>
             <td class="text-capitalize">{{ user.createdBy.name }}</td>
           </tr>

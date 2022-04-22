@@ -87,7 +87,7 @@
               <td>{{ loanInstallment.userId.name }}</td>
               <td class="px-1">
                 {{
-                  $moment(loanInstallment.createdAt).format(
+                  $moment(loanInstallment.createDate).format(
                     'Do MMM YYYY, h:mm:ss a'
                   )
                 }}
