@@ -7,7 +7,7 @@
     </div>
 
     <v-card-actions class="px-0">
-      <v-btn text outlined color="error" @click="deleteUserLoan"
+      <v-btn text outlined color="error" @click="deleteUserLoanPopup = true"
         >delete loan</v-btn
       >
       <v-spacer></v-spacer>
@@ -21,6 +21,27 @@
         ><h3 class="pa-2 primary--text">Loan Installment</h3></v-card
       >
     </v-card-actions>
+    <v-dialog
+      v-if="deleteUserLoanPopup"
+      :value="deleteUserLoanPopup"
+      persistent
+      max-width="600"
+      ><v-card
+        ><v-card-title>Are you sure to want to delete this loan?</v-card-title
+        ><v-card-actions
+          ><v-spacer></v-spacer
+          ><v-btn
+            text
+            outlined
+            color="success"
+            @click="deleteUserLoanPopup = false"
+            >no</v-btn
+          ><v-btn text outlined color="error" @click="deleteUserLoan"
+            >yes</v-btn
+          ></v-card-actions
+        ></v-card
+      >
+    </v-dialog>
     <div class="pt-3 text-center">
       <h3>User Loan Details</h3>
       <v-divider></v-divider>
@@ -54,19 +75,13 @@
           <td>Loan Reason</td>
           <td>{{ loan.note }}</td>
         </tr>
+        <tr>
+          <td>Loan Status</td>
+          <td>{{ loan.isActive }}</td>
+        </tr>
       </tbody></v-simple-table
     >
     <v-divider></v-divider>
-    <!-- <h3>
-      Due -
-      {{
-        generatedLoanInstallmentData.length
-          ? generatedLoanInstallmentData[
-              generatedLoanInstallmentData.length - 1
-            ].d
-          : ''
-      }}
-    </h3> -->
     <div class="pt-3 text-center">
       <h3>User Loan Chart</h3>
       <v-divider></v-divider>
@@ -84,7 +99,7 @@
       </thead>
       <tbody>
         <tr v-for="(d, i) in generatedLoanInstallmentData" :key="i">
-          <td class="px-1">
+          <td class="pr-1">
             {{
               $moment
                 .unix(dates[i] ? dates[i].startDate : '')
@@ -117,6 +132,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      deleteUserLoanPopup: false,
       generatedLoanInstallmentData: [], // dont modify
       loan: null,
       months: [],
@@ -195,16 +211,20 @@ export default {
       let d = loanPrincipal + i
       for (let c = 0; filteredLoanInstallments.length > c; c++) {
         let newP
-        genI = p * loanInterestPercentage * 0.01
-        i = ri + genI
+        genI = Math.round(p * loanInterestPercentage * 0.01)
+        i = Math.round(ri + genI)
         if (genI > filteredLoanInstallments[c].amount) {
-          newP = p
+          newP = Math.round(p)
         } else {
-          newP = p - (filteredLoanInstallments[c].amount - i)
+          newP = Math.round(p - (filteredLoanInstallments[c].amount - i))
         }
-        s = filteredLoanInstallments[c].amount
-        d = p + i - s
+        s = Math.round(filteredLoanInstallments[c].amount)
+        d = Math.round(p + i - s)
         this.generatedLoanInstallmentData.push({ p, i, s, d, genI, ri })
+        if (d === 0) {
+          return
+          // TODO: send a request for loan inactive
+        }
         if (i > filteredLoanInstallments[c].amount) {
           ri = i - filteredLoanInstallments[c].amount
         } else {
@@ -233,7 +253,7 @@ export default {
         let countInstallemts = 0
         this.userLoanInstallments.forEach((l) => {
           const time = parseInt(Date.parse(l.createDate) * 0.001)
-          if (time > e.startDate && time <= e.endDate) {
+          if (time >= e.startDate && time <= e.endDate) {
             countInstallemts += l.amount
           }
         })
