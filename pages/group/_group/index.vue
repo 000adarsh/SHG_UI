@@ -186,10 +186,10 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/bankTransections?name=${group.name}`
+                `/group/${$route.params.group}/bankTransactions?name=${group.name}`
               )
             "
-            ><h1>Bank Transections</h1></v-card
+            ><h1>Bank Transactions</h1></v-card
           ></v-col
         >
       </v-row>
