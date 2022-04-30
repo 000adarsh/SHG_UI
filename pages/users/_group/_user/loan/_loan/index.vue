@@ -77,7 +77,7 @@
         </tr>
         <tr>
           <td>Loan Status</td>
-          <td>{{ loan.isActive }}</td>
+          <td>{{ loanStatus }}</td>
         </tr>
       </tbody></v-simple-table
     >
@@ -139,6 +139,7 @@ export default {
       dates: [],
       userLoanInstallments: [],
       filteredLoanInstallments: [],
+      loanStatus: true,
     }
   },
   watch: {
@@ -222,6 +223,7 @@ export default {
         d = Math.round(p + i - s)
         this.generatedLoanInstallmentData.push({ p, i, s, d, genI, ri })
         if (d <= 0) {
+          this.loanStatus = false
           return
           // TODO: send a request for loan inactive
         }
