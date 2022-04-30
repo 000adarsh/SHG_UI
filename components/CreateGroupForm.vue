@@ -60,7 +60,7 @@
             <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Select Date"
+                label="Create and Work Date"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -139,10 +139,7 @@ export default {
         name: this.name,
         address: this.address,
         savingAmount: this.savingAmount * 1,
-        startDate: this.$moment(this.date)
-          .startOf('day')
-          .utc('+05:30')
-          .toDate(),
+        startDate: this.$moment(this.date).startOf('day').toDate(),
         loanInterestPercentage: this.loanInterestPercentage * 1,
       })
       this.$refs.form.reset()
