@@ -30,7 +30,7 @@
           filled
           :rules="[
             (name) =>
-              (!!name && name.length > 4) || 'Name greater than 4 word ',
+              (!!name && name.length > 4) || 'Name greater than 5 word ',
           ]"
           required
           color="info"
@@ -67,7 +67,7 @@
           filled
           :rules="[
             (address) =>
-              (!!address && address.length > 2) ||
+              (!!address && address.length > 4) ||
               'Address is greater than 5 word ',
           ]"
           required

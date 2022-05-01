@@ -77,7 +77,7 @@
         </tr>
         <tr>
           <td>Loan Status</td>
-          <td>{{ loan.isActive }}</td>
+          <td>{{ loanStatus }}</td>
         </tr>
       </tbody></v-simple-table
     >
@@ -139,6 +139,7 @@ export default {
       dates: [],
       userLoanInstallments: [],
       filteredLoanInstallments: [],
+      loanStatus: true,
     }
   },
   watch: {
@@ -221,7 +222,8 @@ export default {
         s = Math.round(filteredLoanInstallments[c].amount)
         d = Math.round(p + i - s)
         this.generatedLoanInstallmentData.push({ p, i, s, d, genI, ri })
-        if (d === 0) {
+        if (d <= 0) {
+          this.loanStatus = false
           return
           // TODO: send a request for loan inactive
         }
@@ -240,12 +242,12 @@ export default {
       let newStartDate = loanStartDate
 
       while (startDate < j) {
-        const endDate = this.$moment(newStartDate).add(1, 'M').unix()
+        const endDate = this.$moment(newStartDate).add(1, 'M').unix() - 1
         this.dates.push({ startDate, endDate })
         startDate +=
           this.$moment(newStartDate).add(1, 'M').unix() -
           this.$moment(newStartDate).unix()
-        newStartDate = this.$moment.unix(endDate).format()
+        newStartDate = this.$moment.unix(endDate + 1).format()
       }
     },
     filterInstallments() {

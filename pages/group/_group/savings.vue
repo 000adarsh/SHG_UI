@@ -86,7 +86,9 @@
               <td>{{ saving.createdBy.name }}</td>
               <td>{{ saving.userId.name }}</td>
               <td class="px-1">
-                {{ $moment(saving.createdAt).format('Do MMM YYYY, h:mm:ss a') }}
+                {{
+                  $moment(saving.createDate).format('Do MMM YYYY, h:mm:ss a')
+                }}
               </td>
               <td>{{ saving.amount }}</td>
             </tr>

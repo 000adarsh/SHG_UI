@@ -49,16 +49,7 @@
               <td>Group Loan Interest</td>
               <td>{{ group.loanInterestPercentage }}</td>
             </tr>
-            <tr>
-              <td>Group Work StartDate</td>
-              <td>
-                {{
-                  $moment(group ? group.startDate : '').format(
-                    'DD MMM YYYY hh:mm:ss a'
-                  )
-                }}
-              </td>
-            </tr>
+
             <tr>
               <td>Creater</td>
               <td>{{ group.createdBy.name }}</td>
@@ -66,7 +57,11 @@
             <tr>
               <td>Create Date</td>
               <td>
-                {{ $moment(group.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
+                {{
+                  $moment(group ? group.startDate : '').format(
+                    'DD MMM YYYY hh:mm:ss a'
+                  )
+                }}
               </td>
             </tr>
             <tr>
@@ -186,10 +181,10 @@
             class="pa-2 text-center"
             @click="
               $router.push(
-                `/group/${$route.params.group}/bankTransections?name=${group.name}`
+                `/group/${$route.params.group}/bankTransactions?name=${group.name}`
               )
             "
-            ><h1>Bank Transections</h1></v-card
+            ><h1>Bank Transactions</h1></v-card
           ></v-col
         >
       </v-row>
