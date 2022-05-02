@@ -115,8 +115,8 @@
           </td>
           <td>{{ d.p }}</td>
           <td>{{ d.i }}</td>
-          <td>{{ d.s }}</td>
-          <td>{{ d.d }}</td>
+          <td>{{ d.installment }}</td>
+          <td>{{ d.due }}</td>
         </tr>
       </tbody>
     </v-simple-table>
@@ -206,23 +206,30 @@ export default {
     }) {
       let p = loanPrincipal
       let genI = 0
-      let ri = 0
+      let ri = 0 // remaining interest
       let i = 0
-      let s = 0
-      let d = loanPrincipal + i
+      let installment = 0
+      let due = loanPrincipal + i
       for (let c = 0; filteredLoanInstallments.length > c; c++) {
         let newP
         genI = Math.round(p * loanInterestPercentage * 0.01)
         i = Math.round(ri + genI)
-        if (genI > filteredLoanInstallments[c].amount) {
+        if (i > filteredLoanInstallments[c].amount) {
           newP = Math.round(p)
         } else {
           newP = Math.round(p - (filteredLoanInstallments[c].amount - i))
         }
-        s = Math.round(filteredLoanInstallments[c].amount)
-        d = Math.round(p + i - s)
-        this.generatedLoanInstallmentData.push({ p, i, s, d, genI, ri })
-        if (d <= 0) {
+        installment = Math.round(filteredLoanInstallments[c].amount)
+        due = Math.round(p + i - installment)
+        this.generatedLoanInstallmentData.push({
+          p,
+          i,
+          installment,
+          due,
+          genI,
+          ri,
+        })
+        if (due <= 0) {
           this.loanStatus = false
           return
           // TODO: send a request for loan inactive
