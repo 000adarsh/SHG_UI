@@ -13,7 +13,7 @@
             required
             :rules="[
               (name) =>
-                (!!name && name.length > 2) || 'Name greater than 4 character',
+                (!!name && name.length > 2) || 'Name greater than 2 character',
             ]"
             clearable
           ></v-text-field>
@@ -23,8 +23,8 @@
             required
             :rules="[
               (fatherName) =>
-                (!!fatherName && fatherName.length > 4) ||
-                'Father Name greater than 4 character',
+                (!!fatherName && fatherName.length > 2) ||
+                'Father Name greater than 2 character',
             ]"
             clearable
           ></v-text-field>
@@ -42,6 +42,16 @@
           <v-text-field
             v-model="husbandName"
             label="Husband Name"
+            :rules="[
+              (husbandName) => {
+                if (husbandName)
+                  return (
+                    (!!husbandName && husbandName.length > 2) ||
+                    'Father Name greater than 2 character'
+                  )
+                else return true
+              },
+            ]"
             clearable
           ></v-text-field>
           <v-text-field
