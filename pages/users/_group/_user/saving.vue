@@ -50,7 +50,20 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" color="primary" scrollable>
+                <v-date-picker
+                  v-model="date"
+                  :active-picker.sync="activePicker"
+                  :max="
+                    new Date(
+                      Date.now() - new Date().getTimezoneOffset() * 60000
+                    )
+                      .toISOString()
+                      .substr(0, 10)
+                  "
+                  min="2000-01-01"
+                  color="primary"
+                  @change="save"
+                >
                   <v-spacer></v-spacer>
                   <v-btn
                     text
@@ -165,13 +178,22 @@ export default {
         .toISOString()
         .substr(0, 10),
       dateDialog: false,
+      activePicker: null,
     }
+  },
+  watch: {
+    dateDialog(val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
   },
   created() {
     this.getUsergroup()
   },
 
   methods: {
+    save(date) {
+      this.$refs.dialog.save(date)
+    },
     async deleteUserSaving(id) {
       const saving = await FetchService.deleteUserSaving({
         savingId: id,
