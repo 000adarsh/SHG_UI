@@ -59,7 +59,20 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" color="primary" scrollable>
+                <v-date-picker
+                  v-model="date"
+                  :active-picker.sync="activePicker"
+                  :max="
+                    new Date(
+                      Date.now() - new Date().getTimezoneOffset() * 60000
+                    )
+                      .toISOString()
+                      .substr(0, 10)
+                  "
+                  min="2000-01-01"
+                  color="primary"
+                  @change="save"
+                >
                   <v-spacer></v-spacer>
                   <v-btn
                     text
@@ -144,12 +157,21 @@ export default {
         .toISOString()
         .substr(0, 10),
       dateDialog: false,
+      activePicker: null,
     }
+  },
+  watch: {
+    dateDialog(val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
   },
   async created() {
     await this.getAllUserLoans()
   },
   methods: {
+    save(date) {
+      this.$refs.dialog.save(date)
+    },
     async getAllUserLoans() {
       const loans = await FetchService.getAllUserLoans({
         userId: this.$route.params.user,
