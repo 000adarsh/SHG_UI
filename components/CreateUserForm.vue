@@ -13,7 +13,7 @@
             required
             :rules="[
               (name) =>
-                (!!name && name.length > 2) || 'Name greater than 4 character',
+                (!!name && name.length > 2) || 'Name greater than 2 character',
             ]"
             clearable
           ></v-text-field>
@@ -23,8 +23,8 @@
             required
             :rules="[
               (fatherName) =>
-                (!!fatherName && fatherName.length > 4) ||
-                'Father Name greater than 4 character',
+                (!!fatherName && fatherName.length > 2) ||
+                'Father Name greater than 2 character',
             ]"
             clearable
           ></v-text-field>
@@ -42,6 +42,16 @@
           <v-text-field
             v-model="husbandName"
             label="Husband Name"
+            :rules="[
+              (husbandName) => {
+                if (husbandName)
+                  return (
+                    (!!husbandName && husbandName.length > 2) ||
+                    'Father Name greater than 2 character'
+                  )
+                else return true
+              },
+            ]"
             clearable
           ></v-text-field>
           <v-text-field
@@ -77,7 +87,18 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" color="primary" scrollable>
+            <v-date-picker
+              v-model="date"
+              :active-picker.sync="activePicker"
+              :max="
+                new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                  .toISOString()
+                  .substr(0, 10)
+              "
+              min="2000-01-01"
+              color="primary"
+              @change="save"
+            >
               <v-spacer></v-spacer>
               <v-btn text outlined color="primary" @click="dateDialog = false">
                 Cancel
@@ -138,9 +159,18 @@ export default {
         .toISOString()
         .substr(0, 10),
       dateDialog: false,
+      activePicker: null,
     }
   },
+  watch: {
+    dateDialog(val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+  },
   methods: {
+    save(date) {
+      this.$refs.dialog.save(date)
+    },
     createGroup() {
       this.$emit('submit', {
         name: this.name,
@@ -154,7 +184,6 @@ export default {
           .add(6, 'hours')
           .toDate(),
       })
-      this.$refs.form.reset()
     },
   },
 }

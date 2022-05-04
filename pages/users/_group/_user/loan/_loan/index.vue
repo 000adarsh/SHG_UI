@@ -77,7 +77,7 @@
         </tr>
         <tr>
           <td>Loan Status</td>
-          <td>{{ loanStatus }}</td>
+          <td>{{ loan.isActive }}</td>
         </tr>
       </tbody></v-simple-table
     >
@@ -139,7 +139,6 @@ export default {
       dates: [],
       userLoanInstallments: [],
       filteredLoanInstallments: [],
-      loanStatus: true,
     }
   },
   watch: {
@@ -199,7 +198,7 @@ export default {
           userLoanInstallments.data.userLoanInstallments
       }
     },
-    generateLoanData({
+    async generateLoanData({
       loanInterestPercentage,
       loanPrincipal,
       filteredLoanInstallments,
@@ -229,10 +228,16 @@ export default {
           genI,
           ri,
         })
+
         if (due <= 0) {
-          this.loanStatus = false
+          if (this.loan.isActive) {
+            await FetchService.updateUserLoanStatus({
+              groupId: this.$route.params.group,
+              loanId: this.$route.params.loan,
+              isActive: false,
+            })
+          }
           return
-          // TODO: send a request for loan inactive
         }
         if (i > filteredLoanInstallments[c].amount) {
           ri = i - filteredLoanInstallments[c].amount
@@ -240,6 +245,15 @@ export default {
           ri = 0
         }
         p = newP
+      }
+      if (due >= 0) {
+        if (!this.loan.isActive) {
+          await FetchService.updateUserLoanStatus({
+            groupId: this.$route.params.group,
+            loanId: this.$route.params.loan,
+            isActive: true,
+          })
+        }
       }
     },
 

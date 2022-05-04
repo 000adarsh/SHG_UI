@@ -58,6 +58,18 @@
             counter
             clearable
           ></v-text-field>
+          <v-text-field
+            v-model="note"
+            label="Note"
+            type="String"
+            counter="100"
+            clearable
+          ></v-text-field>
+          <v-select
+            v-model="isActive"
+            label=" Active Status"
+            :items="[true, false]"
+          ></v-select>
         </v-card-text>
       </v-form>
       <v-card-actions>
@@ -106,6 +118,8 @@ export default {
       address: null,
       phone: null,
       alternativePhone: null,
+      note: null,
+      isActive: null,
     }
   },
   mounted() {
@@ -115,6 +129,8 @@ export default {
     this.address = this.user?.address
     this.phone = this.user?.phone
     this.alternativePhone = this.user?.alternativePhone
+    this.note = this.user?.note
+    this.isActive = this.user?.isActive
   },
   methods: {
     createGroup() {
@@ -125,6 +141,8 @@ export default {
         address: this.address,
         phone: this.phone * 1,
         alternativePhone: this.alternativePhone * 1,
+        note: this.note,
+        isActive: this.isActive,
       })
     },
   },

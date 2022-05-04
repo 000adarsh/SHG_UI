@@ -9,7 +9,7 @@
         <v-card-text class="py-0">
           <v-text-field
             v-model="name"
-            label="Name"
+            label="Name*"
             required
             :rules="[
               (name) =>
@@ -19,7 +19,7 @@
           ></v-text-field>
           <v-text-field
             v-model="address"
-            label="Address"
+            label="Address*"
             required
             :rules="[
               (address) =>
@@ -30,7 +30,7 @@
           ></v-text-field>
           <v-text-field
             v-model="savingAmount"
-            label=" Group Saving Amount"
+            label=" Group Saving Amount*"
             type="number"
             required
             :rules="[
@@ -46,13 +46,13 @@
                 (loanInterestPercentage > 0 && loanInterestPercentage <= 100) ||
                 'Interest Percentage between 1 to 100 ',
             ]"
-            label="Group Loan Interest"
+            label="Group Loan Interest*"
             required
             clearable
           ></v-text-field>
           <v-dialog
             ref="dialog"
-            v-model="startDateDialog"
+            v-model="dateDialog"
             :return-value.sync="date"
             persistent
             width="290px"
@@ -60,21 +60,27 @@
             <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Create and Work Date"
+                label="Create and Work Date*"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" color="primary" scrollable>
+            <v-date-picker
+              v-model="date"
+              :active-picker.sync="activePicker"
+              :max="
+                new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                  .toISOString()
+                  .substr(0, 10)
+              "
+              min="2000-01-01"
+              color="primary"
+              @change="save"
+            >
               <v-spacer></v-spacer>
-              <v-btn
-                text
-                outlined
-                color="primary"
-                @click="startDateDialog = false"
-              >
+              <v-btn text outlined color="primary" @click="dateDialog = false">
                 Cancel
               </v-btn>
               <v-btn
@@ -125,7 +131,8 @@ export default {
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
-      startDateDialog: false,
+      dateDialog: false,
+      activePicker: null,
       valid: false,
       name: null,
       address: null,
@@ -133,7 +140,15 @@ export default {
       loanInterestPercentage: null,
     }
   },
+  watch: {
+    dateDialog(val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+  },
   methods: {
+    save(date) {
+      this.$refs.dialog.save(date)
+    },
     createGroup() {
       this.$emit('submit', {
         name: this.name,
@@ -142,7 +157,6 @@ export default {
         startDate: this.$moment(this.date).startOf('day').toDate(),
         loanInterestPercentage: this.loanInterestPercentage * 1,
       })
-      this.$refs.form.reset()
     },
   },
 }

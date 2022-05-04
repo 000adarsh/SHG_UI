@@ -52,14 +52,11 @@ const getEmployee = (payload) => {
 const updateEmployee = (payload) => {
   return apiClient.patch('/employees', payload)
 }
-const getMyGroups = () => {
-  return apiClient.get('/groups/employee')
+const getMyPermissions = (payload) => {
+  return apiClient.get('/employees/permission', payload)
 }
 const getEmployeeGroupPermissions = (payload) => {
   return apiClient.post('/employees/permission', payload)
-}
-const getMyPermissions = (payload) => {
-  return apiClient.get('/employees/permission', payload)
 }
 const addEmployeePermissions = (payload) => {
   return apiClient.patch('/employees/permission', payload)
@@ -70,14 +67,17 @@ const removeEmployeePermissions = (payload) => {
 const getEmployeeGroups = (payload) => {
   return apiClient.post('/employees/group', payload)
 }
+const getAllGroups = () => {
+  return apiClient.get('/groups')
+}
 const createGroup = (payload) => {
   return apiClient.post('/groups', payload)
 }
-const getGroup = (payload) => {
-  return apiClient.post('/groups/group', payload)
+const updateGroup = (payload) => {
+  return apiClient.patch('/groups', payload)
 }
-const getAllGroups = () => {
-  return apiClient.get('/groups')
+const getMyGroups = () => {
+  return apiClient.get('/groups/employee')
 }
 const addEmployeeToGroup = (payload) => {
   return apiClient.post('/groups/employee', payload)
@@ -94,23 +94,23 @@ const addEmployeeGroupPermissions = (payload) => {
 const removeEmployeeGroupPermissions = (payload) => {
   return apiClient.put('/groups/permission', payload)
 }
-const updateGroup = (payload) => {
-  return apiClient.patch('/groups', payload)
-}
-const getAllGroupUsers = (payload) => {
-  return apiClient.post('/users/group', payload)
+const getGroup = (payload) => {
+  return apiClient.post('/groups/group', payload)
 }
 const createUser = (payload) => {
   return apiClient.post('/users', payload)
-}
-const getUser = (payload) => {
-  return apiClient.post('/users/user', payload)
 }
 const updateUser = (payload) => {
   return apiClient.patch('/users', payload)
 }
 const deleteUser = (payload) => {
   return apiClient.put('/users', payload)
+}
+const getAllGroupUsers = (payload) => {
+  return apiClient.post('/users/group', payload)
+}
+const getUser = (payload) => {
+  return apiClient.post('/users/user', payload)
 }
 const getAllUserSavings = (payload) => {
   return apiClient.post('/savings/user', payload)
@@ -127,14 +127,17 @@ const getAllUsersGroupSavings = (payload) => {
 const getAllUserLoans = (payload) => {
   return apiClient.post('/loans/user', payload)
 }
+const getUserLoanDetails = (payload) => {
+  return apiClient.post('/loans/loan', payload)
+}
 const createUserLoan = (payload) => {
   return apiClient.post('/loans', payload)
 }
+const updateUserLoanStatus = (payload) => {
+  return apiClient.patch('/loans', payload)
+}
 const deleteUserLoan = (payload) => {
   return apiClient.put('/loans', payload)
-}
-const getUserLoanDetails = (payload) => {
-  return apiClient.post('/loans/loan', payload)
 }
 const getAllUsersGroupLoans = (payload) => {
   return apiClient.post('/loans/group', payload)
@@ -145,11 +148,11 @@ const getAllUserLoanInstallments = (payload) => {
 const createUserLoanInstallment = (payload) => {
   return apiClient.post('/loanInstallments', payload)
 }
-const getAllUsersGroupLoanInstallments = (payload) => {
-  return apiClient.post('/loanInstallments/group', payload)
-}
 const deleteUserLoanInstallment = (payload) => {
   return apiClient.put('/loanInstallments', payload)
+}
+const getAllUsersGroupLoanInstallments = (payload) => {
+  return apiClient.post('/loanInstallments/group', payload)
 }
 
 export default {
@@ -187,6 +190,7 @@ export default {
   getAllUsersGroupSavings,
   getAllUserLoans,
   createUserLoan,
+  updateUserLoanStatus,
   deleteUserLoan,
   getAllUsersGroupLoans,
   getAllUserLoanInstallments,
