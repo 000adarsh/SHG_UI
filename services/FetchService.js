@@ -133,6 +133,9 @@ const getUserLoanDetails = (payload) => {
 const createUserLoan = (payload) => {
   return apiClient.post('/loans', payload)
 }
+const updateUserLoanStatus = (payload) => {
+  return apiClient.patch('/loans', payload)
+}
 const deleteUserLoan = (payload) => {
   return apiClient.put('/loans', payload)
 }
@@ -187,6 +190,7 @@ export default {
   getAllUsersGroupSavings,
   getAllUserLoans,
   createUserLoan,
+  updateUserLoanStatus,
   deleteUserLoan,
   getAllUsersGroupLoans,
   getAllUserLoanInstallments,
