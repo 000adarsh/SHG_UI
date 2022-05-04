@@ -97,7 +97,7 @@
             <tr>
               <td>Create Date</td>
               <td>
-                {{ $moment(user.createDate).format('DD MMM YYYY hh:mm:ss a') }}
+                {{ $moment(user.createDate).format('DD MMM YYYY ') }}
               </td>
             </tr>
             <tr>
@@ -107,8 +107,12 @@
             <tr>
               <td>Update Date</td>
               <td>
-                {{ $moment(user.updatedAt).format('DD MMM YYYY hh:mm:ss a') }}
+                {{ $moment(user.updatedAt).format('DD MMM YYYY ') }}
               </td>
+            </tr>
+            <tr>
+              <td>Note</td>
+              <td>{{ user.note }}</td>
             </tr>
             <tr>
               <td>Active Status</td>
