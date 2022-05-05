@@ -16,8 +16,8 @@
           prepend-icon="mdi-lock"
           :rules="[
             (password) =>
-              (!!password && password.length >= 4) ||
-              'password is greater than 4 character',
+              (!!password && password.length >= 8) ||
+              'password is greater than 8 character',
           ]"
           type="text"
           outlined
@@ -31,8 +31,8 @@
           prepend-icon="mdi-lock"
           :rules="[
             (password) =>
-              (!!password && password.length >= 4) ||
-              'confirm password is greater than 4 character',
+              (!!password && password.length >= 8) ||
+              'password is greater than 8 character',
           ]"
           type="text"
           outlined
