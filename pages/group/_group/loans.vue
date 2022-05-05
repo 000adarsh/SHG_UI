@@ -43,7 +43,7 @@
               text
               outlined
               color="primary"
-              @click="$refs.dialog.save(date)"
+              @click="$refs.dialog.save(date) & getAllUsersGroupLoans()"
             >
               OK
             </v-btn>
@@ -114,22 +114,24 @@ export default {
       endDate: null,
     }
   },
-  created() {
-    this.change(this.date)
+  async created() {
+    await this.change(this.date)
+    await this.getAllUsersGroupLoans()
   },
   methods: {
     async change(x) {
       const startDate = await this.$moment(x)
         .startOf('month')
+        .add(new Date().getTimezoneOffset(), 'minutes')
         .utc('+00:00')
         .toDate()
       const endDate = await this.$moment(x)
         .endOf('month')
+        .add(new Date().getTimezoneOffset(), 'minutes')
         .utc('+00:00')
         .toDate()
       this.startDate = startDate
       this.endDate = endDate
-      this.getAllUsersGroupLoans()
     },
     async getAllUsersGroupLoans() {
       const loans = await FetchService.getAllUsersGroupLoans({
