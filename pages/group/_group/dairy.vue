@@ -80,9 +80,9 @@
         <v-simple-table
           ><thead>
             <tr>
-              <th>Create Date</th>
-              <th>Product Name</th>
-              <th>Product Cost</th>
+              <th>Date</th>
+              <th>Thing</th>
+              <th>Cost</th>
               <th>Purchase Place</th>
               <th>Creater</th>
               <th></th>
@@ -90,14 +90,14 @@
           </thead>
           <tbody>
             <tr v-for="(note, i) in notes" :key="i">
-              <td class="pr-1">
+              <td>
                 {{ $moment(note.createDate).format('DD MMM YYYY') }}
               </td>
               <td class="text-capitalize">{{ note.productName }}</td>
               <td>{{ note.productCost }}</td>
               <td class="text-capitalize">{{ note.purchasePlace }}</td>
               <td class="text-capitalize">{{ note.createdBy.name }}</td>
-              <td class="pl-1">
+              <td>
                 <v-btn
                   icon
                   outlined
@@ -143,16 +143,8 @@ export default {
   },
   methods: {
     async change(x) {
-      const startDate = await this.$moment(x)
-        .startOf('month')
-        .add(new Date().getTimezoneOffset(), 'minutes')
-        .utc('+00:00')
-        .toDate()
-      const endDate = await this.$moment(x)
-        .endOf('month')
-        .add(new Date().getTimezoneOffset(), 'minutes')
-        .utc('+00:00')
-        .toDate()
+      const startDate = await this.$moment(x).startOf('month').toDate()
+      const endDate = await this.$moment(x).endOf('month').toDate()
       this.startDate = startDate
       this.endDate = endDate
     },

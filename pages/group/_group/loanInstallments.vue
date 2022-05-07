@@ -127,16 +127,8 @@ export default {
   },
   methods: {
     async change(x) {
-      const startDate = await this.$moment(x)
-        .startOf('month')
-        .add(new Date().getTimezoneOffset(), 'minutes')
-        .utc('+00:00')
-        .toDate()
-      const endDate = await this.$moment(x)
-        .endOf('month')
-        .add(new Date().getTimezoneOffset(), 'minutes')
-        .utc('+00:00')
-        .toDate()
+      const startDate = await this.$moment(x).startOf('month').toDate()
+      const endDate = await this.$moment(x).endOf('month').toDate()
       this.startDate = startDate
       this.endDate = endDate
     },
