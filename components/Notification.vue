@@ -34,20 +34,23 @@ export default {
       snackbar: false,
       isSuccess: false,
       notifications: [],
-      timeout: 2000,
+      timeout: 5000,
     }
   },
   mounted() {
     this.$root.$on('showNotification', (a) => {
-      this.snackbar = true
-      this.notifications = []
-      this.isSuccess = false
-      if (a.data.status === 'success') {
-        this.isSuccess = true
-      }
-      this.notifications.push({
-        status: a.data.status,
-        message: a.data.message,
+      this.snackbar = false
+      process.nextTick(() => {
+        this.snackbar = true
+        this.notifications = []
+        this.isSuccess = false
+        if (a.data.status === 'success') {
+          this.isSuccess = true
+        }
+        this.notifications.push({
+          status: a.data.status,
+          message: a.data.message,
+        })
       })
     })
   },
