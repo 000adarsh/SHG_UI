@@ -233,7 +233,9 @@ export default {
       if (user.data.status === 'success') {
         this.deleteLoading = false
         this.deleteUserForm = false
-        this.$router.replace(`/users/${this.$route.params.group}`)
+        this.$router.replace(
+          `/users/${this.$route.params.group}?name=${this.$route.query.groupName}`
+        )
       }
       this.deleteLoading = false
     },
