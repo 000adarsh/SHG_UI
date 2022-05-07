@@ -31,22 +31,58 @@
       <h3 class="text-center">Group Users</h3>
       <v-divider></v-divider>
     </div>
-    <v-row class="pt-2">
-      <v-col v-for="(user, i) in users" :key="i" cols="12" sm="6" lg="4">
-        <v-card
-          outlined
-          :hover="true"
-          class="text-capitalize"
-          @click="userDetails(user)"
-          ><v-card-title>Name : {{ user.name }}</v-card-title>
-          <v-card-subtitle v-if="!user.husbandName"
-            >Father Name : {{ user.fatherName }}</v-card-subtitle
-          ><v-card-subtitle v-if="user.husbandName"
-            >Husband Name : {{ user.husbandName }}</v-card-subtitle
-          ></v-card
+    <div v-if="activeUsers.length">
+      <h2 class="text-center">Active Users</h2>
+      <v-divider></v-divider>
+      <v-row class="pt-2">
+        <v-col
+          v-for="(user, i) in activeUsers"
+          :key="i"
+          cols="12"
+          sm="6"
+          lg="4"
         >
-      </v-col></v-row
-    >
+          <v-card
+            outlined
+            :hover="true"
+            class="text-capitalize"
+            @click="userDetails(user)"
+            ><v-card-title>Name : {{ user.name }}</v-card-title>
+            <v-card-subtitle v-if="!user.husbandName"
+              >Father Name : {{ user.fatherName }}</v-card-subtitle
+            ><v-card-subtitle v-if="user.husbandName"
+              >Husband Name : {{ user.husbandName }}</v-card-subtitle
+            ></v-card
+          >
+        </v-col></v-row
+      >
+    </div>
+    <div v-if="inactiveUsers.length">
+      <h2 class="text-center">Active Users</h2>
+      <v-divider></v-divider>
+      <v-row class="pt-2">
+        <v-col
+          v-for="(user, i) in inactiveUsers"
+          :key="i"
+          cols="12"
+          sm="6"
+          lg="4"
+        >
+          <v-card
+            outlined
+            :hover="true"
+            class="text-capitalize"
+            @click="userDetails(user)"
+            ><v-card-title>Name : {{ user.name }}</v-card-title>
+            <v-card-subtitle v-if="!user.husbandName"
+              >Father Name : {{ user.fatherName }}</v-card-subtitle
+            ><v-card-subtitle v-if="user.husbandName"
+              >Husband Name : {{ user.husbandName }}</v-card-subtitle
+            ></v-card
+          >
+        </v-col></v-row
+      >
+    </div>
   </div>
 </template>
 
@@ -64,6 +100,18 @@ export default {
       createUser: false,
       loading: false,
     }
+  },
+  computed: {
+    activeUsers() {
+      return this.users.filter((u) => {
+        return u.isActive
+      })
+    },
+    inactiveUsers() {
+      return this.users.filter((u) => {
+        return !u.isActive
+      })
+    },
   },
   async created() {
     await this.getAllGroupUsers(this.$route.params.group)
