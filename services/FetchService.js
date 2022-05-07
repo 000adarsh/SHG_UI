@@ -154,6 +154,15 @@ const deleteUserLoanInstallment = (payload) => {
 const getAllUsersGroupLoanInstallments = (payload) => {
   return apiClient.post('/loanInstallments/group', payload)
 }
+const getDiaryNotes = (payload) => {
+  return apiClient.post('/diarys/notes', payload)
+}
+const createDiaryNote = (payload) => {
+  return apiClient.post('/diarys', payload)
+}
+const deleteDiaryNote = (payload) => {
+  return apiClient.put('/diarys', payload)
+}
 
 export default {
   setAuthHeader,
@@ -198,4 +207,7 @@ export default {
   createUserLoanInstallment,
   getAllUsersGroupLoanInstallments,
   deleteUserLoanInstallment,
+  getDiaryNotes,
+  createDiaryNote,
+  deleteDiaryNote,
 }
