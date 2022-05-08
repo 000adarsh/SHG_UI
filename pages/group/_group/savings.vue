@@ -53,7 +53,7 @@
     >
     <div v-if="groupSavings.length">
       <div class="py-3">
-        <v-simple-table
+        <v-simple-table dense
           ><thead>
             <tr>
               <th>Total Savings No</th>
@@ -72,7 +72,7 @@
       <div class="py-3">
         <h3 class="text-center">Group Savings</h3>
         <v-divider></v-divider>
-        <v-simple-table
+        <v-simple-table dense
           ><thead>
             <tr>
               <th>Creater</th>
@@ -83,12 +83,10 @@
           </thead>
           <tbody>
             <tr v-for="(saving, i) in groupSavings" :key="i">
-              <td>{{ saving.createdBy.name }}</td>
-              <td>{{ saving.userId.name }}</td>
+              <td class="text-capitalize">{{ saving.createdBy.name }}</td>
+              <td class="text-capitalize">{{ saving.userId.name }}</td>
               <td class="px-1">
-                {{
-                  $moment(saving.createDate).format('Do MMM YYYY, h:mm:ss a')
-                }}
+                {{ $moment(saving.createDate).format('Do MMM YYYY') }}
               </td>
               <td>{{ saving.amount }}</td>
             </tr>
