@@ -147,7 +147,8 @@
                 outlined
                 icon
                 color="error"
-                @click="deleteUserSaving(saving.id)"
+                :loading="deleteLoading && clickedButton === i"
+                @click="deleteUserSaving(saving.id, i)"
                 ><v-icon>mdi-delete-forever</v-icon></v-btn
               >
             </td>
@@ -169,6 +170,8 @@ export default {
       valid: false,
       addUserSaving: false,
       loading: false,
+      deleteLoading: false,
+      clickedButton: '',
       amount: null,
       savings: [],
       dueSaving: null,
@@ -194,7 +197,9 @@ export default {
     save(date) {
       this.$refs.dialog.save(date)
     },
-    async deleteUserSaving(id) {
+    async deleteUserSaving(id, i) {
+      this.clickedButton = i
+      this.deleteLoading = true
       const saving = await FetchService.deleteUserSaving({
         savingId: id,
         userId: this.$route.params.user,
@@ -205,7 +210,9 @@ export default {
       }
       if (saving.data.status === 'success') {
         await this.getAllUserSavings()
+        this.deleteLoading = false
       }
+      this.deleteLoading = false
     },
     async getUsergroup() {
       const group = await FetchService.getGroup({
@@ -262,7 +269,7 @@ export default {
       })
       const totalGroupSaving = months * this.groupSavingAmount
       const dueAmount = totalGroupSaving - totalUserSaving
-      const dmonth = Math.abs(dueAmount / this.groupSavingAmount)
+      const dmonth = Math.abs(dueAmount / this.groupSavingAmount).toFixed(2)
       this.dueSaving = { months: dmonth, amount: dueAmount }
     },
     getMonths({ groupStartDate, currentDate }) {

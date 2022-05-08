@@ -36,7 +36,12 @@
             color="success"
             @click="deleteUserLoanPopup = false"
             >no</v-btn
-          ><v-btn text outlined color="error" @click="deleteUserLoan"
+          ><v-btn
+            text
+            outlined
+            color="error"
+            :loading="deleteLoanLoading"
+            @click="deleteUserLoan"
             >yes</v-btn
           ></v-card-actions
         ></v-card
@@ -133,6 +138,7 @@ export default {
   data() {
     return {
       deleteUserLoanPopup: false,
+      deleteLoanLoading: false,
       generatedLoanInstallmentData: [], // dont modify
       loan: null,
       months: [],
@@ -152,6 +158,7 @@ export default {
   },
   methods: {
     async deleteUserLoan() {
+      this.deleteLoanLoading = true
       const loan = await FetchService.deleteUserLoan({
         groupId: this.$route.params.group,
         userId: this.$route.params.user,
@@ -161,10 +168,12 @@ export default {
         this.$root.$emit('showNotification', loan)
       }
       if (loan.data.status === 'success') {
+        this.deleteLoanLoading = false
         this.$router.replace(
           `/users/${this.$route.params.group}/${this.$route.params.user}/loan?name=${this.$route.query.name}`
         )
       }
+      this.deleteLoanLoading = false
     },
     async getUserLoanDetails() {
       const loan = await FetchService.getUserLoanDetails({
