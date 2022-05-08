@@ -77,25 +77,25 @@
       <h3 class="text-center">Group Dairy Notes</h3>
       <v-divider></v-divider>
       <div v-if="notes.length">
-        <v-simple-table
+        <v-simple-table dense
           ><thead>
             <tr>
-              <th>Date</th>
               <th>Thing</th>
               <th>Cost</th>
               <th>Purchase Place</th>
+              <th>Date</th>
               <th>Creater</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(note, i) in notes" :key="i">
-              <td>
-                {{ $moment(note.createDate).format('DD MMM YYYY') }}
-              </td>
-              <td class="text-capitalize">{{ note.productName }}</td>
+              <td class="text-capitalize pr-1">{{ note.productName }}</td>
               <td>{{ note.productCost }}</td>
               <td class="text-capitalize">{{ note.purchasePlace }}</td>
+              <td class="px-1">
+                {{ $moment(note.createDate).format('DD MMM YYYY') }}
+              </td>
               <td class="text-capitalize">{{ note.createdBy.name }}</td>
               <td>
                 <v-btn

@@ -5,14 +5,7 @@
       <v-divider></v-divider>
     </div>
     <v-row>
-      <v-col
-        v-for="(group, i) in groups"
-        :key="i"
-        cols="12"
-        sm="6"
-        md="4"
-        lg="3"
-      >
+      <v-col v-for="(group, i) in groups" :key="i" cols="12" sm="6" lg="4">
         <GroupInfoCard :data="group" @ok="usergroup" />
       </v-col>
     </v-row>

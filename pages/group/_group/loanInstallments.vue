@@ -55,7 +55,8 @@
     >
     <div v-if="loanInstallments.length">
       <div class="py-3">
-        <v-simple-table
+        <v-divider></v-divider>
+        <v-simple-table dense
           ><thead>
             <tr>
               <th>Total Loan Installment</th>
@@ -74,27 +75,27 @@
       <div class="py-3">
         <h3 class="text-center">Group Loans Installments</h3>
         <v-divider></v-divider>
-        <v-simple-table
+        <v-simple-table dense
           ><thead>
             <tr>
-              <th>Creater</th>
-              <th>User</th>
-              <th>Create Date</th>
-              <th>Amount</th>
+              <th class="pr-1">Creater</th>
+              <th class="px-1">User Name</th>
+              <th class="px-1">Create Date</th>
+              <th class="pl-1">Amount</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(loanInstallment, i) in loanInstallments" :key="i">
-              <td>{{ loanInstallment.createdBy.name }}</td>
-              <td>{{ loanInstallment.userId.name }}</td>
-              <td class="px-1">
-                {{
-                  $moment(loanInstallment.createDate).format(
-                    'Do MMM YYYY, h:mm:ss a'
-                  )
-                }}
+              <td class="text-capitalize pr-1">
+                {{ loanInstallment.createdBy.name }}
               </td>
-              <td>{{ loanInstallment.amount }}</td>
+              <td class="text-capitalize px-1">
+                {{ loanInstallment.userId.name }}
+              </td>
+              <td class="px-1">
+                {{ $moment(loanInstallment.createDate).format('DD MMM YYYY') }}
+              </td>
+              <td class="pl-1">{{ loanInstallment.amount }}</td>
             </tr>
           </tbody></v-simple-table
         >

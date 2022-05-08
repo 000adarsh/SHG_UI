@@ -58,7 +58,7 @@
       >
     </div>
     <div v-if="inactiveUsers.length">
-      <h2 class="text-center">Active Users</h2>
+      <h2 class="text-center">Inactive Users</h2>
       <v-divider></v-divider>
       <v-row class="pt-2">
         <v-col
@@ -144,7 +144,7 @@ export default {
     },
     userDetails(user) {
       this.$router.push(
-        `/users/${this.$route.params.group}/${user.id}?name=${user.name}`
+        `/users/${this.$route.params.group}/${user.id}?name=${user.name}&groupName=${this.$route.query.name}`
       )
     },
   },

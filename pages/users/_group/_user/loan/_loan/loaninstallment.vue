@@ -143,8 +143,9 @@
               icon
               outlined
               small
+              :loading="deleteLoading && buttonClicked === i"
               color="error"
-              @click="deleteUserLoanInstallment(installment.id)"
+              @click="deleteUserLoanInstallment(installment.id, i)"
               ><v-icon>mdi-delete-forever</v-icon></v-btn
             >
           </td>
@@ -168,6 +169,8 @@ export default {
       amount: null,
       valid: false,
       loading: false,
+      deleteLoading: false,
+      buttonClicked: '',
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
@@ -187,7 +190,9 @@ export default {
     save(date) {
       this.$refs.dialog.save(date)
     },
-    async deleteUserLoanInstallment(id) {
+    async deleteUserLoanInstallment(id, i) {
+      this.buttonClicked = i
+      this.deleteLoading = true
       const loanInstallment = await FetchService.deleteUserLoanInstallment({
         loanInstallmentId: id,
         groupId: this.$route.params.group,
@@ -199,7 +204,9 @@ export default {
       }
       if (loanInstallment.data.status === 'success') {
         await this.getAllUserLoanInstallments()
+        this.deleteLoading = false
       }
+      this.deleteLoading = false
     },
 
     async getAllUserLoanInstallments() {

@@ -10,25 +10,29 @@
       <v-divider></v-divider>
     </div>
     <div v-if="users.length">
-      <v-simple-table
+      <v-simple-table dense
         ><thead>
           <tr>
-            <th>Name</th>
-            <th>Father Name</th>
-            <th>Husband Name</th>
-            <th>Created Date</th>
-            <th>Creater</th>
+            <th class="pr-1">Name</th>
+            <th class="px-1">Father Name</th>
+            <th class="px-1">Husband Name</th>
+            <th class="px-1">Created Date</th>
+            <th class="pl-1">Creater</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(user, i) in users" :key="i">
-            <td class="text-capitalize">{{ user.name }}</td>
-            <td class="text-capitalize">{{ user ? user.fatherName : '' }}</td>
-            <td class="text-capitalize">{{ user ? user.husbandName : '' }}</td>
-            <td class="px-1">
-              {{ $moment(user.createDate).format('DD MMM YYYY hh:mm:ss a') }}
+            <td class="text-capitalize pr-1">{{ user.name }}</td>
+            <td class="text-capitalize px-1">
+              {{ user ? user.fatherName : '' }}
             </td>
-            <td class="text-capitalize">{{ user.createdBy.name }}</td>
+            <td class="text-capitalize px-1">
+              {{ user ? user.husbandName : '' }}
+            </td>
+            <td class="px-1">
+              {{ $moment(user.createDate).format('DD MMM YYYY') }}
+            </td>
+            <td class="text-capitalize pl-1">{{ user.createdBy.name }}</td>
           </tr>
         </tbody></v-simple-table
       >
