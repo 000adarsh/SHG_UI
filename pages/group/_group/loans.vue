@@ -86,7 +86,7 @@
               <td class="text-capitalize pr-1">{{ loan.createdBy.name }}</td>
               <td class="text-capitalize px-1">{{ loan.userId.name }}</td>
               <td class="px-1">
-                {{ $moment(loan.createDate).format('Do MMM YYYY') }}
+                {{ $moment(loan.createDate).format('DD MMM YYYY') }}
               </td>
               <td class="pl-1">{{ loan.amount }}</td>
             </tr>

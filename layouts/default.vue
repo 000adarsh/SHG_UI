@@ -26,11 +26,37 @@
             Logout
           </v-btn>
         </div>
+
+        <div class="my-5">
+          <p class="text-center">
+            &copy; {{ new Date().getFullYear() }} This site is made by ❤
+
+            <a
+              href="https://inflection.org.in"
+              target="_blank"
+              class="text-md hover:underline font-semibold text-primary"
+            >
+              Inflection ORG</a
+            >
+            | All rights reserved
+          </p>
+        </div>
       </template>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app short>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
+      <v-row class="pr-5 d-none d-md-flex d-lg-flex d-xl-flex">
+        <v-spacer></v-spacer>
+        <div v-for="(item, i) in links" :key="i">
+          <nuxt-link
+            :to="item.to"
+            class="mx-2 font-weight-bold"
+            style="text-decoration: none"
+            >{{ item.title }}</nuxt-link
+          >
+        </div>
+      </v-row>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -90,6 +116,13 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    links() {
+      const a = this.items.slice().reverse()
+      a.pop()
+      return a
+    },
   },
   created() {
     this.findTheme()

@@ -1,14 +1,23 @@
 <template>
   <div>
-    <div class="py-3">
+    <div class="py-2">
       <h2 class="text-center">Groups of Users</h2>
       <v-divider></v-divider>
     </div>
-    <v-row>
-      <v-col v-for="(group, i) in groups" :key="i" cols="12" sm="6" lg="4">
-        <GroupInfoCard :data="group" @ok="usergroup" />
-      </v-col>
-    </v-row>
+    <div class="py-2">
+      <v-row>
+        <v-col
+          v-for="(group, i) in groups"
+          :key="i"
+          cols="12"
+          sm="6"
+          lg="4"
+          class="py-1"
+        >
+          <GroupInfoCard :data="group" @ok="usergroup" />
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 

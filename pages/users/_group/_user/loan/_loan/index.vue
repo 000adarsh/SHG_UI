@@ -11,14 +11,16 @@
         >delete loan</v-btn
       >
       <v-spacer></v-spacer>
-      <v-card
+      <v-btn
+        text
         outlined
+        color="primary"
         @click="
           $router.push(
             `/users/${$route.params.group}/${$route.params.user}/loan/${$route.params.loan}/loanInstallment?name=${$route.query.name}`
           )
         "
-        ><h3 class="pa-2 primary--text">Loan Installment</h3></v-card
+        >Loan Installment</v-btn
       >
     </v-card-actions>
     <v-dialog
@@ -47,12 +49,12 @@
         ></v-card
       >
     </v-dialog>
-    <div class="pt-3 text-center">
+    <div class="pt-2 text-center">
       <h3>User Loan Details</h3>
       <v-divider></v-divider>
     </div>
 
-    <v-simple-table v-if="loan"
+    <v-simple-table v-if="loan" dense
       ><tbody class="text-capitalize">
         <tr>
           <td>Amount</td>
@@ -60,12 +62,12 @@
         </tr>
         <tr>
           <td>Loan Interest Percentage</td>
-          <td>{{ loan.loanInterestPercentage }} %</td>
+          <td>{{ loan.loanInterestPercentage }} % Monthly</td>
         </tr>
         <tr>
           <td>Loan Created Date</td>
           <td>
-            {{ $moment(loan.createDate).format('DD MMM YYYY hh:mm:ss a') }}
+            {{ $moment(loan.createDate).format('DD MMM YYYY') }}
           </td>
         </tr>
         <tr>
@@ -91,7 +93,7 @@
       <h3>User Loan Chart</h3>
       <v-divider></v-divider>
     </div>
-    <v-simple-table v-if="generatedLoanInstallmentData.length">
+    <v-simple-table v-if="generatedLoanInstallmentData.length" dense>
       <thead>
         <tr>
           <th>Start Month</th>
@@ -108,14 +110,14 @@
             {{
               $moment
                 .unix(dates[i] ? dates[i].startDate : '')
-                .format('YYYY-MM-DD')
+                .format('DD-MM-YYYY')
             }}
           </td>
           <td class="px-1">
             {{
               $moment
                 .unix(dates[i] ? dates[i].endDate : '')
-                .format('YYYY-MM-DD')
+                .format('DD-MM-YYYY')
             }}
           </td>
           <td>{{ d.p }}</td>

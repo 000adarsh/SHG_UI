@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <v-card outlined :hover="true" @click="showGroupInfo(data)">
-      <v-card-title class="text-capitalize"
-        >Group Name - {{ data.groupId.name }}</v-card-title
-      >
-      <v-card-subtitle class="pt-0 text-capitalize"
-        >Group Address - {{ data.groupId.address }}</v-card-subtitle
-      >
-    </v-card>
-  </div>
+  <v-card outlined :hover="true" @click="showGroupInfo(data)">
+    <v-card-title class="text-capitalize"
+      >Group Name - {{ data.groupId.name }}</v-card-title
+    >
+    <v-card-subtitle class="text-capitalize"
+      >Group Address - {{ data.groupId.address }}</v-card-subtitle
+    >
+  </v-card>
 </template>
 
 <script>

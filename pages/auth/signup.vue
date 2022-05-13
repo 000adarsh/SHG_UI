@@ -97,9 +97,14 @@
           counter
           type="number"
           :rules="[
-            (alternativePhone) =>
-              (!!alternativePhone && alternativePhone.length === 10) ||
-              'Enter a valid alternative mobile no ',
+            (alternativePhone) => {
+              if (alternativePhone)
+                return (
+                  (!!alternativePhone && alternativePhone.length === 10) ||
+                  'Enter a valid alternative mobile no '
+                )
+              else return true
+            },
           ]"
           color="info"
           label="Alternative Mobile No"
