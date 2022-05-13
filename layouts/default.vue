@@ -26,6 +26,21 @@
             Logout
           </v-btn>
         </div>
+
+        <div class="my-5">
+          <p class="text-center">
+            &copy; {{ new Date().getFullYear() }} This site is made by ❤
+
+            <a
+              href="https://inflection.org.in"
+              target="_blank"
+              class="text-md hover:underline font-semibold text-primary"
+            >
+              Inflection ORG</a
+            >
+            | All rights reserved
+          </p>
+        </div>
       </template>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app short>
@@ -104,10 +119,9 @@ export default {
   },
   computed: {
     links() {
-      const items = this.items
-      items.shift()
-      items.reverse()
-      return items
+      const a = this.items.slice().reverse()
+      a.pop()
+      return a
     },
   },
   created() {
