@@ -27,18 +27,18 @@
         @submit="updateGroup"
       />
     </v-dialog>
-    <div class="py-3">
+    <div class="pt-3">
       <h3 class="text-center">Group Details</h3>
       <v-divider></v-divider>
-      <v-simple-table v-if="group">
+      <v-simple-table v-if="group" dense>
         <tbody>
           <tr>
             <td>Group Name</td>
-            <td>{{ group.name }}</td>
+            <td class="text-capitalize">{{ group.name }}</td>
           </tr>
           <tr>
             <td>Group Address</td>
-            <td>{{ group.address }}</td>
+            <td class="text-capitalize">{{ group.address }}</td>
           </tr>
           <template v-if="showDetails">
             <tr>
@@ -47,31 +47,29 @@
             </tr>
             <tr>
               <td>Group Loan Interest</td>
-              <td>{{ group.loanInterestPercentage }}</td>
+              <td>{{ group.loanInterestPercentage }} % Monthly</td>
             </tr>
 
             <tr>
               <td>Creater</td>
-              <td>{{ group.createdBy.name }}</td>
+              <td class="text-capitalize">{{ group.createdBy.name }}</td>
             </tr>
             <tr>
               <td>Create Date</td>
               <td>
                 {{
-                  $moment(group ? group.startDate : '').format(
-                    'DD MMM YYYY hh:mm:ss a'
-                  )
+                  $moment(group ? group.startDate : '').format('DD MMM YYYY')
                 }}
               </td>
             </tr>
             <tr>
               <td>Updater</td>
-              <td>{{ group.updatedBy.name }}</td>
+              <td class="text-capitalize">{{ group.updatedBy.name }}</td>
             </tr>
             <tr>
               <td>Update Date</td>
               <td>
-                {{ $moment(group.updatedAt).format('DD MMM YYYY hh:mm:ss a') }}
+                {{ $moment(group.updatedAt).format('DD MMM YYYY') }}
               </td>
             </tr>
           </template>
@@ -92,15 +90,17 @@
         </v-btn>
       </v-card-actions>
     </div>
-    <div class="py-3">
-      <h3 class="pa-2 text-center">Group Details</h3>
+    <div class="pb-3">
+      <h3 class="text-center">Group Other Details</h3>
       <v-divider></v-divider>
-      <v-row class="pt-2">
-        <v-col cols="12" sm="6" lg="4">
+    </div>
+    <div class="py-2">
+      <v-row>
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="pa-2 text-center"
+            class="text-center"
             @click.prevent="
               $router.push(
                 `/group/${$route.params.group}/fundings?name=${group.name}`
@@ -109,11 +109,11 @@
             ><h1>Fundings</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="pa-2 text-center"
+            class="text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/loans?name=${group.name}`
@@ -122,11 +122,11 @@
             ><h1>Loans</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="pa-2 text-center"
+            class="text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/savings?name=${group.name}`
@@ -135,11 +135,11 @@
             ><h1>Savings</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="pa-2 text-center"
+            class="text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/users?name=${group.name}`
@@ -148,11 +148,11 @@
             ><h1>Users</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="pa-2 text-center"
+            class="text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/dairy?name=${group.name}`
@@ -161,11 +161,11 @@
             ><h1>Dairy</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="pa-2 text-center"
+            class="text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/loanInstallments?name=${group.name}`
@@ -174,11 +174,11 @@
             ><h1>Loans Installments</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
-            class="pa-2 text-center"
+            class="text-center"
             @click="
               $router.push(
                 `/group/${$route.params.group}/bankTransactions?name=${group.name}`
@@ -209,11 +209,13 @@ export default {
     }
   },
   async created() {
-    await this.getGroup(this.$route.params.group)
+    await this.getGroup()
   },
   methods: {
-    async getGroup(id) {
-      const group = await FetchService.getGroup({ groupId: id })
+    async getGroup() {
+      const group = await FetchService.getGroup({
+        groupId: this.$route.params.group,
+      })
       if (group) {
         this.$root.$emit('showNotification', group)
       }
@@ -231,7 +233,7 @@ export default {
         this.$root.$emit('showNotification', group)
       }
       if (group.data.status === 'success') {
-        this.group = group.data.group
+        await this.getGroup()
         this.loading = false
         this.editEmployeeDetails = false
       }
