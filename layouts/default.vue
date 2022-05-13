@@ -31,6 +31,17 @@
     <v-app-bar :clipped-left="clipped" fixed app short>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
+      <v-row class="pr-5 d-none d-md-flex d-lg-flex d-xl-flex">
+        <v-spacer></v-spacer>
+        <div v-for="(item, i) in links" :key="i">
+          <nuxt-link
+            :to="item.to"
+            class="mx-2 font-weight-bold"
+            style="text-decoration: none"
+            >{{ item.title }}</nuxt-link
+          >
+        </div>
+      </v-row>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -90,6 +101,14 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    links() {
+      const items = this.items
+      items.shift()
+      items.reverse()
+      return items
+    },
   },
   created() {
     this.findTheme()
