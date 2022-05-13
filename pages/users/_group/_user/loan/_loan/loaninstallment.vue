@@ -133,7 +133,7 @@
           <td class="px-1">
             {{
               $moment(installment ? installment.createDate : '').format(
-                'DD MMM YYYY hh:mm:ss a'
+                'DD MMM YYYY'
               )
             }}
           </td>

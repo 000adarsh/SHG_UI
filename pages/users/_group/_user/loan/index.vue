@@ -110,7 +110,7 @@
         >
       </div></v-dialog
     >
-    <div class="py-3">
+    <div class="py-2">
       <h3 class="text-center">User Loans</h3>
       <v-divider></v-divider>
     </div>
@@ -119,66 +119,64 @@
         <h2 class="text-center">Active Loans</h2>
         <v-divider></v-divider>
       </div>
-      <v-row
-        ><v-col
-          v-for="(loan, i) in activeLoans"
-          :key="i"
-          cols="12"
-          sm="6"
-          lg="4"
-          ><v-card
-            outlined
-            :hover="true"
-            @click="
-              $router.push(
-                `/users/${$route.params.group}/${$route.params.user}/loan/${loan.id}?name=${$route.query.name}`
-              )
-            "
-            ><v-card-title>Loan Amount - {{ loan.amount }}</v-card-title
-            ><v-card-subtitle class="py-0"
-              >Created Date -
-              {{
-                $moment(loan.createDate).format('DD MMM YYYY')
-              }}</v-card-subtitle
-            ><v-card-subtitle class="py-0"
-              >Creater - {{ loan.createdBy.name }}</v-card-subtitle
-            ></v-card
-          ></v-col
-        ></v-row
-      >
+      <div class="py-2">
+        <v-row
+          ><v-col
+            v-for="(loan, i) in activeLoans"
+            :key="i"
+            cols="12"
+            sm="6"
+            lg="4"
+            class="py-1"
+            ><v-card
+              outlined
+              :hover="true"
+              @click="
+                $router.push(
+                  `/users/${$route.params.group}/${$route.params.user}/loan/${loan.id}?name=${$route.query.name}`
+                )
+              "
+              ><h3 class="pl-4 pt-1">Loan Amount - {{ loan.amount }}</h3>
+              <h4 class="pl-4 pb-1 text--secondary">
+                Created Date -
+                {{ $moment(loan.createDate).format('DD MMM YYYY') }}
+              </h4></v-card
+            ></v-col
+          ></v-row
+        >
+      </div>
     </div>
     <div v-if="inactiveLoans.length">
       <div class="pb-2">
         <h2 class="text-center">Inactive Loans</h2>
         <v-divider></v-divider>
       </div>
-      <v-row
-        ><v-col
-          v-for="(loan, i) in inactiveLoans"
-          :key="i"
-          cols="12"
-          sm="6"
-          lg="4"
-          ><v-card
-            outlined
-            :hover="true"
-            @click="
-              $router.push(
-                `/users/${$route.params.group}/${$route.params.user}/loan/${loan.id}?name=${$route.query.name}`
-              )
-            "
-            ><v-card-title>Loan Amount - {{ loan.amount }}</v-card-title
-            ><v-card-subtitle class="py-0"
-              >Created Date -
-              {{
-                $moment(loan.createDate).format('DD MMM YYYY')
-              }}</v-card-subtitle
-            ><v-card-subtitle class="py-0"
-              >Creater - {{ loan.createdBy.name }}</v-card-subtitle
-            ></v-card
-          ></v-col
-        ></v-row
-      >
+      <div class="py-2">
+        <v-row
+          ><v-col
+            v-for="(loan, i) in inactiveLoans"
+            :key="i"
+            cols="12"
+            sm="6"
+            lg="4"
+            class="py-1"
+            ><v-card
+              outlined
+              :hover="true"
+              @click="
+                $router.push(
+                  `/users/${$route.params.group}/${$route.params.user}/loan/${loan.id}?name=${$route.query.name}`
+                )
+              "
+              ><h3 class="pl-4 pt-1">Loan Amount - {{ loan.amount }}</h3>
+              <h4 class="pl-4 pb-1 text--secondary">
+                Created Date -
+                {{ $moment(loan.createDate).format('DD MMM YYYY') }}
+              </h4></v-card
+            ></v-col
+          ></v-row
+        >
+      </div>
     </div>
   </div>
 </template>

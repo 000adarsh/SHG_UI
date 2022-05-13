@@ -9,14 +9,14 @@
       <h3 class="text-center">Group Users</h3>
       <v-divider></v-divider>
     </div>
-    <div v-if="users.length">
+    <div v-if="users.length" class="pb-3">
       <v-simple-table dense
         ><thead>
           <tr>
             <th class="pr-1">Name</th>
             <th class="px-1">Father Name</th>
             <th class="px-1">Husband Name</th>
-            <th class="px-1">Created Date</th>
+            <th>Created Date</th>
             <th class="pl-1">Creater</th>
           </tr>
         </thead>

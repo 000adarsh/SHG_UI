@@ -11,7 +11,7 @@
         edit details
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="primary" text outlined @click="deleteUserForm = true">
+      <v-btn color="error" text outlined @click="deleteUserForm = true">
         delete user
       </v-btn>
     </v-card-actions>
@@ -56,10 +56,10 @@
         ></v-card
       ></v-dialog
     >
-    <div class="py-3">
+    <div class="pt-3">
       <h3 class="text-center">User Details</h3>
       <v-divider></v-divider>
-      <v-simple-table v-if="user">
+      <v-simple-table v-if="user" dense>
         <tbody class="text-capitalize">
           <tr>
             <td>User Name</td>
@@ -136,11 +136,13 @@
         </v-btn>
       </v-card-actions>
     </div>
-    <div class="py-3">
+    <div class="pb-2">
       <h3 class="text-center">User Other Details</h3>
       <v-divider></v-divider>
-      <v-row class="pt-2">
-        <v-col cols="12" sm="6" lg="4">
+    </div>
+    <div class="py-3">
+      <v-row>
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"
@@ -153,7 +155,7 @@
             ><h1>User Loans</h1></v-card
           ></v-col
         >
-        <v-col cols="12" sm="6" lg="4">
+        <v-col class="py-1" cols="12" sm="6" lg="4">
           <v-card
             outlined
             :hover="true"

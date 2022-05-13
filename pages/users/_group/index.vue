@@ -27,58 +27,66 @@
         @submit="createNewUser"
       />
     </v-dialog>
-    <div class="py-3">
+    <div class="pb-2">
       <h3 class="text-center">Group Users</h3>
       <v-divider></v-divider>
     </div>
-    <div v-if="activeUsers.length">
+    <div v-if="activeUsers.length" class="pb-2">
       <h2 class="text-center">Active Users</h2>
       <v-divider></v-divider>
-      <v-row class="pt-2">
+    </div>
+    <div class="py-2">
+      <v-row>
         <v-col
           v-for="(user, i) in activeUsers"
           :key="i"
           cols="12"
           sm="6"
           lg="4"
+          class="py-1"
         >
           <v-card
             outlined
             :hover="true"
-            class="text-capitalize"
+            class="pl-4 py-1 text-capitalize"
             @click="userDetails(user)"
-            ><v-card-title>Name : {{ user.name }}</v-card-title>
-            <v-card-subtitle v-if="!user.husbandName"
-              >Father Name : {{ user.fatherName }}</v-card-subtitle
-            ><v-card-subtitle v-if="user.husbandName"
-              >Husband Name : {{ user.husbandName }}</v-card-subtitle
-            ></v-card
+            ><h3>Name : {{ user.name }}</h3>
+            <h4 v-if="!user.husbandName" class="text--secondary">
+              Father Name : {{ user.fatherName }}
+            </h4>
+            <h4 v-if="user.husbandName" class="text--secondary">
+              Husband Name : {{ user.husbandName }}
+            </h4></v-card
           >
         </v-col></v-row
       >
     </div>
-    <div v-if="inactiveUsers.length">
+    <div v-if="inactiveUsers.length" class="pt-1">
       <h2 class="text-center">Inactive Users</h2>
       <v-divider></v-divider>
-      <v-row class="pt-2">
+    </div>
+    <div class="py-3">
+      <v-row>
         <v-col
           v-for="(user, i) in inactiveUsers"
           :key="i"
           cols="12"
           sm="6"
           lg="4"
+          class="py-1"
         >
           <v-card
             outlined
             :hover="true"
-            class="text-capitalize"
+            class="pl-3 py-1 text-capitalize"
             @click="userDetails(user)"
-            ><v-card-title>Name : {{ user.name }}</v-card-title>
-            <v-card-subtitle v-if="!user.husbandName"
-              >Father Name : {{ user.fatherName }}</v-card-subtitle
-            ><v-card-subtitle v-if="user.husbandName"
-              >Husband Name : {{ user.husbandName }}</v-card-subtitle
-            ></v-card
+            ><h3>Name : {{ user.name }}</h3>
+            <h4 v-if="!user.husbandName" class="text--secondary">
+              Father Name : {{ user.fatherName }}
+            </h4>
+            <h4 v-if="user.husbandName" class="text--secondary">
+              Husband Name : {{ user.husbandName }}
+            </h4></v-card
           >
         </v-col></v-row
       >

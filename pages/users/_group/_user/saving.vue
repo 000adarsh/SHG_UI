@@ -107,7 +107,7 @@
     <div class="py-3">
       <h3 class="text-center">Due User Savings</h3>
       <v-divider></v-divider>
-      <v-simple-table v-if="dueSaving"
+      <v-simple-table v-if="dueSaving" dense
         ><thead>
           <tr>
             <th>Month</th>
@@ -120,7 +120,7 @@
             <td>{{ dueSaving.amount }}</td>
           </tr>
         </tbody></v-simple-table
-      >
+      ><v-divider></v-divider>
     </div>
     <div class="py-3">
       <h3 class="text-center">User Savings</h3>
@@ -138,7 +138,7 @@
           <tr v-for="(saving, i) in savings" :key="i">
             <td class="text-capitalize">{{ saving.createdBy.name }}</td>
             <td class="px-1">
-              {{ $moment(saving.createDate).format('Do MMM YYYY, h:mm:ss a') }}
+              {{ $moment(saving.createDate).format('DD MMM YYYY') }}
             </td>
             <td>{{ saving.amount }}</td>
             <td>
@@ -155,6 +155,7 @@
           </tr>
         </tbody>
       </v-simple-table>
+      <v-divider></v-divider>
     </div>
   </div>
 </template>
