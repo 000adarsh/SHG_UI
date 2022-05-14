@@ -172,6 +172,15 @@ const createBankTransaction = (payload) => {
 const deleteBankTransaction = (payload) => {
   return apiClient.put('/banktransactions', payload)
 }
+const getFundings = (payload) => {
+  return apiClient.post('/fundings/fundings', payload)
+}
+const createFunding = (payload) => {
+  return apiClient.post('/fundings', payload)
+}
+const deleteFunding = (payload) => {
+  return apiClient.put('/fundings', payload)
+}
 
 export default {
   setAuthHeader,
@@ -222,4 +231,7 @@ export default {
   getBankTransactions,
   createBankTransaction,
   deleteBankTransaction,
+  getFundings,
+  createFunding,
+  deleteFunding,
 }
