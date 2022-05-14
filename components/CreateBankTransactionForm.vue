@@ -11,12 +11,12 @@
             v-model="amount"
             label="Transaction Amount*"
             type="number"
+            hide-spin-buttons
             required
             :rules="[
-              (amount) => {
-                if (amount) return !!amount > 0 || 'Amount greater than 0 '
-                else return true
-              },
+              (amount) =>
+                (!!amount && !!amount > 0) ||
+                'Amount is required & greater than 0 ',
             ]"
             clearable
           ></v-text-field>
@@ -25,6 +25,11 @@
             label="Transaction Type*"
             required
             :items="['credit', 'debit']"
+            :rules="[
+              (transactionType) =>
+                (!!transactionType && !!transactionType > 0) ||
+                'Transaction type is required ',
+            ]"
           ></v-select>
           <v-dialog
             ref="dialog"
@@ -39,6 +44,7 @@
                 label="Transaction Date*"
                 prepend-icon="mdi-calendar"
                 readonly
+                :rules="[(date) => !!date || 'Transaction date is required ']"
                 v-bind="attrs"
                 v-on="on"
               ></v-text-field>
