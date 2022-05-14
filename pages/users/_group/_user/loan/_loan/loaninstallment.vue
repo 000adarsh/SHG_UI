@@ -48,11 +48,14 @@
                 <template #activator="{ on, attrs }">
                   <v-text-field
                     :value="date"
-                    label="Select Create Date*"
+                    label="Loan Installment Create Date*"
                     prepend-icon="mdi-calendar"
                     readonly
                     required
-                    :rules="[(date) => !!date || 'create date is required']"
+                    :rules="[
+                      (date) =>
+                        !!date || 'Loan Installment create date is required',
+                    ]"
                     v-bind="attrs"
                     v-on="on"
                   ></v-text-field>

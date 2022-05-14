@@ -163,6 +163,24 @@ const createDiaryNote = (payload) => {
 const deleteDiaryNote = (payload) => {
   return apiClient.put('/diarys', payload)
 }
+const getBankTransactions = (payload) => {
+  return apiClient.post('/banktransactions/transactions', payload)
+}
+const createBankTransaction = (payload) => {
+  return apiClient.post('/banktransactions', payload)
+}
+const deleteBankTransaction = (payload) => {
+  return apiClient.put('/banktransactions', payload)
+}
+const getFundings = (payload) => {
+  return apiClient.post('/fundings/fundings', payload)
+}
+const createFunding = (payload) => {
+  return apiClient.post('/fundings', payload)
+}
+const deleteFunding = (payload) => {
+  return apiClient.put('/fundings', payload)
+}
 
 export default {
   setAuthHeader,
@@ -210,4 +228,10 @@ export default {
   getDiaryNotes,
   createDiaryNote,
   deleteDiaryNote,
+  getBankTransactions,
+  createBankTransaction,
+  deleteBankTransaction,
+  getFundings,
+  createFunding,
+  deleteFunding,
 }

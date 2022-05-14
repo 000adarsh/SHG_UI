@@ -3,42 +3,34 @@
     <v-card>
       <v-form ref="form" v-model="valid" class="px-4">
         <div class="pt-3 pb-1">
-          <h3 class="text-center">Note Details</h3>
+          <h3 class="text-center">Transaction Details</h3>
           <v-divider></v-divider>
         </div>
         <v-card-text class="py-0">
           <v-text-field
-            v-model="productName"
-            label="Product Name*"
-            required
-            :rules="[
-              (productName) =>
-                (!!productName && productName.length > 2) ||
-                'Product Name greater than 4 word ',
-            ]"
-            clearable
-          ></v-text-field>
-          <v-text-field
-            v-model="productCost"
-            label="Product Cost*"
+            v-model="amount"
+            label="Transaction Amount*"
             type="number"
+            hide-spin-buttons
             required
             :rules="[
-              (productCost) =>
-                !!productCost > 0 || 'Product Cost greater than 0 ',
+              (amount) =>
+                (!!amount && !!amount > 0) ||
+                'Amount is required & greater than 0 ',
             ]"
             clearable
           ></v-text-field>
-          <v-text-field
-            v-model="purchasePlace"
-            label=" Product purchase place*"
+          <v-select
+            v-model="transactionType"
+            label="Transaction Type*"
             required
+            :items="['credit', 'debit']"
             :rules="[
-              (purchasePlace) =>
-                !!purchasePlace || 'Product Purchase Place is required ',
+              (transactionType) =>
+                (!!transactionType && !!transactionType > 0) ||
+                'Transaction type is required ',
             ]"
-            clearable
-          ></v-text-field>
+          ></v-select>
           <v-dialog
             ref="dialog"
             v-model="dateDialog"
@@ -49,10 +41,10 @@
             <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Product Purchase Date*"
+                label="Transaction Date*"
                 prepend-icon="mdi-calendar"
                 readonly
-                :rules="[(date) => !!date || 'Purchase date is required ']"
+                :rules="[(date) => !!date || 'Transaction date is required ']"
                 v-bind="attrs"
                 v-on="on"
               ></v-text-field>
@@ -99,7 +91,7 @@
           outlined
           :disabled="!valid"
           :loading="loading"
-          @click="createNote"
+          @click="createTransaction"
         >
           submit
         </v-btn>
@@ -124,9 +116,8 @@ export default {
       dateDialog: false,
       activePicker: null,
       valid: false,
-      productName: null,
-      productCost: null,
-      purchasePlace: null,
+      amount: null,
+      transactionType: null,
     }
   },
   watch: {
@@ -138,11 +129,10 @@ export default {
     save(date) {
       this.$refs.dialog.save(date)
     },
-    createNote() {
+    createTransaction() {
       this.$emit('submit', {
-        productName: this.productName,
-        productCost: this.productCost,
-        purchasePlace: this.purchasePlace,
+        amount: this.amount,
+        transactionType: this.transactionType,
         createDate: this.$moment(this.date)
           .startOf('day')
           .add(6, 'hours')

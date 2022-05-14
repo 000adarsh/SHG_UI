@@ -41,11 +41,13 @@
                 <template #activator="{ on, attrs }">
                   <v-text-field
                     :value="date"
-                    label="Select Join Date*"
+                    label="Saving Create Date*"
                     prepend-icon="mdi-calendar"
                     readonly
                     required
-                    :rules="[(date) => !!date || 'join date is required']"
+                    :rules="[
+                      (date) => !!date || 'Saving Create date is required',
+                    ]"
                     v-bind="attrs"
                     v-on="on"
                   ></v-text-field>

@@ -3,42 +3,47 @@
     <v-card>
       <v-form ref="form" v-model="valid" class="px-4">
         <div class="pt-3 pb-1">
-          <h3 class="text-center">Note Details</h3>
+          <h3 class="text-center">Funding Details</h3>
           <v-divider></v-divider>
         </div>
         <v-card-text class="py-0">
           <v-text-field
-            v-model="productName"
-            label="Product Name*"
-            required
-            :rules="[
-              (productName) =>
-                (!!productName && productName.length > 2) ||
-                'Product Name greater than 4 word ',
-            ]"
-            clearable
-          ></v-text-field>
-          <v-text-field
-            v-model="productCost"
-            label="Product Cost*"
+            v-model="amount"
+            label="Funding Amount*"
             type="number"
+            hide-spin-buttons
             required
             :rules="[
-              (productCost) =>
-                !!productCost > 0 || 'Product Cost greater than 0 ',
+              (amount) =>
+                !!amount > 0 || 'Amount is required & greater than 0 ',
             ]"
             clearable
           ></v-text-field>
           <v-text-field
-            v-model="purchasePlace"
-            label=" Product purchase place*"
+            v-model="donator"
+            label="Donator*"
             required
             :rules="[
-              (purchasePlace) =>
-                !!purchasePlace || 'Product Purchase Place is required ',
+              (donator) =>
+                (!!donator && donator.length > 4) ||
+                'Donator name greater than 4 character ',
             ]"
             clearable
           ></v-text-field>
+          <v-text-field
+            v-model="note"
+            label="Note"
+            required
+            :rules="[
+              (note) => {
+                if (note)
+                  return note.length > 4 || 'Note is greater than 4 character '
+                else return true
+              },
+            ]"
+            clearable
+          ></v-text-field>
+
           <v-dialog
             ref="dialog"
             v-model="dateDialog"
@@ -49,10 +54,10 @@
             <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Product Purchase Date*"
+                label="Fund given Date*"
                 prepend-icon="mdi-calendar"
                 readonly
-                :rules="[(date) => !!date || 'Purchase date is required ']"
+                :rules="[(date) => !!date || 'Funding date is required ']"
                 v-bind="attrs"
                 v-on="on"
               ></v-text-field>
@@ -99,7 +104,7 @@
           outlined
           :disabled="!valid"
           :loading="loading"
-          @click="createNote"
+          @click="createFunding"
         >
           submit
         </v-btn>
@@ -124,9 +129,9 @@ export default {
       dateDialog: false,
       activePicker: null,
       valid: false,
-      productName: null,
-      productCost: null,
-      purchasePlace: null,
+      amount: null,
+      donator: null,
+      note: null,
     }
   },
   watch: {
@@ -138,11 +143,11 @@ export default {
     save(date) {
       this.$refs.dialog.save(date)
     },
-    createNote() {
+    createFunding() {
       this.$emit('submit', {
-        productName: this.productName,
-        productCost: this.productCost,
-        purchasePlace: this.purchasePlace,
+        amount: this.amount,
+        donator: this.donator,
+        note: this.note,
         createDate: this.$moment(this.date)
           .startOf('day')
           .add(6, 'hours')

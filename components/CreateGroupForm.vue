@@ -63,6 +63,9 @@
                 label="Create and Work Date*"
                 prepend-icon="mdi-calendar"
                 readonly
+                :rules="[
+                  (date) => !!date || 'Create and work date is required ',
+                ]"
                 v-bind="attrs"
                 v-on="on"
               ></v-text-field>
