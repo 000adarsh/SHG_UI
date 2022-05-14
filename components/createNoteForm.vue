@@ -52,6 +52,7 @@
                 label="Product Purchase Date*"
                 prepend-icon="mdi-calendar"
                 readonly
+                :rules="[(date) => !!date || 'Purchase date is required ']"
                 v-bind="attrs"
                 v-on="on"
               ></v-text-field>
