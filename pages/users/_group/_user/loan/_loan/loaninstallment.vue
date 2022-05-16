@@ -243,10 +243,10 @@ export default {
         this.$root.$emit('showNotification', loanInstallment)
       }
       if (loanInstallment.data.status === 'success') {
+        await this.getAllUserLoanInstallments()
         this.loading = false
         this.createLoanInstallment = false
         this.$refs.form.reset()
-        await this.getAllUserLoanInstallments()
       }
       this.loading = false
     },

@@ -144,9 +144,9 @@ export default {
         this.$root.$emit('showNotification', user)
       }
       if (user.data.status === 'success') {
+        await this.getAllGroupUsers(this.$route.params.group)
         this.loading = false
         this.createUser = false
-        await this.getAllGroupUsers(this.$route.params.group)
       }
       this.loading = false
     },

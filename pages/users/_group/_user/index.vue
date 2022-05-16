@@ -208,6 +208,7 @@ export default {
       }
     },
     async updateUser(payload) {
+      this.updateLoading = true
       const user = await FetchService.updateUser({
         ...payload,
         userId: this.$route.params.user,

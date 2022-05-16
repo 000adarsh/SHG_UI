@@ -153,15 +153,17 @@ export default {
       }
     },
     async updateEmployee(e) {
+      this.loading = true
       const updateEmployee = await FetchService.updateEmployee(e)
       if (updateEmployee) {
         this.$root.$emit('showNotification', updateEmployee)
       }
       if (updateEmployee.data.status === 'success') {
+        await this.getEmployee(this.$route.params.employee)
         this.loading = false
         this.editEmployeeDetails = false
-        this.getEmployee(this.$route.params.employee)
       }
+      this.loading = false
     },
   },
 }

@@ -255,10 +255,10 @@ export default {
         this.$root.$emit('showNotification', saving)
       }
       if (saving.data.status === 'success') {
+        await this.getAllUserSavings()
         this.loading = false
         this.addUserSaving = false
         this.$refs.form.reset()
-        await this.getAllUserSavings()
       }
       this.loading = false
     },
