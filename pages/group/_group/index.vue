@@ -6,13 +6,13 @@
       </h1>
     </div>
     <v-card-actions>
-      <v-btn color="primary" text outlined @click="editEmployeeDetails = true">
-        edit details
+      <v-btn color="primary" text outlined @click="editGroupDetails = true">
+        edit group details
       </v-btn>
     </v-card-actions>
     <v-dialog
-      v-if="editEmployeeDetails"
-      :value="editEmployeeDetails"
+      v-if="editGroupDetails"
+      :value="editGroupDetails"
       persistent
       max-width="900px"
     >
@@ -21,7 +21,7 @@
         :group="group"
         @closeDialog="
           () => {
-            editEmployeeDetails = false
+            editGroupDetails = false
           }
         "
         @submit="updateGroup"
@@ -203,7 +203,7 @@ export default {
   data() {
     return {
       group: null,
-      editEmployeeDetails: false,
+      editGroupDetails: false,
       showDetails: false,
       loading: false,
     }
@@ -235,7 +235,7 @@ export default {
       if (group.data.status === 'success') {
         await this.getGroup()
         this.loading = false
-        this.editEmployeeDetails = false
+        this.editGroupDetails = false
       }
       this.loading = false
     },
