@@ -4,32 +4,38 @@
       <h2 class="text-center">Active Employees</h2>
       <v-divider></v-divider>
     </div>
-    <v-row>
-      <v-col
-        v-for="(employee, i) in activeEmployees"
-        :key="i"
-        cols="12"
-        sm="6"
-        lg="4"
-      >
-        <EmployeeInfoCard :data="employee" />
-      </v-col>
-    </v-row>
+    <div class="py-2">
+      <v-row>
+        <v-col
+          v-for="(employee, i) in activeEmployees"
+          :key="i"
+          class="py-1"
+          cols="12"
+          sm="6"
+          lg="4"
+        >
+          <EmployeeInfoCard :data="employee" />
+        </v-col>
+      </v-row>
+    </div>
     <div v-if="inactiveEmployees.length" class="py-3">
       <h2 class="text-center">Inactive Employees</h2>
       <v-divider></v-divider>
     </div>
-    <v-row>
-      <v-col
-        v-for="(employee, i) in inactiveEmployees"
-        :key="i"
-        cols="12"
-        sm="6"
-        lg="4"
-      >
-        <EmployeeInfoCard :data="employee" />
-      </v-col>
-    </v-row>
+    <div class="py-2">
+      <v-row>
+        <v-col
+          v-for="(employee, i) in inactiveEmployees"
+          :key="i"
+          class="py-1"
+          cols="12"
+          sm="6"
+          lg="4"
+        >
+          <EmployeeInfoCard :data="employee" />
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 

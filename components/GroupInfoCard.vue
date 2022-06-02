@@ -1,5 +1,10 @@
 <template>
-  <v-card outlined :hover="true" @click="showGroupInfo(data)">
+  <v-card
+    outlined
+    :hover="true"
+    @keypress.enter="showGroupInfo(data)"
+    @click="showGroupInfo(data)"
+  >
     <v-card-title class="text-capitalize"
       >Group Name - {{ data.groupId.name }}</v-card-title
     >

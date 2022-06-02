@@ -1,5 +1,10 @@
 <template>
-  <v-card outlined :hover="true" @click="showInfo(data)">
+  <v-card
+    outlined
+    :hover="true"
+    @keypress.enter="showInfo(data)"
+    @click="showInfo(data)"
+  >
     <v-card-title class="text-capitalize">{{ data.name }}</v-card-title>
     <v-card-subtitle class="py-0 text-capitalize">
       Father name - {{ data.fatherName }}

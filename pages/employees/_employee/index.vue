@@ -5,7 +5,7 @@
         edit details
       </v-btn>
     </v-card-actions>
-    <div class="py-3">
+    <div class="pt-1">
       <h3 class="text-center">Employee Details</h3>
       <v-divider></v-divider>
     </div>
@@ -21,19 +21,19 @@
         @submit="updateEmployee"
       />
     </v-dialog>
-    <v-simple-table v-if="employee">
+    <v-simple-table v-if="employee" dense>
       <tbody>
         <tr>
           <td>Employee Name</td>
-          <td>{{ employee.name }}</td>
+          <td class="text-capitalize">{{ employee.name }}</td>
         </tr>
         <tr>
           <td>Father Name</td>
-          <td>{{ employee.fatherName }}</td>
+          <td class="text-capitalize">{{ employee.fatherName }}</td>
         </tr>
         <tr>
           <td>Designation</td>
-          <td>{{ employee.role }}</td>
+          <td class="text-capitalize">{{ employee.role }}</td>
         </tr>
         <template v-if="showDetails">
           <tr>
@@ -50,11 +50,11 @@
           </tr>
           <tr>
             <td>Address</td>
-            <td>{{ employee.address }}</td>
+            <td class="text-capitalize">{{ employee.address }}</td>
           </tr>
           <tr>
             <td>Active Status</td>
-            <td>{{ employee.isActive }}</td>
+            <td class="text-capitalize">{{ employee.isActive }}</td>
           </tr>
           <tr>
             <td>Account Verification</td>
@@ -62,22 +62,22 @@
           </tr>
           <tr>
             <td>Creator</td>
-            <td>{{ employee.createdBy.name }}</td>
+            <td class="text-capitalize">{{ employee.createdBy.name }}</td>
           </tr>
           <tr>
             <td>Join Date</td>
             <td>
-              {{ $moment(employee.createdAt).format('DD MMM YYYY hh:mm:ss a') }}
+              {{ $moment(employee.createdAt).format('DD MMM YYYY') }}
             </td>
           </tr>
           <tr>
             <td>Updator</td>
-            <td>{{ employee.updatedBy.name }}</td>
+            <td class="text-capitalize">{{ employee.updatedBy.name }}</td>
           </tr>
           <tr>
             <td>Update Date</td>
             <td>
-              {{ $moment(employee.updatedAt).format('DD MMM YYYY hh:mm:ss a') }}
+              {{ $moment(employee.updatedAt).format('DD MMM YYYY') }}
             </td>
           </tr>
         </template>
@@ -92,31 +92,41 @@
         }}</v-icon>
       </v-btn>
     </v-card-actions>
-    <div class="py-3">
+    <div class="pb-2">
       <h3 class="text-center">Employee Permissions</h3>
       <v-divider></v-divider>
     </div>
-    <v-row
-      ><v-col cols="12" sm="6" lg="4"
-        ><v-card
-          outlined
-          :hover="true"
-          @click="
-            $router.push(
-              `/employees/${$route.params.employee}/employeePermission`
-            )
-          "
-          ><h1 class="text-center">Permission</h1></v-card
-        ></v-col
-      ><v-col cols="12" sm="6" lg="4"
-        ><v-card
-          outlined
-          :hover="true"
-          @click="$router.push(`/employees/${$route.params.employee}/group`)"
-          ><h1 class="text-center">Group Permission</h1></v-card
-        ></v-col
-      ></v-row
-    >
+    <div class="py-2">
+      <v-row
+        ><v-col class="py-1" cols="12" sm="6" lg="4"
+          ><v-card
+            outlined
+            :hover="true"
+            @keypress.enter="
+              $router.push(
+                `/employees/${$route.params.employee}/employeePermission`
+              )
+            "
+            @click="
+              $router.push(
+                `/employees/${$route.params.employee}/employeePermission`
+              )
+            "
+            ><h1 class="text-center">Permission</h1></v-card
+          ></v-col
+        ><v-col class="py-1" cols="12" sm="6" lg="4"
+          ><v-card
+            outlined
+            :hover="true"
+            @keypress.enter="
+              $router.push(`/employees/${$route.params.employee}/group`)
+            "
+            @click="$router.push(`/employees/${$route.params.employee}/group`)"
+            ><h1 class="text-center">Group Permission</h1></v-card
+          ></v-col
+        ></v-row
+      >
+    </div>
   </div>
 </template>
 
