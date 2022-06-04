@@ -1,6 +1,12 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer v-model="drawer" :clipped="clipped" fixed app>
+    <v-navigation-drawer
+      v-model="drawer"
+      class="d-flex d-md-none d-lg-none d-xl-none"
+      :clipped="clipped"
+      fixed
+      app
+    >
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -44,7 +50,10 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app short>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon
+        class="d-flex d-md-none d-lg-none d-xl-none"
+        @click.stop="drawer = !drawer"
+      />
       <v-toolbar-title v-text="title" />
       <v-row class="pr-5 d-none d-md-flex d-lg-flex d-xl-flex">
         <v-spacer></v-spacer>

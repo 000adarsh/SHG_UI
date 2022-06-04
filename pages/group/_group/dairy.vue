@@ -171,9 +171,9 @@ export default {
         this.$root.$emit('showNotification', note)
       }
       if (note.data.status === 'success') {
+        await this.getDiaryNotes()
         this.loading = false
         this.createNoteDialog = false
-        this.getDiaryNotes()
       }
       this.loading = false
     },
@@ -188,7 +188,7 @@ export default {
         this.$root.$emit('showNotification', note)
       }
       if (note.data.status === 'success') {
-        this.getDiaryNotes()
+        await this.getDiaryNotes()
         this.deleteLoading = false
       }
       this.deleteLoading = false

@@ -184,9 +184,9 @@ export default {
         this.$root.$emit('showNotification', transaction)
       }
       if (transaction.data.status === 'success') {
+        await this.getBankTransactions()
         this.loading = false
         this.createTransactionDialog = false
-        this.getBankTransactions()
       }
       this.loading = false
     },

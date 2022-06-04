@@ -112,9 +112,9 @@ export default {
         this.$root.$emit('showNotification', funding)
       }
       if (funding.data.status === 'success') {
+        await this.getFundings()
         this.loading = false
         this.createFundingDialog = false
-        this.getFundings()
       }
       this.loading = false
     },

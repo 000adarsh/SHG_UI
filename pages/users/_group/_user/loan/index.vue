@@ -256,10 +256,10 @@ export default {
         this.$root.$emit('showNotification', loan)
       }
       if (loan.data.status === 'success') {
+        await this.getAllUserLoans()
         this.loading = false
         this.createLoan = false
         this.$refs.form.reset()
-        this.getAllUserLoans()
       }
       this.loading = false
     },
