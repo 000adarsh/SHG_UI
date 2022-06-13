@@ -21,8 +21,15 @@
       <h2 class="text-center">Groups</h2>
       <v-divider></v-divider>
     </div>
-    <v-row>
-      <v-col v-for="(group, i) in groups" :key="i" cols="12" sm="6" lg="4">
+    <v-row class="py-2">
+      <v-col
+        v-for="(group, i) in groups"
+        :key="i"
+        cols="12"
+        sm="6"
+        lg="4"
+        class="py-1"
+      >
         <GroupInfoCard :data="group" @ok="showGroupInfo" />
       </v-col>
     </v-row>
