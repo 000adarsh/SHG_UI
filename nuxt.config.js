@@ -63,7 +63,7 @@ export default {
       short_name: 'SHG',
       description: 'Shg app to monitor shg users account and employees',
       start_url: '/',
-      display: 'minimal-ui',
+      display: 'standalone',
       background_color: '#ffffff',
       theme_color: 'red',
     },
