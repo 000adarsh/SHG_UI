@@ -54,17 +54,32 @@
         class="d-flex d-md-none d-lg-none d-xl-none"
         @click.stop="drawer = !drawer"
       />
-      <v-toolbar-title v-text="title" />
-      <v-row class="pr-5 d-none d-md-flex d-lg-flex d-xl-flex">
+      <v-toolbar-title
+        :hover="true"
+        @click="$router.replace('/')"
+        v-text="title"
+      />
+      <v-row>
         <v-spacer></v-spacer>
-        <div v-for="(item, i) in links" :key="i">
-          <nuxt-link
-            :to="item.to"
-            class="mx-2 font-weight-bold"
-            style="text-decoration: none"
-            >{{ item.title }}</nuxt-link
-          >
+        <div class="pt-3 d-none d-md-flex d-lg-flex d-xl-flex">
+          <div v-for="(item, i) in links" :key="i">
+            <nuxt-link
+              :to="item.to"
+              class="mx-2 font-weight-bold"
+              style="text-decoration: none"
+              >{{ item.title }}</nuxt-link
+            >
+          </div>
         </div>
+        <v-btn
+          icon
+          class="ml-2 d-none d-md-flex d-lg-flex d-xl-flex"
+          @click="changeTheme"
+          ><v-icon>mdi-invert-colors</v-icon></v-btn
+        >
+        <v-btn v-if="deferredInstall" icon class="mr-4 ml-2" @click="pwaInstall"
+          ><v-icon>mdi-download</v-icon></v-btn
+        >
       </v-row>
     </v-app-bar>
     <v-main>
@@ -87,6 +102,7 @@ export default {
   },
   data() {
     return {
+      deferredInstall: null,
       clipped: true,
       drawer: false,
       fixed: false,
@@ -141,7 +157,31 @@ export default {
   updated() {
     this.updateLoginStatus()
   },
+  mounted() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault()
+      this.deferredInstall = e
+    })
+    window.addEventListener('appinstalled', (e) => {
+      this.deferredInstall = null
+    })
+  },
   methods: {
+    pwaInstall() {
+      if (this.deferredInstall) {
+        this.deferredInstall.prompt()
+        this.deferredInstall.userChoice.then((choice) => {
+          if (choice.outcome === 'accepted') {
+            this.$root.$emit('showNotification', {
+              data: {
+                status: 'success',
+                message: 'App installed successfully',
+              },
+            })
+          }
+        })
+      }
+    },
     findTheme() {
       if (localStorage.theme === 'dark') {
         this.$vuetify.theme.dark = true

@@ -9,8 +9,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - SHG-UI',
-    title: 'SHG-UI',
+    titleTemplate: '%s ',
+    // title: 'SHG',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -59,6 +59,13 @@ export default {
   pwa: {
     manifest: {
       lang: 'en',
+      name: 'SHG GAYA',
+      short_name: 'SHG',
+      description: 'Shg app to monitor shg users account and employees',
+      start_url: '/',
+      display: 'minimal-ui',
+      background_color: '#ffffff',
+      theme_color: 'red',
     },
   },
 
