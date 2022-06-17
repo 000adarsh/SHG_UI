@@ -9,8 +9,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - SHG',
-    title: 'SHG',
+    titleTemplate: '%s ',
+    // title: 'SHG',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -63,8 +63,9 @@ export default {
       short_name: 'SHG',
       description: 'Shg app to monitor shg users account and employees',
       start_url: '/',
-      display: 'standalone',
+      display: 'minimal-ui',
       background_color: '#ffffff',
+      theme_color: 'red',
     },
   },
 
