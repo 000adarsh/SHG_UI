@@ -181,6 +181,9 @@ const createFunding = (payload) => {
 const deleteFunding = (payload) => {
   return apiClient.put('/fundings', payload)
 }
+const adminPanel = (payload) => {
+  return apiClient.post('/adminPanel/result', payload)
+}
 
 export default {
   setAuthHeader,
@@ -234,4 +237,5 @@ export default {
   getFundings,
   createFunding,
   deleteFunding,
+  adminPanel,
 }

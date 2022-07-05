@@ -139,6 +139,11 @@ export default {
           title: 'Users',
           to: '/users',
         },
+        {
+          icon: 'mdi-button-pointer',
+          title: 'Admin Panel',
+          to: '/adminPanel',
+        },
       ],
     }
   },
@@ -191,12 +196,12 @@ export default {
       }
     },
     changeTheme() {
-      if (localStorage.theme === 'dark') {
-        localStorage.theme = 'light'
-        this.$vuetify.theme.dark = false
-      } else {
+      if (localStorage.theme === 'light') {
         localStorage.theme = 'dark'
         this.$vuetify.theme.dark = true
+      } else {
+        localStorage.theme = 'light'
+        this.$vuetify.theme.dark = false
       }
     },
     logOut() {
