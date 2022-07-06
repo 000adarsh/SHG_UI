@@ -50,12 +50,17 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app short>
+      <div class="d-none d-md-flex d-lg-flex d-xl-flex">
+        <v-btn icon @click="back()"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        <v-btn icon @click="reload()"><v-icon>mdi-reload</v-icon></v-btn>
+      </div>
       <v-app-bar-nav-icon
         class="d-flex d-md-none d-lg-none d-xl-none"
         @click.stop="drawer = !drawer"
       />
       <v-toolbar-title
         :hover="true"
+        class="mx-4"
         @click="$router.replace('/')"
         v-text="title"
       />
@@ -172,6 +177,12 @@ export default {
     })
   },
   methods: {
+    back() {
+      window.history.back()
+    },
+    reload() {
+      window.location.reload(true)
+    },
     pwaInstall() {
       if (this.deferredInstall) {
         this.deferredInstall.prompt()
