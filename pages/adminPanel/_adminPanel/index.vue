@@ -7,7 +7,7 @@
     </div>
     <div>
       <v-divider></v-divider>
-      <v-simple-table dense>
+      <v-simple-table v-if="isAccess" dense>
         <thead>
           <tr>
             <th>Field</th>
@@ -71,12 +71,15 @@
 </template>
 
 <script>
+import authRouter from '~/middleware/authRouter'
 import FetchService from '~/services/FetchService'
 
 export default {
   name: 'GroupAdminPanel',
+  middleware: authRouter,
   data() {
     return {
+      isAccess: false,
       fundings: 0,
       savings: 0,
       activeLoans: 0,
@@ -114,6 +117,7 @@ export default {
         this.$root.$emit('showNotification', adminPanel)
       }
       if (adminPanel.data.status === 'success') {
+        this.isAccess = true
         this.fundings = adminPanel.data.fundings[0]?.total
           ? adminPanel.data.fundings[0].total
           : 0
