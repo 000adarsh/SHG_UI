@@ -14,7 +14,7 @@
           sm="6"
           lg="4"
         >
-          <EmployeeInfoCard :data="employee" />
+          <EmployeeInfoCard :data="employee" @ok="showInfo" />
         </v-col>
       </v-row>
     </div>
@@ -32,7 +32,7 @@
           sm="6"
           lg="4"
         >
-          <EmployeeInfoCard :data="employee" />
+          <EmployeeInfoCard :data="employee" @ok="showInfo" />
         </v-col>
       </v-row>
     </div>
@@ -67,18 +67,22 @@ export default {
     },
   },
   async created() {
-    // check employee permission
-    // when permission then find employees
-    const employees = await FetchService.getAllEmployees()
-    if (employees) {
-      this.$root.$emit('showNotification', employees)
-    }
-    if (employees.data.status === 'success') {
-      this.employees = employees.data.employees
-    }
+    await this.getEmployees()
   },
   methods: {
-    // checkEmployeePermission() {},
+    async getEmployees() {
+      const employees = await FetchService.getAllEmployees()
+      if (employees) {
+        this.$root.$emit('showNotification', employees)
+      }
+      if (employees.data.status === 'success') {
+        this.employees = employees.data.employees
+      }
+    },
+
+    showInfo(payload) {
+      this.$router.push(`/employees/${payload.id}?name=${payload.name}`)
+    },
   },
 }
 </script>
