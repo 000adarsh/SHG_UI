@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <h1 class="text-center text-uppercase">
+        {{ $route.query.name }}
+      </h1>
+    </div>
     <v-card-actions class="px-0"
       ><v-btn
         v-if="permissions && myPermissions"

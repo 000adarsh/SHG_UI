@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <h1 class="text-center text-uppercase">
+        {{ $route.query.name }}
+      </h1>
+    </div>
     <v-card-actions
       ><v-btn
         v-if="allGroupfind && myGroupfind"
