@@ -75,20 +75,20 @@
         <v-simple-table dense
           ><thead>
             <tr>
-              <th>Creater</th>
+              <th class="pr-1">Creater</th>
               <th>User</th>
-              <th>Create Date</th>
-              <th>Amount</th>
+              <th class="px-1">Create Date</th>
+              <th class="pl-1">Amount</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(saving, i) in groupSavings" :key="i">
-              <td class="text-capitalize">{{ saving.createdBy.name }}</td>
+              <td class="text-capitalize pr-1">{{ saving.createdBy.name }}</td>
               <td class="text-capitalize">{{ saving.userId.name }}</td>
               <td class="px-1">
                 {{ $moment(saving.createDate).format('DD MMM YYYY') }}
               </td>
-              <td>{{ saving.amount }}</td>
+              <td class="pl-1">{{ saving.amount }}</td>
             </tr>
           </tbody></v-simple-table
         >
