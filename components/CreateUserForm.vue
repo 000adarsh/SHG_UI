@@ -47,7 +47,7 @@
                 if (husbandName)
                   return (
                     (!!husbandName && husbandName.length > 2) ||
-                    'Father Name greater than 2 character'
+                    'Husband Name greater than 2 character'
                   )
                 else return true
               },
