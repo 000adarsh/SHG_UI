@@ -38,7 +38,7 @@
         >select dates</v-btn
       >
     </v-card-actions>
-    <v-dialog v-model="selectDateDialog">
+    <v-dialog v-model="selectDateDialog" persistent width="900px">
       <v-card>
         <v-card-title>
           <span class="text-center">Select Dates</span>
@@ -85,14 +85,6 @@
                 >
                   Cancel
                 </v-btn>
-                <v-btn
-                  text
-                  outlined
-                  color="primary"
-                  @click="$refs.dialog.save(selectedStartDate)"
-                >
-                  OK
-                </v-btn>
               </v-date-picker>
             </v-dialog></v-col
           >
@@ -136,14 +128,6 @@
                   @click="endDateDialog = false"
                 >
                   Cancel
-                </v-btn>
-                <v-btn
-                  text
-                  outlined
-                  color="primary"
-                  @click="$refs.dialog.save(selectedEndDate)"
-                >
-                  OK
                 </v-btn>
               </v-date-picker>
             </v-dialog></v-col
@@ -251,7 +235,9 @@ export default {
       val && setTimeout(() => (this.endActivePicker = 'YEAR'))
     },
   },
-
+  async created() {
+    await this.selectedDates()
+  },
   methods: {
     async selectedDates() {
       const startDate = await this.$moment(this.selectedStartDate)

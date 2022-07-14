@@ -5,52 +5,123 @@
         {{ $route.query.name.toUpperCase() }}
       </h1>
     </div>
-    <v-row class="pt-3">
-      <v-spacer></v-spacer
-      ><v-col cols="12" sm="4" lg="4">
-        <v-dialog
-          ref="dialog"
-          v-model="picker"
-          :return-value.sync="date"
-          persistent
-          width="290px"
-        >
-          <template #activator="{ on, attrs }">
-            <v-text-field
-              v-model="date"
-              label="Select Month"
-              prepend-icon="mdi-calendar"
-              readonly
-              dense
-              outlined
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="date"
-            type="month"
-            color="success"
-            header-color="error"
-            scrollable
-            @change="change"
-          >
-            <v-spacer></v-spacer>
-            <v-btn text outlined color="primary" @click="picker = false">
-              Cancel
-            </v-btn>
-            <v-btn
-              text
-              outlined
-              color="primary"
-              @click="$refs.dialog.save(date) & getAllUsersGroupLoans()"
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn outlined color="primary" @click="selectDateDialog = true"
+        >select dates</v-btn
+      >
+    </v-card-actions>
+    <v-dialog v-model="selectDateDialog" persistent width="900px">
+      <v-card>
+        <v-card-title>
+          <span class="text-center">Select Dates</span>
+        </v-card-title>
+        <v-row class="mx-1">
+          <v-col cols="12" sm="6" lg="6"
+            ><v-dialog
+              ref="startDateDialog"
+              v-model="startDateDialog"
+              :return-value.sync="selectedStartDate"
+              persistent
+              width="290px"
             >
-              OK
-            </v-btn>
-          </v-date-picker>
-        </v-dialog>
-      </v-col></v-row
-    >
+              <template #activator="{ on, attrs }">
+                <v-text-field
+                  :value="selectedStartDate"
+                  label="From Date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  outlined
+                  required
+                  :rules="[
+                    (selectedStartDate) =>
+                      !!selectedStartDate || 'From date is required',
+                  ]"
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="selectedStartDate"
+                :active-picker.sync="startActivePicker"
+                :max="$moment(Date.now()).format('YYYY-MM-DD')"
+                min="2000-01-01"
+                color="primary"
+                @change="$refs.startDateDialog.save(selectedStartDate)"
+              >
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  outlined
+                  color="primary"
+                  @click="startDateDialog = false"
+                >
+                  Cancel
+                </v-btn>
+              </v-date-picker>
+            </v-dialog></v-col
+          >
+          <v-col cols="12" sm="6" lg="6"
+            ><v-dialog
+              ref="endDateDialog"
+              v-model="endDateDialog"
+              :return-value.sync="selectedEndDate"
+              persistent
+              width="290px"
+            >
+              <template #activator="{ on, attrs }">
+                <v-text-field
+                  :value="selectedEndDate"
+                  label="To Date"
+                  prepend-icon="mdi-calendar"
+                  outlined
+                  readonly
+                  required
+                  :rules="[
+                    (selectedEndDate) =>
+                      !!selectedEndDate || 'To date is required',
+                  ]"
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="selectedEndDate"
+                :active-picker.sync="endActivePicker"
+                :max="$moment(Date.now()).format('YYYY-MM-DD')"
+                min="2000-01-01"
+                color="primary"
+                @change="$refs.endDateDialog.save(selectedEndDate)"
+              >
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  outlined
+                  color="primary"
+                  @click="endDateDialog = false"
+                >
+                  Cancel
+                </v-btn>
+              </v-date-picker>
+            </v-dialog></v-col
+          >
+        </v-row>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            outlined
+            color="primary"
+            @click="selectDateDialog = false"
+          >
+            cancel
+          </v-btn>
+          <v-btn text outlined color="primary" @click="selectedDates()">
+            ok
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <div v-if="groupLoans.length">
       <div class="py-3">
         <v-simple-table dense
@@ -108,24 +179,44 @@ export default {
     return {
       groupLoans: [],
       groupTotalAmount: null,
-      picker: false,
-      date: this.$moment(Date.now()).format('YYYY-MM'),
+      selectDateDialog: false,
       startDate: null,
       endDate: null,
+      selectedStartDate: this.$moment(Date.now())
+        .subtract(1, 'months')
+        .format('YYYY-MM-DD'),
+      selectedEndDate: this.$moment(Date.now()).format('YYYY-MM-DD'),
+      startDateDialog: false,
+      endDateDialog: false,
+      startActivePicker: null,
+      endActivePicker: null,
     }
   },
+  watch: {
+    startDateDialog(val) {
+      val && setTimeout(() => (this.startActivePicker = 'YEAR'))
+    },
+    endDateDialog(val) {
+      val && setTimeout(() => (this.endActivePicker = 'YEAR'))
+    },
+  },
   async created() {
-    await this.change(this.date)
-    await this.getAllUsersGroupLoans()
+    await this.selectedDates()
   },
   methods: {
-    async change(x) {
-      const startDate = await this.$moment(x).startOf('month').toDate()
-      const endDate = await this.$moment(x).endOf('month').toDate()
+    async selectedDates() {
+      const startDate = await this.$moment(this.selectedStartDate)
+        .startOf('day')
+        .toDate()
+      const endDate = await this.$moment(this.selectedEndDate)
+        .endOf('day')
+        .toDate()
       this.startDate = startDate
       this.endDate = endDate
+      this.selectDateDialog = false
+      this.getBankTransactions()
     },
-    async getAllUsersGroupLoans() {
+    async getBankTransactions() {
       const loans = await FetchService.getAllUsersGroupLoans({
         groupId: this.$route.params.group,
         startDate: this.startDate,
