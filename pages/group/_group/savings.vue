@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center">
         {{ $route.query.name.toUpperCase() }}
       </h1>
@@ -177,6 +182,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       groupSavings: [],
       groupTotalAmount: null,
       selectDateDialog: false,
@@ -217,12 +223,14 @@ export default {
       this.getAllUsersGroupSavings()
     },
     async getAllUsersGroupSavings() {
+      this.pageLoading = true
       const savings = await FetchService.getAllUsersGroupSavings({
         groupId: this.$route.params.group,
         startDate: this.startDate,
         endDate: this.endDate,
       })
       if (savings) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', savings)
       }
       if (savings.data.status === 'success') {

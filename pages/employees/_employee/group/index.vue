@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center text-uppercase">
         {{ $route.query.name }}
       </h1>
@@ -82,6 +87,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       addLoading: false,
       employeeGroups: [],
       allGroups: [],
@@ -94,7 +100,6 @@ export default {
   },
   created() {
     this.getEmployeeGroups()
-    this.getAllGroups()
   },
   methods: {
     async removeEmployeeFromGroup(payload) {
@@ -136,12 +141,16 @@ export default {
     },
     async getAllGroups() {
       const groups = await FetchService.getAllGroups()
+      if (groups) {
+        this.pageLoading = false
+      }
       if (groups.data.status === 'success') {
         this.allGroups = groups.data.groups
         this.allGroupfind = true
       }
     },
     async getEmployeeGroups() {
+      this.pageLoading = true
       const group = await FetchService.getEmployeeGroups({
         employeeId: this.$route.params.employee,
       })
@@ -152,6 +161,7 @@ export default {
         this.employeeGroups = group.data.groups
         this.myGroupfind = true
       }
+      this.getAllGroups()
     },
   },
 }

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <v-card-actions>
       <v-btn color="primary" text outlined @click="editEmployeeDetails = true">
         edit details
@@ -92,6 +97,7 @@ export default {
   name: 'EmployeeDetailsPage',
   data() {
     return {
+      pageLoading: false,
       loading: false,
       employee: null,
       editEmployeeDetails: false,
@@ -103,8 +109,10 @@ export default {
   },
   methods: {
     async getEmployee(id) {
+      this.pageLoading = true
       const employee = await FetchService.getEmployee({ employeeId: id })
       if (employee) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', employee)
       }
       if (employee.data.status === 'success') {

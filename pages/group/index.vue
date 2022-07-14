@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="primary" text outlined @click="createGroup = true">
@@ -47,6 +52,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       groups: [],
       loading: false,
       createGroup: false,
@@ -62,8 +68,10 @@ export default {
       )
     },
     async getMyGroups() {
+      this.pageLoading = true
       const groups = await FetchService.getMyGroups()
       if (groups) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', groups)
       }
       if (groups.data.status === 'success') {

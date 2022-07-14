@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <v-card-actions>
       <v-btn color="primary" text outlined @click="editGroupDetails = true">
         edit group details
@@ -80,6 +85,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       group: null,
       editGroupDetails: false,
       loading: false,
@@ -90,10 +96,12 @@ export default {
   },
   methods: {
     async getGroup() {
+      this.pageLoading = true
       const group = await FetchService.getGroup({
         groupId: this.$route.params.group,
       })
       if (group) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', group)
       }
       if (group.data.status === 'success') {

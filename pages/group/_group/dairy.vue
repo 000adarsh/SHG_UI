@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <v-card-actions
       ><v-btn text outlined color="primary" @click="createNoteDialog = true"
         >create a note</v-btn
@@ -197,6 +202,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       createNoteDialog: false,
       loading: false,
       deleteLoading: false,
@@ -240,12 +246,14 @@ export default {
       this.getDiaryNotes()
     },
     async getDiaryNotes() {
+      this.pageLoading = true
       const notes = await FetchService.getDiaryNotes({
         groupId: this.$route.params.group,
         startDate: this.startDate,
         endDate: this.endDate,
       })
       if (notes) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', notes)
       }
       if (notes.data.status === 'success') {

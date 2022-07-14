@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <v-card-actions>
       <v-btn
         v-if="user"
@@ -133,6 +138,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       user: null,
       deleteUserForm: false,
       updateUserForm: false,
@@ -145,11 +151,13 @@ export default {
   },
   methods: {
     async getUserDetails() {
+      this.pageLoading = true
       const user = await FetchService.getUser({
         userId: this.$route.params.user,
         groupId: this.$route.params.group,
       })
       if (user) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', user)
       }
       if (user.data.status === 'success') {

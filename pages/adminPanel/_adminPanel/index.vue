@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center text-uppercase">
         {{ $route.query.name }}
       </h1>
@@ -79,6 +84,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       isAccess: false,
       fundings: 0,
       savings: 0,
@@ -110,10 +116,12 @@ export default {
 
   methods: {
     async getGroupAdminPanel() {
+      this.pageLoading = true
       const adminPanel = await FetchService.adminPanel({
         groupId: this.$route.params.adminPanel,
       })
       if (adminPanel) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', adminPanel)
       }
       if (adminPanel.data.status === 'success') {

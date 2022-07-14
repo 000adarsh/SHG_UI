@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <div v-if="activeEmployees.length" class="py-3">
       <h2 class="text-center">Active Employees</h2>
       <v-divider></v-divider>
@@ -51,6 +56,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       employees: [],
     }
   },
@@ -71,8 +77,10 @@ export default {
   },
   methods: {
     async getEmployees() {
+      this.pageLoading = true
       const employees = await FetchService.getAllEmployees()
       if (employees) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', employees)
       }
       if (employees.data.status === 'success') {

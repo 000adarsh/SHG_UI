@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center">
         {{ $route.query.name.toUpperCase() }}
       </h1>
@@ -177,6 +182,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       groupLoans: [],
       groupTotalAmount: null,
       selectDateDialog: false,
@@ -217,12 +223,14 @@ export default {
       this.getBankTransactions()
     },
     async getBankTransactions() {
+      this.pageLoading = true
       const loans = await FetchService.getAllUsersGroupLoans({
         groupId: this.$route.params.group,
         startDate: this.startDate,
         endDate: this.endDate,
       })
       if (loans) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', loans)
       }
       if (loans.data.status === 'success') {

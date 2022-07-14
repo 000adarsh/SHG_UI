@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center text-uppercase">
         {{ $route.query.name }}
       </h1>
@@ -170,6 +175,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: true,
       valid: false,
       addUserSaving: false,
       loading: false,
@@ -228,11 +234,13 @@ export default {
       }
     },
     async getAllUserSavings() {
+      this.pageLoading = true
       const savings = await FetchService.getAllUserSavings({
         userId: this.$route.params.user,
         groupId: this.$route.params.group,
       })
       if (savings) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', savings)
       }
       if (savings.data.status === 'success') {
