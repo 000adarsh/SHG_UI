@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <div v-if="activeEmployees.length" class="py-3">
       <h2 class="text-center">Active Employees</h2>
       <v-divider></v-divider>
@@ -14,7 +19,7 @@
           sm="6"
           lg="4"
         >
-          <EmployeeInfoCard :data="employee" />
+          <EmployeeInfoCard :data="employee" @ok="showInfo" />
         </v-col>
       </v-row>
     </div>
@@ -32,7 +37,7 @@
           sm="6"
           lg="4"
         >
-          <EmployeeInfoCard :data="employee" />
+          <EmployeeInfoCard :data="employee" @ok="showInfo" />
         </v-col>
       </v-row>
     </div>
@@ -51,6 +56,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       employees: [],
     }
   },
@@ -67,18 +73,24 @@ export default {
     },
   },
   async created() {
-    // check employee permission
-    // when permission then find employees
-    const employees = await FetchService.getAllEmployees()
-    if (employees) {
-      this.$root.$emit('showNotification', employees)
-    }
-    if (employees.data.status === 'success') {
-      this.employees = employees.data.employees
-    }
+    await this.getEmployees()
   },
   methods: {
-    // checkEmployeePermission() {},
+    async getEmployees() {
+      this.pageLoading = true
+      const employees = await FetchService.getAllEmployees()
+      if (employees) {
+        this.pageLoading = false
+        this.$root.$emit('showNotification', employees)
+      }
+      if (employees.data.status === 'success') {
+        this.employees = employees.data.employees
+      }
+    },
+
+    showInfo(payload) {
+      this.$router.push(`/employees/${payload.id}?name=${payload.name}`)
+    },
   },
 }
 </script>

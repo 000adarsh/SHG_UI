@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center">
         {{ $route.query.name.toUpperCase() }}
       </h1>
@@ -79,6 +84,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       createFundingDialog: false,
       loading: false,
       deleteLoading: false,
@@ -92,10 +98,12 @@ export default {
   },
   methods: {
     async getFundings() {
+      this.pageLoading = true
       const fundings = await FetchService.getFundings({
         groupId: this.$route.params.group,
       })
       if (fundings) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', fundings)
       }
       if (fundings.data.status === 'success') {

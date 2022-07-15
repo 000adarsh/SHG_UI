@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center text-uppercase">
         {{ $route.query.name }}
       </h1>
@@ -139,6 +144,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       deleteUserLoanPopup: false,
       deleteLoanLoading: false,
       generatedLoanInstallmentData: [], // dont modify
@@ -156,7 +162,6 @@ export default {
   },
   async created() {
     await this.getUserLoanDetails()
-    await this.getAllUserLoanInstallments()
   },
   methods: {
     async deleteUserLoan() {
@@ -178,6 +183,7 @@ export default {
       this.deleteLoanLoading = false
     },
     async getUserLoanDetails() {
+      this.pageLoading = true
       const loan = await FetchService.getUserLoanDetails({
         groupId: this.$route.params.group,
         userId: this.$route.params.user,
@@ -192,6 +198,7 @@ export default {
           loanStartDate: this.loan.createDate,
           currentDate: Date.now(),
         })
+        this.getAllUserLoanInstallments()
       }
     },
     async getAllUserLoanInstallments() {
@@ -202,7 +209,7 @@ export default {
           loanId: this.$route.params.loan,
         })
       if (userLoanInstallments) {
-        this.$root.$emit('showNotification', userLoanInstallments)
+        this.pageLoading = false
       }
       if (userLoanInstallments.data.status === 'success') {
         this.userLoanInstallments =

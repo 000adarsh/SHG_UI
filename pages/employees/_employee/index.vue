@@ -1,99 +1,12 @@
 <template>
-  <div v-if="employee">
-    <v-card-actions>
-      <v-btn color="primary" text outlined @click="editEmployeeDetails = true">
-        edit details
-      </v-btn>
-    </v-card-actions>
-    <div class="pt-1">
-      <h3 class="text-center">Employee Details</h3>
-      <v-divider></v-divider>
+  <div>
+    <div>
+      <h1 class="text-center text-uppercase">
+        {{ $route.query.name }}
+      </h1>
     </div>
-    <v-dialog :value="editEmployeeDetails" persistent max-width="900px">
-      <EmployeeForm
-        :employee="employee"
-        :loading="loading"
-        @closeDialog="
-          () => {
-            editEmployeeDetails = false
-          }
-        "
-        @submit="updateEmployee"
-      />
-    </v-dialog>
-    <v-simple-table v-if="employee" dense>
-      <tbody>
-        <tr>
-          <td>Employee Name</td>
-          <td class="text-capitalize">{{ employee.name }}</td>
-        </tr>
-        <tr>
-          <td>Father Name</td>
-          <td class="text-capitalize">{{ employee.fatherName }}</td>
-        </tr>
-        <tr>
-          <td>Designation</td>
-          <td class="text-capitalize">{{ employee.role }}</td>
-        </tr>
-        <template v-if="showDetails">
-          <tr>
-            <td>Email</td>
-            <td>{{ employee.email }}</td>
-          </tr>
-          <tr>
-            <td>Phone</td>
-            <td>{{ employee.phone }}</td>
-          </tr>
-          <tr>
-            <td>Alternative Phone</td>
-            <td>{{ employee.alternativePhone }}</td>
-          </tr>
-          <tr>
-            <td>Address</td>
-            <td class="text-capitalize">{{ employee.address }}</td>
-          </tr>
-          <tr>
-            <td>Active Status</td>
-            <td class="text-capitalize">{{ employee.isActive }}</td>
-          </tr>
-          <tr>
-            <td>Account Verification</td>
-            <td>{{ employee.isAccountVerified ? '✔' : '❌' }}</td>
-          </tr>
-          <tr>
-            <td>Creator</td>
-            <td class="text-capitalize">{{ employee.createdBy.name }}</td>
-          </tr>
-          <tr>
-            <td>Join Date</td>
-            <td>
-              {{ $moment(employee.createdAt).format('DD MMM YYYY') }}
-            </td>
-          </tr>
-          <tr>
-            <td>Updator</td>
-            <td class="text-capitalize">{{ employee.updatedBy.name }}</td>
-          </tr>
-          <tr>
-            <td>Update Date</td>
-            <td>
-              {{ $moment(employee.updatedAt).format('DD MMM YYYY') }}
-            </td>
-          </tr>
-        </template>
-      </tbody>
-    </v-simple-table>
-    <v-divider></v-divider>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn icon color="primary" outlined @click="showDetails = !showDetails">
-        <v-icon>{{
-          showDetails ? 'mdi-chevron-up' : 'mdi-chevron-down'
-        }}</v-icon>
-      </v-btn>
-    </v-card-actions>
     <div class="pb-2">
-      <h3 class="text-center">Employee Permissions</h3>
+      <h3 class="text-center">Employee Details</h3>
       <v-divider></v-divider>
     </div>
     <div class="py-2">
@@ -104,12 +17,28 @@
             :hover="true"
             @keypress.enter="
               $router.push(
-                `/employees/${$route.params.employee}/employeePermission`
+                `/employees/${$route.params.employee}/details?name=${$route.query.name}`
               )
             "
             @click="
               $router.push(
-                `/employees/${$route.params.employee}/employeePermission`
+                `/employees/${$route.params.employee}/details?name=${$route.query.name}`
+              )
+            "
+            ><h1 class="text-center">Employee Details</h1></v-card
+          ></v-col
+        ><v-col class="py-1" cols="12" sm="6" lg="4"
+          ><v-card
+            outlined
+            :hover="true"
+            @keypress.enter="
+              $router.push(
+                `/employees/${$route.params.employee}/employeePermission?name=${$route.query.name}`
+              )
+            "
+            @click="
+              $router.push(
+                `/employees/${$route.params.employee}/employeePermission?name=${$route.query.name}`
               )
             "
             ><h1 class="text-center">Permission</h1></v-card
@@ -119,9 +48,15 @@
             outlined
             :hover="true"
             @keypress.enter="
-              $router.push(`/employees/${$route.params.employee}/group`)
+              $router.push(
+                `/employees/${$route.params.employee}/group?name=${$route.query.name}`
+              )
             "
-            @click="$router.push(`/employees/${$route.params.employee}/group`)"
+            @click="
+              $router.push(
+                `/employees/${$route.params.employee}/group?name=${$route.query.name}`
+              )
+            "
             ><h1 class="text-center">Group Permission</h1></v-card
           ></v-col
         ></v-row
@@ -132,50 +67,11 @@
 
 <script>
 import authRouter from '~/middleware/authRouter'
-import EmployeeForm from '~/components/EmployeeForm.vue'
-import FetchService from '~/services/FetchService'
+
 export default {
   name: 'EmployeeDetailsPage',
-  components: {
-    EmployeeForm,
-  },
-  middleware: authRouter,
-  data() {
-    return {
-      loading: false,
-      showDetails: false,
-      employee: null,
-      editEmployeeDetails: false,
-    }
-  },
 
-  async created() {
-    await this.getEmployee(this.$route.params.employee)
-  },
-  methods: {
-    async getEmployee(id) {
-      const employee = await FetchService.getEmployee({ employeeId: id })
-      if (employee) {
-        this.$root.$emit('showNotification', employee)
-      }
-      if (employee.data.status === 'success') {
-        this.employee = employee.data.employee
-      }
-    },
-    async updateEmployee(e) {
-      this.loading = true
-      const updateEmployee = await FetchService.updateEmployee(e)
-      if (updateEmployee) {
-        this.$root.$emit('showNotification', updateEmployee)
-      }
-      if (updateEmployee.data.status === 'success') {
-        await this.getEmployee(this.$route.params.employee)
-        this.loading = false
-        this.editEmployeeDetails = false
-      }
-      this.loading = false
-    },
-  },
+  middleware: authRouter,
 }
 </script>
 

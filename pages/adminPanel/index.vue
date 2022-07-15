@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
     <div class="py-2">
       <h2 class="text-center">Groups of Admin Panel</h2>
       <v-divider></v-divider>
@@ -31,6 +36,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       groups: [],
     }
   },
@@ -44,8 +50,10 @@ export default {
       )
     },
     async getMyGroups() {
+      this.pageLoading = true
       const groups = await FetchService.getMyGroups()
       if (groups) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', groups)
       }
       if (groups.data.status === 'success') {

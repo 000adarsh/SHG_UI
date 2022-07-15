@@ -2,16 +2,13 @@
   <v-card
     outlined
     :hover="true"
+    class="pl-4 py-1 text-capitalize"
     @keypress.enter="showInfo(data)"
     @click="showInfo(data)"
   >
-    <v-card-title class="text-capitalize">{{ data.name }}</v-card-title>
-    <v-card-subtitle class="py-0 text-capitalize">
-      Father name - {{ data.fatherName }}
-    </v-card-subtitle>
-    <v-card-subtitle class="pt-0 text-capitalize">
-      Role - {{ data.role }}
-    </v-card-subtitle>
+    <h3>{{ data.name }}</h3>
+    <h4 class="text--secondary">Father name - {{ data.fatherName }}</h4>
+    <h4 class="text--secondary">Role - {{ data.role }}</h4>
   </v-card>
 </template>
 
@@ -25,7 +22,7 @@ export default {
   },
   methods: {
     showInfo(data) {
-      this.$router.push(`/employees/${data.id}`)
+      this.$emit('ok', data)
     },
   },
 }

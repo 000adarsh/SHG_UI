@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
+      <h1 class="text-center text-uppercase">
+        {{ $route.query.name }}
+      </h1>
+    </div>
     <v-card-actions class="px-0"
       ><v-btn
         v-if="permissions && myPermissions"
@@ -75,6 +85,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       permissions: null,
       myPermissions: null,
       addEmployeePermissionForm: false,
@@ -86,7 +97,6 @@ export default {
   },
   async created() {
     await this.getEmployeePermissions()
-    await this.getMyPermissions()
   },
   methods: {
     async removeEmployeePermissions(payload) {
@@ -123,11 +133,15 @@ export default {
     },
     async getMyPermissions() {
       const permission = await FetchService.getMyPermissions()
+      if (permission) {
+        this.pageLoading = false
+      }
       if (permission.data.status === 'success') {
         this.myPermissions = permission.data.permissions.permissions
       }
     },
     async getEmployeePermissions() {
+      this.pageLoading = true
       const permission = await FetchService.getEmployee({
         employeeId: this.$route.params.employee,
       })
@@ -139,6 +153,7 @@ export default {
         this.permissions = permission.data.employee.permissions
         this.employee = permission.data.employee
       }
+      this.getMyPermissions()
     },
   },
 }

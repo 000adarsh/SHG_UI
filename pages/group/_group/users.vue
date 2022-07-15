@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center">
         {{ $route.query.name.toUpperCase() }}
       </h1>
@@ -49,6 +54,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       users: [],
     }
   },
@@ -58,10 +64,12 @@ export default {
   },
   methods: {
     async getAllGroupUsers() {
+      this.pageLoading = true
       const users = await FetchService.getAllGroupUsers({
         groupId: this.$route.params.group,
       })
       if (users) {
+        this.pageLoading = false
         this.$root.$emit('showNotification', users)
       }
       if (users.data.status === 'success') {

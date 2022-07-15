@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <v-overlay :value="pageLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+    <div>
       <h1 class="text-center">
         {{ $route.query.name.toUpperCase() }}
       </h1>
@@ -76,6 +81,7 @@ export default {
   middleware: authRouter,
   data() {
     return {
+      pageLoading: false,
       groupPermissions: null,
       myPermissions: null,
       removeEmployeeGroupPermissionForm: false,
@@ -86,7 +92,6 @@ export default {
   },
   async created() {
     await this.getEmployeeGroupPermissions()
-    await this.getMyGroupPermissions()
   },
   methods: {
     async removeEmployeeGroupPermissions(payload) {
@@ -128,13 +133,14 @@ export default {
         groupId: this.$route.params.employeeGroupPermission,
       })
       if (myPermission) {
-        this.$root.$emit('showNotification', myPermission)
+        this.pageLoading = false
       }
       if (myPermission.data.status === 'success') {
         this.myPermissions = myPermission.data.permissions.permissions
       }
     },
     async getEmployeeGroupPermissions() {
+      this.pageLoading = true
       const groupPermission = await FetchService.getEmployeeGroupPermissions({
         groupId: this.$route.params.employeeGroupPermission,
         employeeId: this.$route.params.employee,
@@ -146,6 +152,7 @@ export default {
         this.groupPermissions =
           groupPermission.data.groupPermissions.permissions
       }
+      this.getMyGroupPermissions()
     },
   },
 }
