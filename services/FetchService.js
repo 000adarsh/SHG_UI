@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getCookie } from '~/utils/manageCookies'
 
-const baseURL = 'https://shggaya.herokuapp.com/api/v1'
+const baseURL = 'https://shggaya.fly.dev/api/v1'
 let apiClient = axios.create({
   baseURL,
   withCredentials: false,
