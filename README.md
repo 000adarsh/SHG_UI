@@ -1,4 +1,5 @@
 # SHG-UI
+#### A Small Finance Bank Management System with multiple branches and multiple maintainers. The admin can manage maintainers' permissions and assign specific (CRUD) tasks.
 
 ## Build Setup
 
